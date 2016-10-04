@@ -1,5 +1,7 @@
 vendor/
 node_modules/
+storage/
+!storage/.gitignore
 
 # Laravel 4 specific
 bootstrap/compiled.php
@@ -13,3 +15,12 @@ bootstrap/cache/
 
 # Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
 .rocketeer/
+
+# Development
+.vagrant/
+/.idea
+_ide_helper.php
+.idea/codeStyleSettings.xml
+*.lock
+.phpintel/
+*.DS_Store
