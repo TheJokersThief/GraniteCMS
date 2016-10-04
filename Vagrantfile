@@ -33,8 +33,6 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder "./storage", "/var/www/storage", :owner=> 'www-data', :group=>'www-data', :mount_options=> ["dmode=777,fmode=777"]
 
   config.vm.provision "shell", inline: <<-SHELL
-	sudo apt-get install libapache2-mod-php5
-
     # Create our database and give root all permissions
     mysql -uroot -proot -e "CREATE DATABASE IF NOT EXISTS #{project_name};"
     mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root';"
