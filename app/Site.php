@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model {
-	protected $table = "pages";
+	protected $table = "sites";
 
 	protected $fillable = [
 		'domain',
@@ -15,14 +15,14 @@ class Site extends Model {
 	protected $hidden = [];
 
 	public function pages() {
-		return $this->hasMany('App\Page', 'id', 'site');
+		return $this->hasMany('App\Page', 'site');
 	}
 
 	public function user_roles() {
-		return $this->hasMany('App\UserRole', 'id', 'site');
+		return $this->hasMany('App\UserRole', 'site');
 	}
 
 	public function users() {
-		return $this->hasMany('App\User', 'id', 'site');
+		return $this->hasMany('App\User', 'site');
 	}
 }

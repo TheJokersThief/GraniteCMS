@@ -15,8 +15,8 @@ class UserRole extends Model {
 
 	protected $hidden = [];
 
-	public function users(){
-		return $this->hasMany('App\User', 'user_role')
+	public function users() {
+		return $this->hasMany('App\User', 'user_role');
 	}
 
 	public function site() {

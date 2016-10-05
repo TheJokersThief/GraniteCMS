@@ -23,6 +23,7 @@ class User extends Authenticatable {
 		'user_activation_token',
 		'user_role',
 		'user_registered',
+		'site',
 	];
 
 	/**
