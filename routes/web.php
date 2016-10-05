@@ -11,6 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+try{
+	// Include the given site's web routes
+	include( 
+		realpath(
+			str_replace('.', '_', base_path( 'sites/' . $_SERVER['HTTP_HOST'] . '/theme/routes/' ) ) . 'web.php'
+		)
+	);
+} catch( Exception $e ){
+	// If the site doesn't exist, return 404
+	abort(404);
+}

@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
+try{
+	// Include the given site's API routes
+	include( 
+		realpath(
+			str_replace('.', '_', base_path( 'sites/' . $_SERVER['HTTP_HOST'] . '/theme/routes/' ) ) . 'api.php'
+		)
+	);
+} catch( Exception $e ){
+	// If the site doesn't exist, return 404
+	abort(404);
+}
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
