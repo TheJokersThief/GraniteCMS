@@ -20,7 +20,7 @@ class CreatePages extends Migration {
 			$table->string('page_title');
 			$table->string('page_type');
 			$table->integer('page_author');
-			$table->dateTime('page_data');
+			$table->dateTime('page_date');
 			$table->longText('page_content');
 			$table->integer('site');
 
