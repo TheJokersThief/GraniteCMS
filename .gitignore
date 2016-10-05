@@ -18,6 +18,7 @@ bootstrap/cache/
 
 # Development
 .vagrant/
+.bundle
 /.idea
 _ide_helper.php
 .idea/codeStyleSettings.xml
