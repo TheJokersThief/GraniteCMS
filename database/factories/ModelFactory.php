@@ -22,7 +22,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
 		'user_email' => $faker->unique()->safeEmail,
 		'user_password' => $password ?: $password = bcrypt('secret'),
 		'user_activation_token' => str_random(20),
-		'user_role' => 1,
+		'user_role' => $faker->randomElement([1, 2, 3, 4, 999]),
 		'user_registered' => $faker->boolean($chanceOfGettingTrue = 100),
 		'remember_token' => str_random(10),
 		'site' => 1,
