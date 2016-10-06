@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Scopes\SiteScope;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
