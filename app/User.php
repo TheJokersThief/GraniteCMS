@@ -36,6 +36,11 @@ class User extends Authenticatable {
 		'user_activation_token',
 	];
 
+	protected static function boot() {
+		parent::boot();
+
+		static::addGlobalScope(new SiteScope);
+	}
 	public function pages() {
 		return $this->hasMany('App\Page', 'page_author');
 	}

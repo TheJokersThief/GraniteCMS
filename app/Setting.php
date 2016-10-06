@@ -15,6 +15,12 @@ class Setting extends Model {
 
 	protected $hidden = [];
 
+	protected static function boot() {
+		parent::boot();
+
+		static::addGlobalScope(new SiteScope);
+	}
+
 	public function site() {
 		return $this->belongsTo('App\Site', 'site');
 	}

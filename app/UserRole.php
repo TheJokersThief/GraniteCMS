@@ -15,6 +15,12 @@ class UserRole extends Model {
 
 	protected $hidden = [];
 
+	protected static function boot() {
+		parent::boot();
+
+		static::addGlobalScope(new SiteScope);
+	}
+
 	public function users() {
 		return $this->hasMany('App\User', 'user_role');
 	}
