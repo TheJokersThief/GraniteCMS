@@ -15,7 +15,7 @@
 
               <h1>Login Form</h1>
               <div>
-                <input type="text" class="form-control" placeholder="Username" required="" />
+                <input type="text" class="form-control" placeholder="Email" required="" name="user_email"/>
                 @if( $errors->has('email') )
                   <span class="help-block">
                     <strong>{{ $errors->first('email') }}</strong>
@@ -23,11 +23,11 @@
                 @endif
               </div>
               <div>
-                <input type="password" class="form-control" placeholder="Password" required="" />
+                <input type="password" class="form-control" placeholder="Password" required="" name="password" />
               </div>
               <div>
-                <a class="btn btn-default submit" href="index.html">Log in</a>
-                <a class="reset_pass" href="#">Lost your password?</a>
+                <button class="btn btn-default submit" type="submit">Log in</button>
+                <a class="reset_pass" href="{{ url('password/reset') }}">Lost your password?</a>
               </div>
 
               <div class="clearfix"></div>
@@ -40,10 +40,7 @@
                 <div class="clearfix"></div>
                 <br />
 
-                <div>
-                  <h1><img src="{{ asset('images/logo.png') }}"></h1>
-                  <p>©2016 All Rights Reserved. GraniteCMS</p>
-                </div>
+                @include('auth.partials._auth-copyright')
               </div>
             </form>
           </section>
@@ -76,10 +73,7 @@
                 <div class="clearfix"></div>
                 <br />
 
-                <div>
-                  <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
-                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
-                </div>
+                @include('auth.partials._auth-copyright')
               </div>
             </form>
           </section>
