@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration {
 			$table->string('user_last_name');
 			$table->string('user_display_name');
 			$table->string('user_email')->unique();
-			$table->string('user_password');
+			$table->string('password');
 			$table->string('user_activation_token');
 
 			$table->integer('user_role');
