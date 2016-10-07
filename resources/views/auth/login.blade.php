@@ -1,7 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.app-no-nav')
 
 @section('content')
-<div id="login">
+<div id="login-page">
     <div class="form">
 
           <ul class="tab-group">

@@ -4360,26 +4360,26 @@ ul.notifications {
 
 /** /Dropzone.js **/
 /** login */
-#login *, #login *:before, #login *:after {
+#login-page *, #login-page *:before, #login-page *:after {
   box-sizing: border-box; }
 
-#login html {
+#login-page html {
   overflow-y: scroll; }
 
-#login body {
+#login-page body {
   background: #c1bdba;
   font-family: 'Titillium Web', sans-serif; }
 
-#login a {
+#login-page a {
   text-decoration: none;
   color: #1ab188;
   -webkit-transition: .5s ease;
   transition: .5s ease; }
 
-#login a:hover {
+#login-page a:hover {
   color: #179b77; }
 
-#login .form {
+#login-page .form {
   background: rgba(19, 35, 47, 0.9);
   padding: 40px;
   max-width: 600px;
@@ -4387,17 +4387,17 @@ ul.notifications {
   border-radius: 4px;
   box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3); }
 
-#login .tab-group {
+#login-page .tab-group {
   list-style: none;
   padding: 0;
   margin: 0 0 40px 0; }
 
-#login .tab-group:after {
+#login-page .tab-group:after {
   content: "";
   display: table;
   clear: both; }
 
-#login .tab-group li a {
+#login-page .tab-group li a {
   display: block;
   text-decoration: none;
   padding: 15px;
@@ -4411,24 +4411,24 @@ ul.notifications {
   -webkit-transition: .5s ease;
   transition: .5s ease; }
 
-#login .tab-group li a:hover {
+#login-page .tab-group li a:hover {
   background: #179b77;
   color: #ffffff; }
 
-#login .tab-group .active a {
+#login-page .tab-group .active a {
   background: #1ab188;
   color: #ffffff; }
 
-#login .tab-content > div:last-child {
+#login-page .tab-content > div:last-child {
   display: none; }
 
-#login h1 {
+#login-page h1 {
   text-align: center;
   color: #ffffff;
   font-weight: 300;
   margin: 0 0 40px; }
 
-#login label {
+#login-page label {
   position: absolute;
   -webkit-transform: translateY(6px);
   transform: translateY(6px);
@@ -4440,23 +4440,23 @@ ul.notifications {
   pointer-events: none;
   font-size: 22px; }
 
-#login label .req {
+#login-page label .req {
   margin: 2px;
   color: #1ab188; }
 
-#login label.active {
+#login-page label.active {
   -webkit-transform: translateY(50px);
   transform: translateY(50px);
   left: 2px;
   font-size: 14px; }
 
-#login label.active .req {
+#login-page label.active .req {
   opacity: 0; }
 
-#login label.highlight {
+#login-page label.highlight {
   color: #ffffff; }
 
-#login input, #login textarea {
+#login-page input, #login-page textarea {
   font-size: 22px;
   display: block;
   width: 100%;
@@ -4470,32 +4470,32 @@ ul.notifications {
   -webkit-transition: border-color .25s ease, box-shadow .25s ease;
   transition: border-color .25s ease, box-shadow .25s ease; }
 
-#login input:focus, #login textarea:focus {
+#login-page input:focus, #login-page textarea:focus {
   outline: 0;
   border-color: #1ab188; }
 
-#login textarea {
+#login-page textarea {
   border: 2px solid #a0b3b0;
   resize: vertical; }
 
-#login .field-wrap {
+#login-page .field-wrap {
   position: relative;
   margin-bottom: 40px; }
 
-#login .top-row:after {
+#login-page .top-row:after {
   content: "";
   display: table;
   clear: both; }
 
-#login .top-row > div {
+#login-page .top-row > div {
   float: left;
   width: 48%;
   margin-right: 4%; }
 
-#login .top-row > div:last-child {
+#login-page .top-row > div:last-child {
   margin: 0; }
 
-#login .button {
+#login-page .button {
   border: 0;
   outline: none;
   border-radius: 0;
@@ -4510,14 +4510,14 @@ ul.notifications {
   transition: all 0.5s ease;
   -webkit-appearance: none; }
 
-#login .button:hover, #login .button:focus {
+#login-page .button:hover, #login-page .button:focus {
   background: #179b77; }
 
-#login .button-block {
+#login-page .button-block {
   display: block;
   width: 100%; }
 
-#login .forgot {
+#login-page .forgot {
   margin-top: -20px;
   text-align: right; }
 
