@@ -12,7 +12,6 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.less(['app.less', 'libraries']);
-    mix.scriptsIn("resources/assets/js/libraries", "public/js/libraries.js");
-    mix.scriptsIn("resources/assets/js/app", "public/js/main.js");
+    mix.sass('cms.scss');
+    mix.scriptsIn("resources/assets/js", "public/js/main.js");
 });
