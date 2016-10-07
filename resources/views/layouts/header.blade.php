@@ -20,7 +20,11 @@
     <!-- jVectorMap -->
     <link href="css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
 
+    <!-- Animate.css -->
+    <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
+
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/cms.css') }}" rel="stylesheet">
   </head>
 
+<body class="nav-md @yield('body-class')">
