@@ -24,6 +24,8 @@ class DummySiteSeeder extends Seeder {
 		App\Capability::create(['capability_name' => 'edit_settings', 'capability_min_level' => 2, 'site' => 1]);
 		App\Capability::create(['capability_name' => 'edit_capabilities', 'capability_min_level' => 1, 'site' => 1]);
 
+		App\Setting::Create(['setting_name' => 'public_registration', 'setting_value' => 'no', 'site' => 1]);
+
 		$users = factory(App\User::class, 3)->create()->each(function ($user) {
 
 			for ($i = 0; $i < 50; $i++) {
