@@ -1,0 +1,93 @@
+{
+	"table": "pages",
+	"key": "id",
+	"shortlist": [
+		"page_title",
+		"page_date",
+		"page_status",
+		"page_author"
+	],
+
+	"where" : "WHERE page_status <> 'revision'",
+	"order_by" : "page_date DESC",
+
+	"fields": [{
+		"name": "page_title",
+		"type": "text",
+		"custom_class": "",
+		"placeholder": "My New Page",
+		"default_value": "",
+		"validation_rules": ""
+	}, {
+		"name": "page_content",
+		"type": "wysiwyg",
+		"custom_class": "",
+		"placeholder": "",
+		"default_value": "",
+		"validation_rules": ""
+	}, {
+		"name": "page_date",
+		"type": "date",
+		"custom_class": "",
+		"placeholder": "",
+		"default_value": "",
+		"validation_rules": ""
+	}, {
+		"name": "page_status",
+		"type": "",
+		"custom_class": "",
+		"placeholder": "",
+		"default_value": "",
+		"validation_rules": ""
+	}, {
+		"name": "page_author",
+		"type": "dropdown",
+		"custom_class": "",
+		"placeholder": "",
+		"default_value": "",
+		"validation_rules": "",
+
+		"source": "table",
+
+		"table": {
+			"table": "users",
+			"format": "{user_display_name} ({user_login})",
+			"fields": [{
+				"column": "user_display_name",
+				"placeholder": "user_display_name"
+			}, {
+				"column": "user_login",
+				"placeholder": "user_login"
+			}]
+		}
+
+	}, {
+		"name": "page_type",
+		"type": "dropdown",
+		"custom_class": "",
+		"placeholder": "",
+		"default_value": "",
+		"validation_rules": "",
+
+		"source": "options",
+		"options": [
+			"published",
+			"scheduled",
+			"draft",
+			"revision"
+		]
+	}, {
+		"name": "page_slug",
+		"type": "slug",
+		"custom_class": "",
+		"placeholder": "",
+		"default_value": "",
+		"validation_rules": ""
+	}],
+
+	"permissions": [
+		"edit",
+		"delete",
+		"create"
+	]
+}
