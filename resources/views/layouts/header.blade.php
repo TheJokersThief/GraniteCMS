@@ -18,7 +18,7 @@
     <!-- bootstrap-progressbar -->
     <link href="{{ asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
     <!-- jVectorMap -->
-    <link href="css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
+    <link href="{{asset('css/maps/jquery-jvectormap-2.0.3.css')}}" rel="stylesheet"/>
 
     <!-- Animate.css -->
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">

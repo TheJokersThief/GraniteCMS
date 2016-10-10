@@ -118,9 +118,9 @@
     <!-- /Flot -->
 
     <!-- jVectorMap -->
-    <script src="js/maps/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="js/maps/jquery-jvectormap-us-aea-en.js"></script>
-    <script src="js/maps/gdp-data.js"></script>
+    <script src="{{ asset('js/maps/jquery-jvectormap-world-mill-en.js')}}"></script>
+    <script src="{{ asset('js/maps/jquery-jvectormap-us-aea-en.js')}}"></script>
+    <script src="{{ asset('js/maps/gdp-data.js')}}"></script>
     <script>
       $(document).ready(function(){
         $('#world-map-gdp').vectorMap({
