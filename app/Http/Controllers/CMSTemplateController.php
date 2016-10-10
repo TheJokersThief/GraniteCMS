@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\SiteController;
 use Auth;
 use DB;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use View;
 
@@ -22,12 +23,23 @@ class CMSTemplateController extends Controller {
 		if (Auth::user()->can("view_{$page}")) {
 			$shortlist = $this->getShortlist();
 			$table = $this->getTable();
+			$key = $this->getKey();
 			$where = $this->getWhere();
 			$order_by = $this->getOrderBy();
-			$items = DB::select("select id, {$shortlist} from {$table} {$where} {$order_by}");
+
+			// Select the key at the very minimum
+			$items = DB::select("select {$key}, {$shortlist} from {$table} {$where} {$order_by}");
 
 			$this->determineViewPath('index', $page);
-			return view('pages.index', ['items' => $items, 'shortlist' => $this->data['shortlist'], 'page' => $page]);
+
+			$return_data = [
+				'items' => $items,
+				'shortlist' => $this->data['shortlist'],
+				'page' => $page,
+				'meta_info' => $this->data,
+			];
+
+			return view('pages.index', $return_data);
 		} else {
 			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
 		}
@@ -38,21 +50,43 @@ class CMSTemplateController extends Controller {
 	public function store(Request $request, $page) {
 
 	}
-	public function show($id, $page) {
+	public function show($page, $id) {
 
 	}
-	public function edit($id, $page) {
+	public function edit($page, $id) {
 
 	}
-	public function update(Request $request, $id, $page) {
+	public function update(Request $request, $page, $id) {
 
 	}
-	public function destroy($encrypted_id, $page) {
+	public function destroy($page, $encrypted_id) {
+		if (Auth::user()->can('delete_' . $page)) {
 
+			$table = $this->getTable();
+			$key = $this->getKey();
+
+			try {
+				// delete the item from the database
+				$id = decrypt($encrypted_id);
+
+				DB::delete("DELETE FROM {$table} WHERE {$key} = :id", [$id]);
+				return back();
+			} catch (DecryptException $e) {
+
+				dd($e->getMessage());
+				return back()->withErrors(['message' => 'Could not decrypt item key']);
+			}
+		} else {
+			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
+		}
 	}
 
 	public function getTable() {
 		return $this->sanitize($this->data['table']);
+	}
+
+	public function getKey() {
+		return $this->sanitize($this->data['key']);
 	}
 
 	public function getWhere() {
