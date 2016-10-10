@@ -22,6 +22,22 @@ if (isset($_SERVER['HTTP_HOST'])) {
 	}
 }
 
+Auth::routes();
+
+Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function () {
+	Route::get('/', 'CMSController@dashboard');
+
+	Route::get('/{page}', 'CMSTemplateController@index')->name('template-index');
+	Route::get('/page/create', 'CMSTemplateController@create')->name('template-create');
+	Route::get('/{page}/{id}', 'CMSTemplateController@show')->name('template-show');
+	Route::get('/{page}/{id}/edit', 'CMSTemplateController@edit')->name('template-edit');
+	Route::get('/{page}/{encrypted_id}/delete', 'CMSTemplateController@destroy')->name('template-delete');
+	Route::post('/{page}/store', 'CMSTemplateController@store')->name('template-store');
+	Route::post('/{page}/{id}/update', 'CMSTemplateController@update')->name('template-update');
+
+	Route::resource('pages', 'PageController');
+});
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
