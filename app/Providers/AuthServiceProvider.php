@@ -28,7 +28,10 @@ class AuthServiceProvider extends ServiceProvider {
 		foreach (Capability::all() as $capability) {
 			Gate::define($capability->capability_name, function ($user) use ($capability) {
 				$role = UserRole::find($user->user_role);
-				return ($role->role_level < $capability->capability_min_level);
+
+				if ($role != null) {
+					return ($role->role_level < $capability->capability_min_level);
+				}
 			});
 		}
 	}
