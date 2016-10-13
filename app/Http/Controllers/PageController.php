@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Page;
 use Illuminate\Http\Request;
 
 class PageController extends Controller {
@@ -11,7 +12,7 @@ class PageController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function index() {
-		//
+		return view('pages.models.pages.index');
 	}
 
 	/**
@@ -20,7 +21,7 @@ class PageController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create() {
-		//
+		return view('pages.models.pages.create');
 	}
 
 	/**
@@ -30,7 +31,10 @@ class PageController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function store(Request $request) {
-		//
+		$this->validate($request, $this->validationRules());
+		$page = Page::create($request);
+
+		return redirect()->route('pages.edit', ['id' => $page->id]);
 	}
 
 	/**
@@ -40,7 +44,7 @@ class PageController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function show($id) {
-		//
+		return view('pages.models.pages.show');
 	}
 
 	/**
@@ -50,7 +54,7 @@ class PageController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit($id) {
-		//
+		return view('pages.models.pages.edit');
 	}
 
 	/**
@@ -61,7 +65,16 @@ class PageController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, $id) {
-		//
+		$this->validate($request, $this->validationRules());
+		$page = Page::find($id);
+
+		foreach ($this->validationRules() as $key => $value) {
+			$page->$key = $request->$key;
+		}
+
+		$page->save();
+
+		return back()->withInput();
 	}
 
 	/**
@@ -76,13 +89,13 @@ class PageController extends Controller {
 
 	private function validationRules() {
 		return [
-			'page_title' 	=> 'required',
-			'page_date' 	=> 'required|date',
-			'page_status'	=> 'required|in:published,scheduled,draft,revision'],
-			'page_author' 	=> 'required|exists:users,id',
-			'page_type' 	=> 'required',
-			'page_slug' 	=> 'required',
-			'site'			=> 'required',
+			'page_title' => 'required',
+			'page_date' => 'required|date',
+			'page_status' => 'required|in:published,scheduled,draft,revision',
+			'page_author' => 'required|exists:users,id',
+			'page_type' => 'required',
+			'page_slug' => 'required',
+			'site' => 'required',
 		];
 	}
 }

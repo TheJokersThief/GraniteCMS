@@ -42,7 +42,7 @@
     <script src="{{ asset('js/main.js') }}"></script>
 
     <!-- Flot -->
-    <script>
+    {{-- <script>
       $(document).ready(function() {
         var data1 = [
           [gd(2012, 1, 1), 17],
@@ -304,7 +304,7 @@
       gauge.animationSpeed = 32;
       gauge.set(3200);
       gauge.setTextField(document.getElementById("gauge-text"));
-    </script>
+    </script> --}}
     <!-- /gauge.js -->
   </body>
 </html>

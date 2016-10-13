@@ -1,8 +1,8 @@
 {
-	"table": "pages",
-	"key": "id",
+	"table": "pages",	// REQUIRED
+	"key": "id",		// REQUIRED
 	"title": "Pages",
-	"shortlist": [
+	"shortlist": [		// REQUIRED
 		"page_title",
 		"page_date",
 		"page_status",
@@ -13,50 +13,49 @@
 	"order_by" : "page_date DESC",
 
 	"fields": [{
-		"name": "page_title",
-		"type": "text",
+		"name": "page_title",		// REQUIRED
+		"type": "text",				// REQUIRED
 		"custom_class": "",
 		"placeholder": "My New Page",
 		"default_value": "",
 		"validation_rules": ""
 	}, {
-		"name": "page_content",
-		"type": "wysiwyg",
+		"name": "page_content",		// REQUIRED
+		"type": "wysiwyg",			// REQUIRED
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
 		"validation_rules": ""
 	}, {
-		"name": "page_date",
-		"type": "date",
+		"name": "page_date",		// REQUIRED
+		"type": "date",				// REQUIRED
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
 		"validation_rules": ""
 	}, {
-		"name": "page_status",
-		"type": "",
+		"name": "page_status",		// REQUIRED
+		"type": "",					// REQUIRED
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
 		"validation_rules": ""
 	}, {
-		"name": "page_author",
-		"type": "dropdown",
+		"name": "page_author",		// REQUIRED
+		"type": "dropdown",			// REQUIRED
 		"custom_class": "",
-		"placeholder": "",
 		"default_value": "",
 		"validation_rules": "",
 
-		"source": "table",
+		"source": "table",	// REQUIRED
 
 		"table": {
-			"table": "users", 
-			"key": "id", 
+			"table": "users",		// REQUIRED
+			"key": "id", 			// REQUIRED
 			"format": "{user_display_name} ({user_login})",
 			"fields": [{
-				"column": "user_display_name",
-				"placeholder": "user_display_name"
+				"column": "user_display_name",			// REQUIRED
+				"placeholder": "user_display_name"		// REQUIRED
 			}, {
 				"column": "user_login",
 				"placeholder": "user_login"
@@ -64,8 +63,8 @@
 		}
 
 	}, {
-		"name": "page_type",
-		"type": "dropdown",
+		"name": "page_type",		// REQUIRED
+		"type": "dropdown",			// REQUIRED
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
@@ -79,17 +78,11 @@
 			"revision"
 		]
 	}, {
-		"name": "page_slug",
-		"type": "slug",
+		"name": "page_slug",		// REQUIRED
+		"type": "slug",				// REQUIRED
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
 		"validation_rules": ""
 	}],
-
-	"permissions": [
-		"edit",
-		"delete",
-		"create"
-	]
 }

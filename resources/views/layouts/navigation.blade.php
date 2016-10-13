@@ -15,7 +15,7 @@
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2>{{ \Auth::user()->user_display_name }}</h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -29,11 +29,18 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="index.html">Dashboard</a></li>
-                      <li><a href="index2.html">Dashboard2</a></li>
-                      <li><a href="index3.html">Dashboard3</a></li>
+                      <li><a href="{{ url('cms') }}">Dashboard</a></li>
                     </ul>
                   </li>
+
+                    <!-- PAGES -->
+                    <li><a><i class="fa fa-edit"></i> Pages <span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="{{ route('pages.index') }}">View Pages</a></li>
+                        <li><a href="{{ route('pages.create') }}">Add New Page</a></li>
+                      </ul>
+                    </li>
+
                   <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="form.html">General Form</a></li>

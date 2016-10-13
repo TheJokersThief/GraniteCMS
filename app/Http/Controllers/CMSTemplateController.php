@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\CRUDBuilder;
 use App\Http\Controllers\SiteController;
 use Auth;
 use DB;
@@ -28,7 +29,7 @@ class CMSTemplateController extends Controller {
 			$order_by = $this->getOrderBy();
 
 			// Select the key at the very minimum
-			$items = DB::select("select {$key}, {$shortlist} from {$table} {$where} {$order_by}");
+			$items = DB::select("SELECT {$key}, {$shortlist} FROM {$table} {$where} {$order_by}");
 
 			$this->determineViewPath('index', $page);
 
@@ -55,6 +56,30 @@ class CMSTemplateController extends Controller {
 	}
 	public function edit($page, $id) {
 
+		$form = new CRUDBuilder($this->data['fields']);
+
+		$output = $form->render();
+		dd($output);
+
+		if (Auth::user()->can("edit_{$page}")) {
+			$table = $this->getTable();
+			$key = $this->getKey();
+
+			// Select the key at the very minimum
+			$items = DB::select("SELECT * FROM {$table} WHERE {$key} = $id");
+
+			$this->determineViewPath('edit', $page);
+
+			$return_data = [
+				'items' => $items,
+				'page' => $page,
+				'meta_info' => $this->data,
+			];
+
+			return view('pages.edit', $return_data);
+		} else {
+			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
+		}
 	}
 	public function update(Request $request, $page, $id) {
 
@@ -149,7 +174,7 @@ class CMSTemplateController extends Controller {
 		return json_decode($file, true);
 	}
 
-	private function sanitize($input) {
+	public static function sanitize($input) {
 		if (!preg_match('/(\?|\.|\\|\/)/', $input, $matches)) {
 			return $input;
 		} else {

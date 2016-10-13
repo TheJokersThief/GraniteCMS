@@ -5,7 +5,7 @@
    <div class="col-md-12 col-sm-12 col-xs-12">
       <div class="x_panel">
          <div class="x_title">
-            <h2>Table design <small>Custom design</small></h2>
+            <h2>{{ isset($meta_info['title']) ? ucwords($meta_info['title']) : ucfirst($page) }}</h2>
             <div class="clearfix"></div>
          </div>
          <div class="x_content">
@@ -38,7 +38,7 @@
                            <td class=" last">
                               <a href="{{ route('template-show', ['page' => $page, 'id' => $item->id ] ) }}" class="label label-info">View</a>
                               <a href="{{ route('template-edit', ['page' => $page, 'id' => $item->id ] ) }}" class="label label-info">Edit</a>
-                              <a href="{{ route('template-delete', ['encrypted_id' => \Crypt::encrypt( $item->id ), 'page' => $page]) }}" class="label label-danger">Delete</a>
+                              <a href="{{ route('template-delete', ['encrypted_id' => encrypt( $item->{$meta_info['key']} ), 'page' => $page]) }}" class="label label-danger">Delete</a>
                            </td>
                         </tr>
                      @endforeach

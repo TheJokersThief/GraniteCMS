@@ -19,6 +19,8 @@ class DummySiteSeeder extends Seeder {
 
 		App\Capability::create(['capability_name' => 'view_pages', 'capability_min_level' => 4, 'site' => 1]);
 		App\Capability::create(['capability_name' => 'edit_pages', 'capability_min_level' => 3, 'site' => 1]);
+		App\Capability::create(['capability_name' => 'delete_pages', 'capability_min_level' => 3, 'site' => 1]);
+
 		App\Capability::create(['capability_name' => 'edit_users', 'capability_min_level' => 2, 'site' => 1]);
 		App\Capability::create(['capability_name' => 'edit_user_roles', 'capability_min_level' => 2, 'site' => 1]);
 		App\Capability::create(['capability_name' => 'edit_settings', 'capability_min_level' => 2, 'site' => 1]);
