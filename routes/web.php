@@ -33,7 +33,7 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function () {
 	Route::get('/{page}/{id}/edit', 'CMSTemplateController@edit')->name('template-edit');
 	Route::get('/{page}/{encrypted_id}/delete', 'CMSTemplateController@destroy')->name('template-delete');
 	Route::post('/{page}/store', 'CMSTemplateController@store')->name('template-store');
-	Route::post('/{page}/{id}/update', 'CMSTemplateController@update')->name('template-update');
+	Route::post('/{page}/{encrypted_id}/update', 'CMSTemplateController@update')->name('template-update');
 
 	Route::resource('pages', 'PageController');
 });

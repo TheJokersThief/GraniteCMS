@@ -19,73 +19,116 @@ class CRUDBuilder {
 		$this->form .= $this->closeForm();
 	}
 
+	/**
+	 * Process HTML for the form
+	 * @return string
+	 */
 	public function render() {
 		return $this->form;
 	}
 
-	private function openForm() {
-		return Form::open(['method' => 'POST']);
+	/**
+	 * Handle a post request from the form
+	 * @param  Request $request
+	 * @return array            Array of validated values
+	 */
+	public function processPostRequest(Request $request) {
+		$this->validate($request, $this->getValidationRules());
+
+		$set_values = [];
+		foreach ($this->fields as $field) {
+			$set_values[ $field['name'] ] = $request[ $field['name'] ];
+		}
+
+		return $set_values
 	}
 
+	/**
+	 * Begin the form
+	 * @return string Opening <form> tag and CSRF token
+	 */
+	private function openForm() {
+		return Form::open(['method' => 'POST', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']);
+	}
+
+	/**
+	 * Stop the form
+	 * @return string Closing </form> tag
+	 */
 	private function closeForm() {
 		return Form::close();
 	}
 
+	/**
+	 * Convert config fields into HTML inputs
+	 * @return string HTML of form inputs
+	 */
 	private function processFields() {
 		foreach ($this->fields as $field) {
 			if (!isset($field['title'])) {
 				$field['title'] = ucwords(str_replace('_', ' ', $field['name']));
 			}
 
-			$this->form .= Form::label($field['name'], $field['title']);
+			// $this->form .= Form::label($field['name'], $field['title']);
 			switch ($field['type']) {
 
 			/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 							TEXT
 			   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			case "text":
-				$this->form .= Form::text($field['name']);
+				$this->form .= view('components.text')->with('field', $field);
 				break;
 
 			/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 						   DROPDOWN
 			   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			case "dropdown":
+				// Start with a blank option to display placeholder
+				$options = ['' => ''];
+
 				switch ($field['source']) {
 				case 'table':
-					$this->form .= Form::select($field['name'], $this->dropdownOptionsFromDatabase($field['table']));
+					$options = array_merge($options, $this->dropdownOptionsFromDatabase($field['table']));
 					break;
 
 				case 'options':
-					$this->form .= Form::select($field['name'], $field['options']);
+					$options = array_merge($options, $field['options']);
 					break;
 				}
+
+				$this->form .= view('components.dropdown')->with(['field' => $field, 'options' => $options]);
 				break;
 
 			/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 						   WySiWyG
 			   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			case "wysiwyg":
-				$this->form .= $this->wysiwyg();
-				break;
-
-			/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-							SLUG
-			   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-			case "slug":
-				$this->form .= "\nSLUG";
+				$this->form .= view('components.wysiwyg')->with('field', $field);
 				break;
 
 			/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 							DATE
 			   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			case "date":
-				$this->form .= "\nDATE";
+				$this->form .= view('components.date')->with('field', $field);
 				break;
 			}
 
 			$this->form .= "\n";
 		}
+	}
+
+	/**
+	 * Process config fields and retrieve all validation rules
+	 * @return array
+	 */
+	private function getValidationRules() {
+		$validation_rules = [];
+		foreach ($this->fields as $field) {
+			$validation_rules[$field['name']] = $field['validation_rules'];
+		}
+
+		return $validation_rules;
 	}
 
 	/**
@@ -125,9 +168,5 @@ class CRUDBuilder {
 			$return_data[$result->$table['key']] = $format;
 		}
 		return $return_data;
-	}
-
-	private function wysiwyg() {
-		return view('components.wysiwyg');
 	}
 }

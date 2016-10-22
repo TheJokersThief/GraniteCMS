@@ -20,6 +20,11 @@ class CMSTemplateController extends Controller {
 		$this->data = $this->processTemplate($config_path);
 	}
 
+	/**
+	 * Display all entries in the table
+	 * @param  string $page
+	 * @return View
+	 */
 	public function index($page) {
 		if (Auth::user()->can("view_{$page}")) {
 			$shortlist = $this->getShortlist();
@@ -45,21 +50,58 @@ class CMSTemplateController extends Controller {
 			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
 		}
 	}
+
+	/**
+	 * Show form to create new entry
+	 * @param  string $page
+	 * @return View
+	 */
 	public function create($page) {
 
 	}
-	public function store(Request $request, $page) {
 
+	/**
+	 * Store an entry in the database
+	 * @param  Request $request
+	 * @param  string  $page
+	 * @return route()
+	 */
+	public function store(Request $request, $page) {
+		if (Auth::user()->can('create_' . $page)) {
+			$table = $this->getTable();
+
+			$form = new CRUDBuilder($this->data['fields']);
+			$set_values = $form->processPostRequest($request);
+
+			$id = DB::table($table)->insertGetId($set_values);
+
+			return route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
+		} else {
+			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
+		}
 	}
+
+	/**
+	 * Display an individual entry
+	 * @param  string 	$page
+	 * @param  integer 	$id
+	 * @return View
+	 */
 	public function show($page, $id) {
 
 	}
+
+	/**
+	 * Display form to update an entry
+	 * @param  string 	$page
+	 * @param  int 		$id
+	 * @return View
+	 */
 	public function edit($page, $id) {
 
 		$form = new CRUDBuilder($this->data['fields']);
 
 		$output = $form->render();
-		dd($output);
 
 		if (Auth::user()->can("edit_{$page}")) {
 			$table = $this->getTable();
@@ -74,6 +116,7 @@ class CMSTemplateController extends Controller {
 				'items' => $items,
 				'page' => $page,
 				'meta_info' => $this->data,
+				'form' => $output,
 			];
 
 			return view('pages.edit', $return_data);
@@ -81,9 +124,44 @@ class CMSTemplateController extends Controller {
 			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
 		}
 	}
-	public function update(Request $request, $page, $id) {
 
+	/**
+	 * Update entry in the database
+	 * @param  Request 		$request
+	 * @param  string  		$page
+	 * @param  enc(int)  	$encrypted_id
+	 * @return route()
+	 */
+	public function update(Request $request, $page, $encrypted_id) {
+		if (Auth::user()->can('edit_' . $page)) {
+			try {
+				// delete the item from the database
+				$id = decrypt($encrypted_id);
+
+				$table = $this->getTable();
+
+				$form = new CRUDBuilder($this->data['fields']);
+				$set_values = $form->processPostRequest($request);
+
+				DB::table($table)
+					->where($key, $id)
+					->update($set_values);
+
+				return route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
+			} catch (DecryptException $e) {
+				return back()->withErrors(['message' => 'Could not decrypt item key']);
+			}
+		} else {
+			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
+		}
 	}
+
+	/**
+	 * Delete an entry from the database
+	 * @param  string 	$page
+	 * @param  enc(int) $encrypted_id [description]
+	 * @return back()
+	 */
 	public function destroy($page, $encrypted_id) {
 		if (Auth::user()->can('delete_' . $page)) {
 
@@ -97,8 +175,6 @@ class CMSTemplateController extends Controller {
 				DB::delete("DELETE FROM {$table} WHERE {$key} = :id", [$id]);
 				return back();
 			} catch (DecryptException $e) {
-
-				dd($e->getMessage());
 				return back()->withErrors(['message' => 'Could not decrypt item key']);
 			}
 		} else {
@@ -106,22 +182,40 @@ class CMSTemplateController extends Controller {
 		}
 	}
 
+	/**
+	 * Get table name from config
+	 * @return string
+	 */
 	public function getTable() {
 		return $this->sanitize($this->data['table']);
 	}
 
+	/**
+	 * Get primary key column from config
+	 * @return string
+	 */
 	public function getKey() {
 		return $this->sanitize($this->data['key']);
 	}
 
+	/**
+	 * Get item where clause from config
+	 * @return string
+	 */
 	public function getWhere() {
 		if (isset($this->data['where'])) {
 			return $this->sanitize($this->data['where']);
 		} else {
+			// If the where clause isn't set, return an empty
+			// string by default
 			return "";
 		}
 	}
 
+	/**
+	 * Get shortlist of important columns from the table/config
+	 * @return string
+	 */
 	public function getShortlist() {
 		if (isset($this->data['shortlist']) && !empty($this->data['shortlist'])) {
 			return $this->sanitize(implode(',', $this->data['shortlist']));
@@ -130,6 +224,10 @@ class CMSTemplateController extends Controller {
 		}
 	}
 
+	/**
+	 * Get order by clause from config
+	 * @return string
+	 */
 	public function getOrderBy() {
 		if (isset($this->data['order_by']) && !empty($this->data['order_by'])) {
 			return "ORDER BY {$this->data['order_by']}";
@@ -156,6 +254,12 @@ class CMSTemplateController extends Controller {
 		return null;
 	}
 
+	/**
+	 * Determines the correct path to use for a view (any view can be overridden)
+	 * @param  string $view The view name to retrieve
+	 * @param  string $page The name of the config file (and the page)
+	 * @return string       View path
+	 */
 	private function determineViewPath($view, $page) {
 		$site = SiteController::getSite();
 
@@ -168,12 +272,22 @@ class CMSTemplateController extends Controller {
 		}
 	}
 
+	/**
+	 * Processes the configuration file
+	 * @param  string $file_location The location of the config file
+	 * @return array                 JSON decoded array of config values
+	 */
 	private function processTemplate($file_location) {
 		$file = file_get_contents($file_location);
 
 		return json_decode($file, true);
 	}
 
+	/**
+	 * Strip out unusual characters from SQL queries
+	 * @param  string $input String to be sanitized
+	 * @return string        Sanitized string
+	 */
 	public static function sanitize($input) {
 		if (!preg_match('/(\?|\.|\\|\/)/', $input, $matches)) {
 			return $input;

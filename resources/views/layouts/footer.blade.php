@@ -38,6 +38,17 @@
     <script src="{{ asset('js/moment/moment.min.js') }}"></script>
     <script src="{{ asset('js/datepicker/daterangepicker.js') }}"></script>
 
+    <!-- bootstrap-wysiwyg -->
+    <script src="{{ asset('vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js') }}"></script>
+    <script src="{{ asset('vendors/jquery.hotkeys/jquery.hotkeys.js') }}"></script>
+    <script src="{{ asset('vendors/google-code-prettify/src/prettify.js') }}"></script>
+
+    <!-- jQuery autocomplete -->
+    <script src="{{ asset('vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js') }}"></script>
+
+    <!-- Select2 -->
+    <script src="{{ asset('vendors/select2/dist/js/select2.full.min.js') }}"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('js/main.js') }}"></script>
 

@@ -20,11 +20,37 @@
     <!-- jVectorMap -->
     <link href="{{asset('css/maps/jquery-jvectormap-2.0.3.css')}}" rel="stylesheet"/>
 
+    <!-- bootstrap-wysiwyg -->
+    <link href="{{ asset('vendors/google-code-prettify/bin/prettify.min.css') }}" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="{{ asset('vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="{{ asset('vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
+    <!-- starrr -->
+    <link href="{{ asset('vendors/starrr/dist/starrr.css') }}" rel="stylesheet">
+
     <!-- Animate.css -->
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/cms.css') }}" rel="stylesheet">
+
+    <!-- Critical JS -->
+    <script type="text/javascript">
+        function addLoadEvent(func){
+            var oldonload = window.onload;
+            if( typeof window.onload != 'function' ){
+                window.onload = func;
+            } else{
+                window.onload = function(){
+                    if(oldonload){
+                        oldonload();
+                    }
+                    func();
+                }
+            }
+        }
+    </script>
   </head>
 
 <body class="nav-md @yield('body-class')">

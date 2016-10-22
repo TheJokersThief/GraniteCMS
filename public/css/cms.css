@@ -4362,4 +4362,7 @@ ul.notifications {
 .login img {
   width: 100%; }
 
+.row {
+  clear: both; }
+
 /*# sourceMappingURL=cms.css.map */
