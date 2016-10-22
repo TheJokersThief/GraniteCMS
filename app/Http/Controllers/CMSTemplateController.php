@@ -36,7 +36,7 @@ class CMSTemplateController extends Controller {
 			// Select the key at the very minimum
 			$items = DB::select("SELECT {$key}, {$shortlist} FROM {$table} {$where} {$order_by}");
 
-			$this->determineViewPath('index', $page);
+			$view_path = $this->determineViewPath('index', $page);
 
 			$return_data = [
 				'items' => $items,
@@ -45,7 +45,7 @@ class CMSTemplateController extends Controller {
 				'meta_info' => $this->data,
 			];
 
-			return view('pages.index', $return_data);
+			return view($view_path, $return_data);
 		} else {
 			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
 		}
@@ -57,7 +57,26 @@ class CMSTemplateController extends Controller {
 	 * @return View
 	 */
 	public function create($page) {
+		$form = new CRUDBuilder($this->data['fields']);
 
+		$output = $form->render();
+
+		if (Auth::user()->can("edit_{$page}")) {
+			$table = $this->getTable();
+			$key = $this->getKey();
+
+			$view_path = $this->determineViewPath('create', $page);
+
+			$return_data = [
+				'page' => $page,
+				'meta_info' => $this->data,
+				'form' => $output,
+			];
+
+			return view($view_path, $return_data);
+		} else {
+			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
+		}
 	}
 
 	/**
@@ -110,7 +129,7 @@ class CMSTemplateController extends Controller {
 			// Select the key at the very minimum
 			$items = DB::select("SELECT * FROM {$table} WHERE {$key} = $id");
 
-			$this->determineViewPath('edit', $page);
+			$view_path = $this->determineViewPath('edit', $page);
 
 			$return_data = [
 				'items' => $items,
@@ -119,7 +138,7 @@ class CMSTemplateController extends Controller {
 				'form' => $output,
 			];
 
-			return view('pages.edit', $return_data);
+			return view($view_path, $return_data);
 		} else {
 			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
 		}
