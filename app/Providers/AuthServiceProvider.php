@@ -6,6 +6,7 @@ use App\Capability;
 use App\UserRole;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
 
 class AuthServiceProvider extends ServiceProvider {
 	/**
@@ -25,14 +26,18 @@ class AuthServiceProvider extends ServiceProvider {
 	public function boot() {
 		$this->registerPolicies();
 
-		foreach (Capability::all() as $capability) {
-			Gate::define($capability->capability_name, function ($user) use ($capability) {
-				$role = UserRole::find($user->user_role);
+		// on installation, this table won't exist so PHP scripts will fail
+		// No capabilities are needed from the command line anyway so be grand
+		if (Schema::hasTable('capabilities')) {
+			foreach (Capability::all() as $capability) {
+				Gate::define($capability->capability_name, function ($user) use ($capability) {
+					$role = UserRole::find($user->user_role);
 
-				if ($role != null) {
-					return ($role->role_level < $capability->capability_min_level);
-				}
-			});
+					if ($role != null) {
+						return ($role->role_level < $capability->capability_min_level);
+					}
+				});
+			}
 		}
 	}
 }
