@@ -3,20 +3,28 @@
 namespace App\Helpers;
 
 use App\Http\Controllers\CMSTemplateController;
+use App\Http\Controllers\SiteController;
 use DB;
 use Form;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Http\Request;
 
 class CRUDBuilder {
 
+	use ValidatesRequests;
+
 	private $fields = [];
+	private $action = "";
+	private $site = null;
 	private $form = "";
+	private $values;
 
-	public function __construct($fields) {
+	public function __construct($fields, $action = null) {
 		$this->fields = $fields;
+		$this->action = $action;
+		$this->values = null;
 
-		$this->form .= $this->openForm();
-		$this->processFields();
-		$this->form .= $this->closeForm();
+		$this->site = SiteController::getSiteID(SiteController::getSite());
 	}
 
 	/**
@@ -24,7 +32,14 @@ class CRUDBuilder {
 	 * @return string
 	 */
 	public function render() {
-		return $this->form;
+		if ($this->action == null) {
+			return null;
+		} else {
+			$this->form .= $this->openForm();
+			$this->processFields();
+			$this->form .= $this->closeForm();
+			return $this->form;
+		}
 	}
 
 	/**
@@ -37,10 +52,16 @@ class CRUDBuilder {
 
 		$set_values = [];
 		foreach ($this->fields as $field) {
-			$set_values[ $field['name'] ] = $request[ $field['name'] ];
+			$set_values[$field['name']] = $request[$field['name']];
 		}
 
-		return $set_values
+		$set_values['site'] = $this->site;
+
+		return $set_values;
+	}
+
+	public function addValues($values) {
+		return $this->values = $values;
 	}
 
 	/**
@@ -48,7 +69,7 @@ class CRUDBuilder {
 	 * @return string Opening <form> tag and CSRF token
 	 */
 	private function openForm() {
-		return Form::open(['method' => 'POST', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']);
+		return Form::open(['url' => $this->action, 'method' => 'POST', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']);
 	}
 
 	/**
@@ -69,6 +90,12 @@ class CRUDBuilder {
 				$field['title'] = ucwords(str_replace('_', ' ', $field['name']));
 			}
 
+			if (isset($this->values->{$field['name']})) {
+				$value = $this->values->{$field['name']};
+			} else {
+				$value = null;
+			}
+
 			// $this->form .= Form::label($field['name'], $field['title']);
 			switch ($field['type']) {
 
@@ -76,7 +103,7 @@ class CRUDBuilder {
 							TEXT
 			   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			case "text":
-				$this->form .= view('components.text')->with('field', $field);
+				$this->form .= view('components.text')->with(['field' => $field, 'value' => $value]);
 				break;
 
 			/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,34 +115,36 @@ class CRUDBuilder {
 
 				switch ($field['source']) {
 				case 'table':
-					$options = array_merge($options, $this->dropdownOptionsFromDatabase($field['table']));
+					// add arrays to preserve numeical keys when merging arrays
+					$options = $options + $this->dropdownOptionsFromDatabase($field['table']);
 					break;
 
 				case 'options':
-					$options = array_merge($options, $field['options']);
+					$options = array_merge($options, $this->dropdownOptionsFromConfig($field['options']));
 					break;
 				}
-
-				$this->form .= view('components.dropdown')->with(['field' => $field, 'options' => $options]);
+				$this->form .= view('components.dropdown')->with(['field' => $field, 'options' => $options, 'value' => $value]);
 				break;
 
 			/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 						   WySiWyG
 			   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			case "wysiwyg":
-				$this->form .= view('components.wysiwyg')->with('field', $field);
+				$this->form .= view('components.wysiwyg')->with(['field' => $field, 'value' => $value]);
 				break;
 
 			/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 							DATE
 			   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			case "date":
-				$this->form .= view('components.date')->with('field', $field);
+				$this->form .= view('components.date')->with(['field' => $field, 'value' => $value]);
 				break;
 			}
 
 			$this->form .= "\n";
 		}
+
+		$this->form .= view('components.submit');
 	}
 
 	/**
@@ -165,8 +194,18 @@ class CRUDBuilder {
 			}
 
 			// return the key and the result
-			$return_data[$result->$table['key']] = $format;
+			$return_data[$result->{$table['key']}] = $format;
 		}
 		return $return_data;
+	}
+
+	private function dropdownOptionsFromConfig($options) {
+		$return_options = [];
+
+		foreach ($options as $option) {
+			$return_options[$option] = $option;
+		}
+
+		return $return_options;
 	}
 }

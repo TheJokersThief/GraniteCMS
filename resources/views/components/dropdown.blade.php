@@ -2,7 +2,7 @@
     {{ \Form::label($field['name'], $field['title'], ['class' => 'control-label col-xs-12']) }}
 
     <div class="col-xs-12">
-        {{ \Form::select($field['name'], $options, null, ['class' => 'form-control select2_single', 'style' => 'display: none;', 'id' => ($uid = hash('sha512', $field['name']) ) ]) }}
+        {{ \Form::select($field['name'], $options, $value, ['class' => 'form-control select2_single', 'style' => 'display: none;', 'id' => ($uid = hash('sha512', $field['name']) ) ]) }}
     </div>
 </div>
 

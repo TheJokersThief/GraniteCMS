@@ -57,11 +57,11 @@ class CMSTemplateController extends Controller {
 	 * @return View
 	 */
 	public function create($page) {
-		$form = new CRUDBuilder($this->data['fields']);
+		$form = new CRUDBuilder($this->data['fields'], route('template-store', ['page' => $page]));
 
 		$output = $form->render();
 
-		if (Auth::user()->can("edit_{$page}")) {
+		if (Auth::user()->can("create_{$page}")) {
 			$table = $this->getTable();
 			$key = $this->getKey();
 
@@ -94,7 +94,7 @@ class CMSTemplateController extends Controller {
 
 			$id = DB::table($table)->insertGetId($set_values);
 
-			return route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
+			return redirect()->route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
 		} else {
 			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
 		}
@@ -118,9 +118,7 @@ class CMSTemplateController extends Controller {
 	 */
 	public function edit($page, $id) {
 
-		$form = new CRUDBuilder($this->data['fields']);
-
-		$output = $form->render();
+		$form = new CRUDBuilder($this->data['fields'], route('template-update', ['page' => $page, 'encrypted_id' => encrypt($id)]));
 
 		if (Auth::user()->can("edit_{$page}")) {
 			$table = $this->getTable();
@@ -129,16 +127,25 @@ class CMSTemplateController extends Controller {
 			// Select the key at the very minimum
 			$items = DB::select("SELECT * FROM {$table} WHERE {$key} = $id");
 
-			$view_path = $this->determineViewPath('edit', $page);
+			if (!empty($items)) {
+				// If it's not empty, take add the first row of values
+				$form->addValues($items[0]);
+				$output = $form->render();
 
-			$return_data = [
-				'items' => $items,
-				'page' => $page,
-				'meta_info' => $this->data,
-				'form' => $output,
-			];
+				$view_path = $this->determineViewPath('edit', $page);
 
-			return view($view_path, $return_data);
+				$return_data = [
+					'items' => $items,
+					'page' => $page,
+					'meta_info' => $this->data,
+					'form' => $output,
+				];
+
+				return view($view_path, $return_data);
+			} else {
+				return back()->withErrors(['message' => 'That item doesn\'t exist']);
+			}
+
 		} else {
 			return back()->withErrors(['message' => 'You don\'t have permission to do that']);
 		}
@@ -166,7 +173,7 @@ class CMSTemplateController extends Controller {
 					->where($key, $id)
 					->update($set_values);
 
-				return route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
+				return redirect()->route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
 			} catch (DecryptException $e) {
 				return back()->withErrors(['message' => 'Could not decrypt item key']);
 			}

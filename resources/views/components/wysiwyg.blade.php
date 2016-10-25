@@ -63,7 +63,7 @@
         </div>
      </div>
      <div id="editor" class="editor-wrapper"></div>
-     {{ \Form::textarea($field['name'], null, ['class' => 'resizable_textarea form-control', 'style' => 'display: none;']) }}
+     {{ \Form::textarea($field['name'], $value, ['class' => 'resizable_textarea form-control', 'style' => 'display: none;']) }}
   </div>
 </div>
 <!-- bootstrap-wysiwyg -->
