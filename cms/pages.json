@@ -18,14 +18,14 @@
 		"custom_class": "",
 		"placeholder": "My New Page",
 		"default_value": "",
-		"validation_rules": ""
+		"validation_rules": "required"
 	}, {
 		"name": "page_slug",
 		"type": "text",
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
-		"validation_rules": "",
+		"validation_rules": "required|alpha_num",
 		"class": "col-md-6 col-sm-6 col-xs-12"
 	},{
 		"name": "page_date",
@@ -33,18 +33,11 @@
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
-		"validation_rules": "",
+		"validation_rules": "required|date",
 		"class": "col-md-6 col-sm-6 col-xs-12"
 	},{
 		"name": "page_content",
 		"type": "wysiwyg",
-		"custom_class": "",
-		"placeholder": "",
-		"default_value": "",
-		"validation_rules": ""
-	}, {
-		"name": "page_status",
-		"type": "",
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
@@ -55,7 +48,7 @@
 		"custom_class": "",
 		"placeholder": "Choose an author",
 		"default_value": "",
-		"validation_rules": "",
+		"validation_rules": "required|exists:users,id",
 		"class": "col-md-6 col-sm-6 col-xs-12",
 
 		"source": "table",
@@ -74,12 +67,12 @@
 		}
 
 	}, {
-		"name": "page_type",
+		"name": "page_status",
 		"type": "dropdown",
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
-		"validation_rules": "",
+		"validation_rules": "required|in:published,scheduled,draft,revision",
 		"class": "col-md-6 col-sm-6 col-xs-12",
 
 		"source": "options",
