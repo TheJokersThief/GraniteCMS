@@ -93,9 +93,7 @@ class PageController extends Controller {
 			'page_date' => 'required|date',
 			'page_status' => 'required|in:published,scheduled,draft,revision',
 			'page_author' => 'required|exists:users,id',
-			'page_type' => 'required',
 			'page_slug' => 'required',
-			'site' => 'required',
 		];
 	}
 }
