@@ -18,7 +18,7 @@ class CreatePages extends Migration {
 
 			$table->enum('page_status', ['published', 'scheduled', 'draft', 'revision']);
 			$table->string('page_title');
-			$table->string('page_type');
+			$table->string('page_type')->default('page');
 			$table->integer('page_author');
 			$table->dateTime('page_date');
 			$table->longText('page_content');
