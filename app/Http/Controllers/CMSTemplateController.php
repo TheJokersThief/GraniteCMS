@@ -163,6 +163,7 @@ class CMSTemplateController extends Controller {
 			try {
 				// delete the item from the database
 				$id = decrypt($encrypted_id);
+				$key = $this->getKey();
 
 				$table = $this->getTable();
 
