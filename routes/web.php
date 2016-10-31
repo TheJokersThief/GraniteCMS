@@ -22,6 +22,9 @@ if (isset($_SERVER['HTTP_HOST'])) {
 	}
 }
 
+// During development, login user automatically
+Auth::loginUsingId(1, true);
+
 Auth::routes();
 
 Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function () {
