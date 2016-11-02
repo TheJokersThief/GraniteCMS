@@ -307,7 +307,13 @@ class CMSTemplateController extends Controller {
 	private function processTemplate($file_location) {
 		$file = file_get_contents($file_location);
 
-		return json_decode($file, true);
+		$config = json_decode($file, true);
+		if ($config) {
+			return $config;
+		} else {
+			echo 'Invalid JSON, try running it through <a href="http://jsonlint.com/">http://jsonlint.com/</a>';
+			die();
+		}
 	}
 
 	/**
