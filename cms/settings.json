@@ -1,0 +1,33 @@
+{
+	"table": "settings",
+	"key": "id",
+	"title": "Settings",
+	"shortlist": [
+		"setting_name",
+		"setting_value"
+	],
+
+	"where" : "",
+	"order_by" : "id DESC",
+
+	"fields": [{
+		"name": "setting_name",
+		"type": "text",
+		"placeholder": "my-wonderful-setting",
+		"default_value": "",
+		"validation_rules": "required|alpha_dash"
+	}, {
+		"name": "setting_value",
+		"type": "text",
+		"placeholder": "A value of some kind",
+		"default_value": "",
+		"validation_rules": "required",
+		"class": ""
+	}],
+
+	"permissions": [
+		"edit",
+		"delete",
+		"create"
+	]
+}

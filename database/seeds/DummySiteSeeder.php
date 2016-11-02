@@ -17,6 +17,11 @@ class DummySiteSeeder extends Seeder {
 		App\UserRole::create(['role_name' => 'contributor', 'role_level' => 4, 'site' => 1]);
 		App\UserRole::create(['role_name' => 'subscriber', 'role_level' => 999, 'site' => 1]);
 
+		App\Capability::create(['capability_name' => 'view_settings', 'capability_min_level' => 1, 'site' => 1]);
+		App\Capability::create(['capability_name' => 'edit_settings', 'capability_min_level' => 1, 'site' => 1]);
+		App\Capability::create(['capability_name' => 'create_settings', 'capability_min_level' => 1, 'site' => 1]);
+		App\Capability::create(['capability_name' => 'delete_settings', 'capability_min_level' => 1, 'site' => 1]);
+
 		App\Capability::create(['capability_name' => 'view_pages', 'capability_min_level' => 4, 'site' => 1]);
 		App\Capability::create(['capability_name' => 'edit_pages', 'capability_min_level' => 3, 'site' => 1]);
 		App\Capability::create(['capability_name' => 'create_pages', 'capability_min_level' => 3, 'site' => 1]);
