@@ -137,6 +137,9 @@ class CRUDBuilder {
 							DATE
 			   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 			case "date":
+				$value = new \DateTime($value);
+				$value = $value->format('Y-m-d');
+
 				$this->form .= view('components.date')->with(['field' => $field, 'value' => $value]);
 				break;
 			}
