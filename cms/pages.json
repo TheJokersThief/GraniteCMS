@@ -25,7 +25,7 @@
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
-		"validation_rules": "required|alpha_num",
+		"validation_rules": "required|alpha_dash",
 		"class": "col-md-6 col-sm-6 col-xs-12"
 	},{
 		"name": "page_date",
