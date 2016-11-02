@@ -1,7 +1,7 @@
 
 <div class="row">
-  <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor">
-     <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor">
+  <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#{{ $field['name'] }}">
+     <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#{{ $field['name'] }}">
         <div class="btn-group">
            <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
            <ul class="dropdown-menu">
@@ -62,73 +62,88 @@
            <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
         </div>
      </div>
-     <div id="editor" class="editor-wrapper"></div>
+     <div id="{{ $field['name'] }}" class="editor-wrapper"></div>
      {{ \Form::textarea($field['name'], $value, ['class' => 'resizable_textarea form-control', 'style' => 'display: none;']) }}
   </div>
 </div>
 <!-- bootstrap-wysiwyg -->
 <script>
   addLoadEvent(function() {
-     function initToolbarBootstrapBindings() {
-       var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
-           'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
-           'Times New Roman', 'Verdana'
-         ],
-         fontTarget = $('[title=Font]').siblings('.dropdown-menu');
-       $.each(fonts, function(idx, fontName) {
-         fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
-       });
-       $('a[title]').tooltip({
-         container: 'body'
-       });
-       $('.dropdown-menu input').click(function() {
-           return false;
-         })
-         .change(function() {
-           $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
-         })
-         .keydown('esc', function() {
-           this.value = '';
-           $(this).change();
-         });
+    function initToolbarBootstrapBindings() {
+      var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
+        'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+        'Times New Roman', 'Verdana'
+      ];
 
-       $('[data-role=magic-overlay]').each(function() {
-         var overlay = $(this),
-           target = $(overlay.data('target'));
-         overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
-       });
+      var fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+      // Setup fonts menu
+      $.each(fonts, function(idx, fontName) {
+        fontTarget.append($('<li><a data-edit="fontName ' + fontName + '" style="font-family:\'' + fontName + '\'">' + fontName + '</a></li>'));
+      });
 
-       if ("onwebkitspeechchange" in document.createElement("input")) {
-         var editorOffset = $('#editor').offset();
+      // position tooltips
+      $('a[title]').tooltip({
+        container: 'body'
+      });
 
-         $('.voiceBtn').css('position', 'absolute').offset({
-           top: editorOffset.top,
-           left: editorOffset.left + $('#editor').innerWidth() - 35
-         });
-       } else {
-         $('.voiceBtn').hide();
-       }
-     }
+      // initialise dropdown menus
+      $('.dropdown-menu input').click(function() {
+        return false;
+      }).change(function() {
+        $(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');
+      }).keydown('esc', function() {
+        this.value = '';
+        $(this).change();
+      });
 
-     function showErrorAlert(reason, detail) {
-       var msg = '';
-       if (reason === 'unsupported-file-type') {
-         msg = "Unsupported format " + detail;
-       } else {
-         console.log("error uploading file", reason, detail);
-       }
-       $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
-         '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
-     }
+      $('[data-role=magic-overlay]').each(function() {
+        var overlay = $(this),
+        target = $(overlay.data('target'));
+        overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+      });
 
-     initToolbarBootstrapBindings();
+      // Speech accessibility
+      if ("onwebkitspeechchange" in document.createElement("input")) {
+        var editorOffset = $('#{{ $field['name'] }}').offset();
 
-     $('#editor').wysiwyg({
-       fileUploadError: showErrorAlert
-     });
+        $('.voiceBtn').css('position', 'absolute').offset({
+          top: editorOffset.top,
+          left: editorOffset.left + $('#{{ $field['name'] }}').innerWidth() - 35
+        });
+      } else {
+        $('.voiceBtn').hide();
+      }
+    }
 
-     window.prettyPrint;
-     prettyPrint();
+    function showErrorAlert(reason, detail) {
+      var msg = '';
+      if (reason === 'unsupported-file-type') {
+        msg = "Unsupported format " + detail;
+      } else {
+        console.log("error uploading file", reason, detail);
+      }
+      $('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>' +
+        '<strong>File upload error</strong> ' + msg + ' </div>').prependTo('#alerts');
+    }
+
+    initToolbarBootstrapBindings();
+
+    $('#{{ $field['name'] }}').wysiwyg({
+      fileUploadError: showErrorAlert
+    });
+
+
+    // window.prettyPrint;
+    // prettyPrint();
+
+    $('#{{$field['name']}}').html($('[name="{{ $field['name'] }}"]').html());
+
+
+    // Keep input content in sync with editor preview
+    $('#{{$field['name']}}').wysiwyg().on('change', function()
+      {
+        $('[name="{{ $field['name'] }}"]').html($('#{{$field['name']}}').html());
+      });
    });
 </script>
 <!-- /bootstrap-wysiwyg -->
