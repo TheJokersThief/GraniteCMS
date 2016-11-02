@@ -25,7 +25,7 @@
             "Sites\\": "sites/"
         },
         "files": [
-            "app/helpers.php"
+            "Helpers/helpers.php"
         ]
     },
     "autoload-dev": {
