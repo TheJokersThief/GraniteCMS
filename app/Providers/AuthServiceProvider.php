@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider {
 					$role = UserRole::find($user->user_role);
 
 					if ($role != null) {
-						return ($role->role_level < $capability->capability_min_level);
+						return ($role->role_level <= $capability->capability_min_level);
 					}
 				});
 			}
