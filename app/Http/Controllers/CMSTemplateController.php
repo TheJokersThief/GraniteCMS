@@ -15,9 +15,11 @@ class CMSTemplateController extends Controller {
 	private $data = "";
 
 	public function __construct() {
-		$page = \Route::current()->getParameter('page');
-		$config_path = $this->determineConfigPath($page);
-		$this->data = $this->processTemplate($config_path);
+		if (SiteController::getSite()) {
+			$page = \Route::current()->getParameter('page');
+			$config_path = $this->determineConfigPath($page);
+			$this->data = $this->processTemplate($config_path);
+		}
 	}
 
 	/**

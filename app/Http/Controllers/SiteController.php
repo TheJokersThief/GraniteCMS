@@ -16,13 +16,9 @@ class SiteController extends Controller {
 	public static function getSite() {
 		// Check if request is from apache
 		if (isset($_SERVER['HTTP_HOST'])) {
-			try {
-				// Include the given site's web routes
-				return str_replace('.', '_', $_SERVER['HTTP_HOST']);
-			} catch (Exception $e) {
-				// If the site doesn't exist, return 404
-				abort(404);
-			}
+			return str_replace('.', '_', $_SERVER['HTTP_HOST']);
+		} else {
+			return null;
 		}
 	}
 
