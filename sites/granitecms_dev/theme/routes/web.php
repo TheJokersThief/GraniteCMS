@@ -9,10 +9,10 @@
 | by your application. Just tell Laravel the URIs it should respond
 | to using a Closure or controller method. Build something great!
 |
-*/
+ */
 
 // Route::get('/', function () {
 //     return view('granitecms_dev.theme.views.home');
 // });
 
-Route::get('/', '\Sites\granitecms_dev\theme\controllers\CustomController@index');
+Route::get('/', 'CustomController@index');
