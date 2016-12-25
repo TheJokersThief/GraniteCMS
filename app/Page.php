@@ -16,6 +16,9 @@ class Page extends Model {
 		'page_author',
 		'page_type',
 		'page_slug',
+		'menu_id',
+		'display_order',
+		'parent_id',
 		'site',
 	];
 
@@ -29,6 +32,10 @@ class Page extends Model {
 
 	public function author() {
 		return $this->belongsTo('App\User', 'page_author');
+	}
+
+	public function menu() {
+		return $this->belongsTo('App\MenuItem', 'menu_id');
 	}
 
 	public function site() {

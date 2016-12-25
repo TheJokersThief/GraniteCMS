@@ -40,6 +40,8 @@ $factory->define(App\Page::class, function (Faker\Generator $faker) {
 		},
 		'page_type' => 'page',
 		'page_slug' => $faker->slug(),
+		'menu_id' => $faker->randomElement([2, 3]),
+		'parent_id' => $faker->numberBetween(0, 20),
 		'site' => 1,
 	];
 });

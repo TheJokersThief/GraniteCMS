@@ -85,6 +85,7 @@
 	}],
 
 	"permissions": [
+		"view",
 		"edit",
 		"delete",
 		"create"

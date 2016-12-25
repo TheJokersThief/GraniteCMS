@@ -1,0 +1,53 @@
+{
+	"table": "menus",
+	"key": "id",
+	"title": "Settings",
+	"shortlist": [
+		"name",
+		"link",
+		"parent"
+	],
+
+	"where" : "",
+	"order_by" : "id DESC",
+
+	"fields": [{
+		"name": "name",
+		"type": "text",
+		"placeholder": "my-wonderful-setting",
+		"default_value": "",
+		"validation_rules": "required"
+	}, {
+		"name": "link",
+		"type": "text",
+		"placeholder": "A value of some kind",
+		"default_value": "",
+		"validation_rules": "required",
+		"class": ""
+	}, {
+		"name": "parent",
+		"type": "dropdown",
+		"placeholder": "A value of some kind",
+		"default_value": "",
+		"validation_rules": "required|table:menus",
+		"class": "",
+		"table": {
+			"table": "menus", 
+			"key": "id", 
+			"format": "{name} ({id})",
+			"fields": [{
+				"column": "name",
+				"placeholder": "name"
+			}, {
+				"column": "id",
+				"placeholder": "id"
+			}]
+		}
+	}],
+
+	"permissions": [
+		"edit",
+		"delete",
+		"create"
+	]
+}

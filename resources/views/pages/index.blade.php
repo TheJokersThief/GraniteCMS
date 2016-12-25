@@ -7,6 +7,7 @@
          <div class="x_title">
             <h2>{{ isset($meta_info['title']) ? ucwords($meta_info['title']) : ucfirst($page) }}</h2>
             <div class="clearfix"></div>
+            <a href="{{ route('template-create', ['page' => $page ] ) }}" class="label label-info">Add New</a>
          </div>
          <div class="x_content">
             <div class="table-responsive">
@@ -36,9 +37,18 @@
                               <td class="">{{ $item->$key }}</td>
                            @endforeach
                            <td class=" last">
-                              <a href="{{ route('template-show', ['page' => $page, 'id' => $item->id ] ) }}" class="label label-info">View</a>
-                              <a href="{{ route('template-edit', ['page' => $page, 'id' => $item->id ] ) }}" class="label label-info">Edit</a>
-                              <a href="{{ route('template-delete', ['encrypted_id' => encrypt( $item->{$meta_info['key']} ), 'page' => $page]) }}" class="label label-danger">Delete</a>
+
+                              @if( in_array( 'view', $meta_info['permissions'] ) )
+                                 <a href="{{ route('template-show', ['page' => $page, 'id' => $item->id ] ) }}" class="label label-info">View</a>
+                              @endif
+
+                              @if( in_array( 'edit', $meta_info['permissions'] ) )
+                                 <a href="{{ route('template-edit', ['page' => $page, 'id' => $item->id ] ) }}" class="label label-info">Edit</a>
+                              @endif
+
+                              @if( in_array( 'delete', $meta_info['permissions'] ) )
+                                 <a href="{{ route('template-delete', ['encrypted_id' => encrypt( $item->{$meta_info['key']} ), 'page' => $page]) }}" class="label label-danger">Delete</a>
+                              @endif
                            </td>
                         </tr>
                      @endforeach
