@@ -52,7 +52,7 @@ class DummySiteSeeder extends Seeder {
 		App\MenuItem::Create(['name' => 'Add Page', 'link' => '/cms/pages/create', 'parent' => $page_menu_id->id, 'site' => 1]);
 
 		// ADMINISTRATION
-		App\MenuItem::Create(['name' => 'Administration', 'link' => '#!', 'parent' => 1, 'site' => 1]); // Blank Link
+		App\MenuItem::Create(['name' => 'Administration', 'link' => '/cms/menus', 'parent' => 1, 'site' => 1]); // Blank Link
 		App\MenuItem::Create(['name' => 'Settings', 'link' => '/cms/settings', 'parent' => 1, 'site' => 1]);
 
 		$users = factory(App\User::class, 3)->create()->each(function ($user) {
