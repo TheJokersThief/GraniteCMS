@@ -16,6 +16,7 @@ class Page extends Model {
 		'page_author',
 		'page_type',
 		'page_slug',
+		'page_banner',
 		'menu_id',
 		'display_order',
 		'parent_id',

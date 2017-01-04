@@ -62,7 +62,8 @@
            <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
         </div>
      </div>
-     <div id="{{ $field['name'] }}" class="editor-wrapper"></div>
+     <div id="{{ $field['name'] }}" class="editor-wrapper">{!! $value !!}</div>
+
      {{ \Form::textarea($field['name'], $value, ['class' => 'resizable_textarea form-control', 'style' => 'display: none;']) }}
   </div>
 </div>
@@ -136,7 +137,7 @@
     // window.prettyPrint;
     // prettyPrint();
 
-    $('#{{$field['name']}}').html($('[name="{{ $field['name'] }}"]').html());
+    // $('#{{$field['name']}}').html($('[name="{{ $field['name'] }}"]').html());
 
 
     // Keep input content in sync with editor preview

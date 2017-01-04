@@ -8,6 +8,7 @@ use DB;
 use Form;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Image;
 
 class CRUDBuilder {
 
@@ -52,7 +53,16 @@ class CRUDBuilder {
 
 		$set_values = [];
 		foreach ($this->fields as $field) {
-			$set_values[$field['name']] = $request[$field['name']];
+
+			switch ($field['type']) {
+			case 'image':
+				$set_values[$field['name']] = $this->processImage($request, $field);
+				break;
+
+			default:
+				$set_values[$field['name']] = $request[$field['name']];
+				break;
+			}
 		}
 
 		$set_values['site'] = $this->site;
@@ -64,12 +74,47 @@ class CRUDBuilder {
 		return $this->values = $values;
 	}
 
+	private function processImage(Request $request, $field) {
+		// Images are processed differently
+		if ($request->hasFile($field['name'])) {
+			if (!isset($field['store_folder'])) {
+				$field['store_folder'] = 'images';
+			}
+
+			$filename = $request->file($field['name'])->getClientOriginalName();
+			$relative_path = "images/" . $field['store_folder'];
+			$path = storage_path($relative_path);
+			$file_path = $path . '/' . $filename;
+
+			if (!file_exists($path)) {
+				mkdir($path, 0755, true);
+			}
+
+			if (!(isset($field['crop_width']) || isset($field['crop_height']))
+				|| ($field['crop_width'] <= 0 || $field['crop_height'] <= 0)) {
+				// If the crop width/height isn't set or one of them is <= 0
+				Image::make($request->file($field['name']))->save($file_path);
+			} else {
+				// If crop info supplied, crop and resize the image
+				Image::make($request->file($field['name']))
+					->fit($field['crop_width'], $field['crop_height'])->save($file_path);
+			}
+
+			return $relative_path . '/' . $filename;
+		}
+	}
+
 	/**
 	 * Begin the form
 	 * @return string Opening <form> tag and CSRF token
 	 */
 	private function openForm() {
-		return Form::open(['url' => $this->action, 'method' => 'POST', 'data-parsley-validate', 'class' => 'form-horizontal form-label-left']);
+		return Form::open([
+			'url' => $this->action,
+			'method' => 'POST',
+			'data-parsley-validate',
+			'class' => 'form-horizontal form-label-left ',
+			'files' => true]);
 	}
 
 	/**
@@ -141,6 +186,10 @@ class CRUDBuilder {
 				$value = $value->format('Y-m-d');
 
 				$this->form .= view('components.date')->with(['field' => $field, 'value' => $value]);
+				break;
+
+			case "image":
+				$this->form .= view('components.image')->with(['field' => $field, 'value' => $value]);
 				break;
 			}
 

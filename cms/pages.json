@@ -82,6 +82,14 @@
 			"draft",
 			"revision"
 		]
+	},{
+		"name": "page_banner",
+		"type": "image",
+		"custom_class": "",
+		"crop_width" : 400,
+		"crop_height": 250,
+		"store_folder": "page_banners",
+		"validation_rules": ""
 	}],
 
 	"permissions": [

@@ -49,6 +49,8 @@
     <!-- Select2 -->
     <script src="{{ asset('vendors/select2/dist/js/select2.full.min.js') }}"></script>
 
+    <script src="{{ asset('vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('js/main.js') }}"></script>
 

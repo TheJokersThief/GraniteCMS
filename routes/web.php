@@ -30,6 +30,13 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function () {
 	Route::resource('pages', 'PageController');
 });
 
+Route::get('images/{directory}/{image}', function ($directory, $image) {
+	$path = storage_path('images/' . $directory . '/' . $image);
+	if (file_exists($path)) {
+		return Response::download($path);
+	}
+});
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
