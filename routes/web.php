@@ -16,6 +16,19 @@ Auth::loginUsingId(1, true);
 
 Auth::routes();
 
+Route::get('/callback/{site}/{provider}', 'Auth\AuthController@forwardCallback');
+
+/**
+ * SOCIAL AUTHENTICATION
+ */
+Route::group(['prefix' => 'auth'], function () {
+	Route::get('/', 'Auth\AuthController@index')->name('auth');
+	Route::post('/login', 'Auth\AuthController@postUsername')->name('post-username');
+	Route::get('/login', 'Auth\AuthController@socialAuth')->name('auth-login');
+	Route::get('/provider/{provider}', 'Auth\AuthController@redirectToProvider')->name('social-auth');
+	Route::get('/provider/callback/{provider}', 'Auth\AuthController@handleProviderCallback');
+});
+
 Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function () {
 	Route::get('/', 'CMSController@dashboard');
 

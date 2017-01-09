@@ -4379,4 +4379,28 @@ ul.notifications {
 .form-horizontal .control-label {
   text-align: left; }
 
+/* SOCIAL LOGIN PAGE */
+.social-login h1 {
+  font: normal 25px Helvetica, Arial, sans-serif;
+  letter-spacing: -0.05em;
+  line-height: 20px;
+  margin: 10px 0 30px;
+  text-align: center; }
+  .social-login h1:before, .social-login h1:after {
+    content: "";
+    height: 1px;
+    position: absolute;
+    top: 10px;
+    width: 27%; }
+  .social-login h1:after {
+    background: #7e7e7e;
+    background: -webkit-linear-gradient(left, #7e7e7e 0%, white 100%);
+    background: linear-gradient(left, #7e7e7e 0%, white 100%);
+    right: 0; }
+  .social-login h1:before {
+    background: #7e7e7e;
+    background: -webkit-linear-gradient(right, #7e7e7e 0%, white 100%);
+    background: linear-gradient(right, #7e7e7e 0%, white 100%);
+    left: 0; }
+
 /*# sourceMappingURL=cms.css.map */
