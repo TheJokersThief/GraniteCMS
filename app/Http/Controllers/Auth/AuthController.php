@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Helpers\Nonce;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SiteController;
 use App\User;
 use App\UserSocial;
 use Auth;
@@ -11,6 +12,7 @@ use DB;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Mail;
 use Socialite;
 
 class AuthController extends Controller {
@@ -86,6 +88,41 @@ class AuthController extends Controller {
 	}
 
 	/**
+	 * Receive, verify and handle magic link nonce
+	 * @param  Request $request
+	 * @param  string  $code    Nonce
+	 */
+	public function magicLinkVerification(Request $request, $code) {
+		// Get username from encrypted cookie
+		$username = $request->cookie($this->username_cookie_name);
+		if ($username == null) {
+			return redirect()
+				->route('auth')
+				->withErrors(['message' => $this->error_messages['no_username']]);
+		}
+
+		$nonce = $code;
+
+		$user = User::where($this->username_column, $username)->first();
+
+		if ($user != null) {
+			$verification_nonce = UserSocial::where('user_id', $user->id)->where('provider', 'magic-link')->first();
+			if ($verification_nonce != null) {
+				if ($nonce == $verification_nonce->social_id
+					&& Nonce::checkNonce($nonce)) {
+					$verification_nonce->delete();
+					return $this->confirmAuth($request, $user, 'magic-link');
+				}
+			} else {
+				return redirect()->route('auth-login')->withErrors(['message' => $this->error_messages['incorrect_password']]);
+			}
+		} else {
+			return redirect()->route('auth-login')->withErrors(['message' => $this->error_messages['no_username']]);
+		}
+
+	}
+
+	/**
 	 * View for jump-off to authentication points
 	 * @param  Request $request
 	 */
@@ -118,6 +155,15 @@ class AuthController extends Controller {
 			}
 		} else if ($provider == 'local') {
 			return view('auth.login');
+
+		} else if ($provider == 'magic-link') {
+			$username = $request->cookie($this->username_cookie_name);
+			if ($username == null) {
+				return redirect()
+					->route('auth')
+					->withErrors(['message' => $this->error_messages['no_username']]);
+			}
+			return $this->sendMagicLink($username);
 		} else {
 			return back();
 		}
@@ -153,12 +199,6 @@ class AuthController extends Controller {
 	 */
 	public function handleProviderCallback(Request $request, $provider) {
 
-		// Get forwarded data from request
-		$data = json_decode($request->input('data'));
-		if ($data == null) {
-			return response($this->error_messages['no_data_supplied']);
-		}
-
 		// Get username from encrypted cookie
 		$username = $request->cookie($this->username_cookie_name);
 		if ($username == null) {
@@ -167,15 +207,21 @@ class AuthController extends Controller {
 				->withErrors(['message' => $this->error_messages['no_username']]);
 		}
 
-		$nonce = DB::table('nonces')
-			->where('id', $data->nonce)
-			->first();
-
-		// Decrypted our forwarded data using the corresponding nonce
-		$encryptor = new Encrypter($nonce->nonce, 'AES-256-CBC');
-		$data = $encryptor->decrypt($data->data);
-
 		if (in_array($provider, $this->acceptable_providers)) {
+			// Get forwarded data from request
+			$data = json_decode($request->input('data'));
+			if ($data == null) {
+				return response($this->error_messages['no_data_supplied']);
+			}
+
+			$nonce = DB::table('nonces')
+				->where('id', $data->nonce)
+				->first();
+
+			// Decrypted our forwarded data using the corresponding nonce
+			$encryptor = new Encrypter($nonce->nonce, 'AES-256-CBC');
+			$data = $encryptor->decrypt($data->data);
+
 			// Retrieve the social ID and convert it to a user
 			$token = Socialite::driver($provider)->getAccessTokenResponse($data['code']);
 			$user = Socialite::driver($provider)->userFromToken($token['access_token']);
@@ -201,11 +247,19 @@ class AuthController extends Controller {
 				return view('auth.login')->withInput()
 					->withErrors(['message' => $this->error_messages['incorrect_password']]);
 			}
+
+		} else if ($provider == 'magic-link') {
+
 		} else {
 			return view('auth.social_auth')
 				->withErrors(['message' => $this->error_messages['no_provider']]);
 		}
 
+		return $this->confirmAuth($request, $user, $provider);
+
+	}
+
+	public function confirmAuth(Request $request, $user, $provider) {
 		// Initialise first-time cookie
 		if ($request->cookie($this->counter_cookie_name) == null) {
 			$cookie = $this->cookieBlueprint(0, $user);
@@ -229,7 +283,7 @@ class AuthController extends Controller {
 					// If they've reached the required login level, log them in
 					Auth::login($user);
 					// We're finisehd with all the cookies now
-					$this->removeCookies();
+					$this->removeCookies($request);
 					return redirect('cms');
 				}
 			} else {
@@ -238,7 +292,6 @@ class AuthController extends Controller {
 		} else {
 			return redirect()->route('auth-login')->withErrors(['message' => $this->error_messages['already_used']]);
 		}
-
 	}
 
 	/**
@@ -256,6 +309,31 @@ class AuthController extends Controller {
 			json_encode($data),
 			$this->cookie_lifetime
 		);
+	}
+
+	/**
+	 * Send a nonce as a verification link to the user's email
+	 * @param  string $username
+	 */
+	private function sendMagicLink($username) {
+
+		$nonce = Nonce::getNonce(200);
+		$user = User::where($this->username_column, $username)->first();
+
+		if ($user != null) {
+			UserSocial::create([
+				'provider' => 'magic-link',
+				'user_id' => $user->id,
+				'social_id' => $nonce,
+				'site' => SiteController::getSiteID(SiteController::getSite()),
+			]);
+
+			Mail::to($user->user_email)->send(new \App\Emails\MagicLink($nonce));
+
+			return view('auth.magic-link-thankyou');
+		} else {
+			return redirect()->route('auth-login')->withErrors(['message' => $this->error_messages['no_username']]);
+		}
 	}
 
 	/**

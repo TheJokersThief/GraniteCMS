@@ -27,6 +27,8 @@ Route::group(['prefix' => 'auth'], function () {
 	Route::get('/login', 'Auth\AuthController@socialAuth')->name('auth-login');
 	Route::get('/provider/{provider}', 'Auth\AuthController@redirectToProvider')->name('social-auth');
 	Route::get('/provider/callback/{provider}', 'Auth\AuthController@handleProviderCallback');
+
+	Route::get('/magic-link/verify/{code}', 'Auth\AuthController@magicLinkVerification')->name('magic-link-verification');
 });
 
 Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function () {

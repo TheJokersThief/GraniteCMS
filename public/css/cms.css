@@ -4403,4 +4403,47 @@ ul.notifications {
     background: linear-gradient(right, #7e7e7e 0%, white 100%);
     left: 0; }
 
+.social-login a {
+  text-align: center;
+  background: #6cadde;
+  width: 100%;
+  display: block;
+  margin-top: 20px;
+  padding: 6px 0;
+  color: white;
+  border-radius: 5px; }
+  .social-login a:hover {
+    background: rgba(108, 173, 222, 0.8); }
+  .social-login a.facebook {
+    background: #3b5998; }
+    .social-login a.facebook:hover {
+      background: rgba(59, 89, 152, 0.8); }
+  .social-login a.twitter {
+    background: #38a0f0; }
+    .social-login a.twitter:hover {
+      background: rgba(56, 160, 240, 0.8); }
+  .social-login a.google {
+    background: #db4437; }
+    .social-login a.google:hover {
+      background: rgba(219, 68, 55, 0.8); }
+  .social-login a.linkedin {
+    background: #1884bb; }
+    .social-login a.linkedin:hover {
+      background: rgba(24, 132, 187, 0.8); }
+  .social-login a.github {
+    background: black; }
+    .social-login a.github:hover {
+      background: rgba(0, 0, 0, 0.8); }
+  .social-login a.bitbucket {
+    background: #205081; }
+    .social-login a.bitbucket:hover {
+      background: rgba(32, 80, 129, 0.8); }
+  .social-login a.magic-link {
+    background: #cc6c66; }
+    .social-login a.magic-link:hover {
+      background: rgba(204, 108, 102, 0.8); }
+
+.social-login i, .social-login span {
+  display: block; }
+
 /*# sourceMappingURL=cms.css.map */

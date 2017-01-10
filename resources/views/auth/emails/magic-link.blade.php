@@ -1,0 +1,1 @@
+Please click the following link to verify the magic link: <a href="{{ $url }}">{{ $url }}</a>

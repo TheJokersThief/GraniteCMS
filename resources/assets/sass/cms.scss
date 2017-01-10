@@ -4872,6 +4872,83 @@ ul.notifications {
       left: 0;
     }
   }
+
+  a{
+    text-align: center;
+    background: rgba(108, 173, 222, 1);
+    width: 100%;
+    display: block;
+    margin-top: 20px;
+    padding: 6px 0;
+    color: white;
+    border-radius: 5px;
+
+    &:hover{
+      background: rgba(108, 173, 222, 0.8);
+    }
+
+    &.facebook{
+      background: rgb(59, 89, 152);
+
+      &:hover{
+        background: rgba(59, 89, 152, 0.8);
+      }
+    }
+
+    &.twitter{
+      background: rgb(56, 160, 240);
+
+      &:hover{
+        background: rgba(56, 160, 240, 0.8);
+      }
+    }
+
+    &.google{
+      background: rgb(219, 68, 55);
+
+      &:hover{
+        background: rgba(219, 68, 55, 0.8);
+      }
+    }
+
+    &.linkedin{
+      background: rgb(24, 132, 187);
+
+      &:hover{
+        background: rgba(24, 132, 187, 0.8);
+      }
+    }
+
+    &.github{
+      background: rgb(0, 0, 0);
+
+      &:hover{
+        background: rgba(0, 0, 0, 0.8);
+      }
+    }
+
+    &.bitbucket{
+      background: rgb(32, 80, 129);
+
+      &:hover{
+        background: rgba(32, 80, 129, 0.8);
+      }
+    }
+
+    &.magic-link{
+      background: rgb(204, 108, 102);
+
+      &:hover{
+        background: rgba(204, 108, 102, 0.8);
+      }
+    }
+
+  }
+
+  i,span{
+    display: block;
+  }
+
 }
 
 
