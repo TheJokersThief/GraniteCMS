@@ -8,6 +8,7 @@ use DB;
 use Form;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Image;
 
 class CRUDBuilder {
@@ -58,7 +59,11 @@ class CRUDBuilder {
 			case 'image':
 				$set_values[$field['name']] = $this->processImage($request, $field);
 				break;
-
+			case 'password':
+				if ($request[$field['name']] != '' && $request[$field['name']] != null) {
+					$set_values[$field['name']] = $this->processPassword($request, $field);
+				}
+				break;
 			default:
 				$set_values[$field['name']] = $request[$field['name']];
 				break;
@@ -74,6 +79,12 @@ class CRUDBuilder {
 		return $this->values = $values;
 	}
 
+	/**
+	 * Process and  upload images
+	 * @param  Request 	$request
+	 * @param  array  	$field
+	 * @return string           Relative path of image to site URL
+	 */
 	private function processImage(Request $request, $field) {
 		// Images are processed differently
 		if ($request->hasFile($field['name'])) {
@@ -102,6 +113,16 @@ class CRUDBuilder {
 
 			return $relative_path . '/' . $filename;
 		}
+	}
+
+	/**
+	 * Return a properly hashed password
+	 * @param  Request 	$request
+	 * @param  array  	$field
+	 * @return string
+	 */
+	private function processPassword(Request $request, $field) {
+		return Hash::make($request->$field['name']);
 	}
 
 	/**
@@ -195,6 +216,10 @@ class CRUDBuilder {
 			case "image":
 				$this->form .= view('components.image')->with(['field' => $field, 'value' => $value]);
 				break;
+
+			case "password":
+				$this->form .= view('components.password')->with(['field' => $field]);
+				break;
 			}
 
 			$this->form .= "\n";
@@ -210,7 +235,9 @@ class CRUDBuilder {
 	private function getValidationRules() {
 		$validation_rules = [];
 		foreach ($this->fields as $field) {
-			$validation_rules[$field['name']] = $field['validation_rules'];
+			if (isset($field['validation_rules'])) {
+				$validation_rules[$field['name']] = $field['validation_rules'];
+			}
 		}
 
 		return $validation_rules;
