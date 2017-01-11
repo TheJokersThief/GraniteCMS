@@ -229,7 +229,6 @@ class AuthController extends Controller {
 				$user = Socialite::driver($provider)->userFromToken($token['access_token']);
 			} else {
 				// OAuth 2 services because this is a bitch
-				$token = $data['oauth_token'];
 				$request->request->add($data);
 				$user = Socialite::driver($provider)->user();
 			}
