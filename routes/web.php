@@ -12,7 +12,7 @@
  */
 
 // During development, login user automatically
-Auth::loginUsingId(1, true);
+// Auth::loginUsingId(1, true);
 
 Auth::routes();
 
