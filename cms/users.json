@@ -1,0 +1,73 @@
+{
+	"table": "users",
+	"key": "id",
+	"title": "Users",
+	"shortlist": [
+		"user_email",
+		"user_first_name",
+		"user_last_name"
+	],
+
+	"where" : "",
+	"order_by" : "id DESC",
+
+	"fields": [
+		{
+			"name": "user_first_name",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12"
+		},{
+			"name": "user_last_name",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12"
+		},{
+			"name": "user_display_name",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12"
+		},{
+			"name": "user_email",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+			"validation": "required|email"
+		},{
+			"name": "password",
+			"type": "password",
+			"placeholder": "Enter new password (leave blank otherwise)",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+			"validation": "required"
+		},{
+			"name": "user_role",
+			"type": "dropdown",
+			"custom_class": "",
+			"placeholder": "Choose a role",
+			"default_value": "",
+			"validation_rules": "required|exists:users_roles,id",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+
+			"source": "table",
+
+			"table": {
+				"table": "users_roles", 
+				"key": "id", 
+				"format": "{role_name}",
+				"fields": [{
+					"column": "role_name",
+					"placeholder": "role_name"
+				}]
+			}
+		},{
+			"name": "updated_at",
+			"title": "Last Updated",
+			"type": "date",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+			"validation": "required",
+			"read_only": true
+		}
+	],
+
+	"permissions": [
+		"edit",
+		"delete",
+		"create"
+	]
+}
