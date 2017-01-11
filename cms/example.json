@@ -18,7 +18,8 @@
 		"custom_class": "",
 		"placeholder": "My New Page",
 		"default_value": "",
-		"validation_rules": ""
+		"validation_rules": "",
+		"read_only": false
 	}, {
 		"name": "page_content",		// REQUIRED
 		"type": "wysiwyg",			// REQUIRED
@@ -32,14 +33,8 @@
 		"custom_class": "",
 		"placeholder": "",
 		"default_value": "",
-		"validation_rules": ""
-	}, {
-		"name": "page_status",		// REQUIRED
-		"type": "",					// REQUIRED
-		"custom_class": "",
-		"placeholder": "",
-		"default_value": "",
-		"validation_rules": ""
+		"validation_rules": "",
+		"read_only": false
 	}, {
 		"name": "page_author",		// REQUIRED
 		"type": "dropdown",			// REQUIRED
