@@ -223,8 +223,17 @@ class AuthController extends Controller {
 			$data = $encryptor->decrypt($data->data);
 
 			// Retrieve the social ID and convert it to a user
-			$token = Socialite::driver($provider)->getAccessTokenResponse($data['code']);
-			$user = Socialite::driver($provider)->userFromToken($token['access_token']);
+			if (method_exists(Socialite::driver($provider), 'getAccessTokenResponse')) {
+				// OAuth 2 services
+				$token = Socialite::driver($provider)->getAccessTokenResponse($data['code']);
+				$user = Socialite::driver($provider)->userFromToken($token['access_token']);
+			} else {
+				// OAuth 2 services because this is a bitch
+				$token = $data['oauth_token'];
+				$request->request->add($data);
+				$user = Socialite::driver($provider)->user();
+			}
+
 			$social = UserSocial::getSocialID($user->id, $provider)->first();
 			if ($social == null) {
 				// If no social ID is found, that's a problem
