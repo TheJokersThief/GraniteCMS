@@ -158,9 +158,13 @@ class CRUDBuilder {
 				// Start with a blank option to display placeholder
 				$options = ['' => ''];
 
+				if (!isset($field['source'])) {
+					throw new \Exception('Every dropdown needs to specify a source');
+				}
+
 				switch ($field['source']) {
 				case 'table':
-					// add arrays to preserve numeical keys when merging arrays
+					// add arrays to preserve numerical keys when merging arrays
 					$options = $options + $this->dropdownOptionsFromDatabase($field['table']);
 					break;
 
