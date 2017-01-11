@@ -31,6 +31,8 @@
 		"default_value": "",
 		"validation_rules": "required|table:menus",
 		"class": "",
+
+		"source": "table",
 		"table": {
 			"table": "menus", 
 			"key": "id", 
