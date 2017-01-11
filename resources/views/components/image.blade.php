@@ -3,6 +3,8 @@
 	<div class="col-xs-12">
 		<input type="file" name="{{ $field['name'] }}" />
 
-		<img src="{{ url($value) }}" style="max-height: 400px">
+		@if( isset($value) && $value != null )
+			<img src="{{ url($value) }}" style="max-height: 400px">
+		@endif
 	</div>
 </div>
