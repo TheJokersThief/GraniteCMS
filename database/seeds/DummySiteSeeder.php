@@ -71,5 +71,12 @@ class DummySiteSeeder extends Seeder {
 			'provider' => 'facebook',
 			'site' => 1,
 		]);
+
+		App\UserSocial::create([
+			'user_id' => 1,
+			'social_id' => '54655541',
+			'provider' => 'twitter',
+			'site' => 1,
+		]);
 	}
 }
