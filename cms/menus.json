@@ -1,7 +1,7 @@
 {
 	"table": "menus",
 	"key": "id",
-	"title": "Settings",
+	"title": "Menus",
 	"shortlist": [
 		"name",
 		"link",
