@@ -86,14 +86,19 @@ class CRUDBuilder {
 	 * @return string           Relative path of image to site URL
 	 */
 	private function processImage(Request $request, $field) {
-		// Images are processed differently
-		if ($request->hasFile($field['name'])) {
+
+		$site = SiteController::getSite();
+		$field_name = $field['name'];
+		if ($request->hasFile($field_name)) {
+
 			if (!isset($field['store_folder'])) {
-				$field['store_folder'] = 'images';
+				$folder_name = 'uploads';
+			} else {
+				$folder_name = $field['store_folder'];
 			}
 
-			$filename = $request->file($field['name'])->getClientOriginalName();
-			$relative_path = "images/" . $field['store_folder'];
+			$filename = $request->file($field_name)->getClientOriginalName();
+			$relative_path = "images/" . $site . "/" . $folder_name;
 			$path = storage_path($relative_path);
 			$file_path = $path . '/' . $filename;
 
