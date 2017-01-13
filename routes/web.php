@@ -54,8 +54,8 @@ Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function () {
 	Route::resource('pages', 'PageController');
 });
 
-Route::get('images/{directory}/{image}', function ($directory, $image) {
-	$path = storage_path('images/' . $directory . '/' . $image);
+Route::get('images/' . \App\Http\Controllers\SiteController::getSite() . '/{directory}/{image}', function ($directory, $image) {
+	$path = storage_path('images/' . \App\Http\Controllers\SiteController::getSite() . '/' . $directory . '/' . $image);
 	if (file_exists($path)) {
 		return Response::download($path);
 	}
