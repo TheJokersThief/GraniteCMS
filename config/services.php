@@ -43,42 +43,42 @@ return [
 		'client_id' => env('FACEBOOK_CLIENT_ID'),
 		'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
 		'redirect' => env('SOCIAL_AUTH_BASE_DOMAIN') . '/callback/'
-		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/facebook',
+		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/facebook' . (isset($_SERVER['HTTP_HOST']) && strpos(url()->current(), '/auth/') == false ? '/add' : ''),
 	],
 
 	'twitter' => [
 		'client_id' => env('TWITTER_CLIENT_ID'),
 		'client_secret' => env('TWITTER_CLIENT_SECRET'),
 		'redirect' => env('SOCIAL_AUTH_BASE_DOMAIN') . '/callback/'
-		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/twitter',
+		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/twitter' . (isset($_SERVER['HTTP_HOST']) && strpos(url()->current(), '/auth/') == false ? '/add' : ''),
 	],
 
 	'linkedin' => [
 		'client_id' => env('LINKEDIN_CLIENT_ID'),
 		'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
 		'redirect' => env('SOCIAL_AUTH_BASE_DOMAIN') . '/callback/'
-		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/linkedin',
+		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/linkedin' . (isset($_SERVER['HTTP_HOST']) && strpos(url()->current(), '/auth/') == false ? '/add' : ''),
 	],
 
 	'google' => [
 		'client_id' => env('GOOGLE_CLIENT_ID'),
 		'client_secret' => env('GOOGLE_CLIENT_SECRET'),
 		'redirect' => env('SOCIAL_AUTH_BASE_DOMAIN') . '/callback/'
-		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/google',
+		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/google' . (isset($_SERVER['HTTP_HOST']) && strpos(url()->current(), '/auth/') == false ? '/add' : ''),
 	],
 
 	'github' => [
 		'client_id' => env('GITHUB_CLIENT_ID'),
 		'client_secret' => env('GITHUB_CLIENT_SECRET'),
 		'redirect' => env('SOCIAL_AUTH_BASE_DOMAIN') . '/callback/'
-		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/github',
+		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/github' . (isset($_SERVER['HTTP_HOST']) && strpos(url()->current(), '/auth/') == false ? '/add' : ''),
 	],
 
 	'bitbucket' => [
 		'client_id' => env('BITBUCKET_CLIENT_ID'),
 		'client_secret' => env('BITBUCKET_CLIENT_SECRET'),
 		'redirect' => env('SOCIAL_AUTH_BASE_DOMAIN') . '/callback/'
-		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/bitbucket',
+		. (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '') . '/bitbucket' . (isset($_SERVER['HTTP_HOST']) && strpos(url()->current(), '/auth/') == false ? '/add' : ''),
 	],
 
 ];

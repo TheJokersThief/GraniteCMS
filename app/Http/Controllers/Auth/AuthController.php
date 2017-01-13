@@ -59,6 +59,7 @@ class AuthController extends Controller {
 		'no_provider' => 'That provider doesn\'nt exist',
 		'no_social_link' => 'That account is not linked to the user provided',
 		'no_username' => 'Please provide a username',
+		'please_login' => 'Please login',
 	];
 
 	/**
@@ -71,6 +72,11 @@ class AuthController extends Controller {
 		} else {
 			return view('auth.index');
 		}
+	}
+
+	public function logout() {
+		Auth::logout();
+		return redirect()->route('auth');
 	}
 
 	/**
@@ -188,8 +194,75 @@ class AuthController extends Controller {
 			'nonce' => $nonce->id,
 			'data' => $encrypted_response,
 		];
-		$response = new RedirectResponse("HTTP://" . $site . "/auth/provider/callback/" . $provider . "?data=" . json_encode($payload));
+		$response = new RedirectResponse("HTTPS://" . $site . "/auth/provider/callback/" . $provider . "?data=" . json_encode($payload));
 		return $response;
+	}
+
+	/**
+	 * Forward social data to relevant site
+	 * @param  Request $request
+	 * @param  string  $site     Domain of site to forward to
+	 * @param  string  $provider Provider used to authenticate
+	 */
+	public function forwardAddCallback(Request $request, $site, $provider) {
+		// use the nonce as a key to encrypt the value
+		// and then send the nonce's id along with the
+		// encrypted values
+		$nonce = Nonce::getNonce(32);
+		$encryptor = new Encrypter($nonce, 'AES-256-CBC');
+		$encrypted_response = $encryptor->encrypt($request->input());
+
+		$nonce = DB::table('nonces')->where('nonce', $nonce)->first();
+		$payload = [
+			'nonce' => $nonce->id,
+			'data' => $encrypted_response,
+		];
+		$response = new RedirectResponse("HTTPS://" . $site . "/auth/provider/callback/" . $provider . "/add?data=" . json_encode($payload));
+		return $response;
+	}
+
+	public function handleAddProviderCallback(Request $request, $provider) {
+		if (Auth::check()) {
+			// Get forwarded data from request
+			$data = json_decode($request->input('data'));
+			if ($data == null) {
+				return back()->withErrors(['message' => $this->error_messages['no_data_supplied']]);
+			}
+
+			$nonce = DB::table('nonces')
+				->where('id', $data->nonce)
+				->first();
+
+			// Decrypted our forwarded data using the corresponding nonce
+			$encryptor = new Encrypter($nonce->nonce, 'AES-256-CBC');
+			$data = $encryptor->decrypt($data->data);
+
+			// Retrieve the social ID and convert it to a user
+			if (method_exists(Socialite::driver($provider), 'getAccessTokenResponse')) {
+				// OAuth 2 services
+				$token = Socialite::driver($provider)->getAccessTokenResponse($data['code']);
+				$user = Socialite::driver($provider)->userFromToken($token['access_token']);
+			} else {
+				// OAuth 2 services because this is a bitch
+				$request->request->add($data);
+				$user = Socialite::driver($provider)->user();
+			}
+
+			$user_id = Auth::id();
+
+			UserSocial::create([
+				'user_id' => $user_id,
+				'social_id' => $user->id,
+				'provider' => $provider,
+				'site' => SiteController::getSiteID(SiteController::getSite()),
+			]);
+
+			return redirect()->route('cms-account');
+		} else {
+			return redirect()->route('auth')->withErrors(['message' => $this->error_messages['please_login']]);
+		}
+
+		dd(Auth::check());
 	}
 
 	/**
