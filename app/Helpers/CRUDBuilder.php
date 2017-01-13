@@ -167,6 +167,10 @@ class CRUDBuilder {
 				$value = null;
 			}
 
+			if (!isset($field['type'])) {
+				$field['type'] = null;
+			}
+
 			// $this->form .= Form::label($field['name'], $field['title']);
 			switch ($field['type']) {
 
