@@ -51,6 +51,9 @@
 
     <script src="{{ asset('vendors/dropzone/dist/min/dropzone.min.js') }}"></script>
 
+    <!-- Cropper -->
+    <script src="{{ asset('vendors/cropper/dist/cropper.min.js') }}"></script>
+
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('js/main.js') }}"></script>
 
