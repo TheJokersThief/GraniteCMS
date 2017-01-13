@@ -4446,4 +4446,50 @@ ul.notifications {
 .social-login i, .social-login span {
   display: block; }
 
+.social-connections a {
+  text-align: center;
+  background: #6cadde;
+  width: 100%;
+  display: block;
+  margin-top: 20px;
+  padding: 6px 0;
+  color: white;
+  border-radius: 5px; }
+  .social-connections a:hover {
+    background: rgba(108, 173, 222, 0.8); }
+  .social-connections a.facebook {
+    background: #3b5998; }
+    .social-connections a.facebook:hover {
+      background: rgba(59, 89, 152, 0.8); }
+  .social-connections a.twitter {
+    background: #38a0f0; }
+    .social-connections a.twitter:hover {
+      background: rgba(56, 160, 240, 0.8); }
+  .social-connections a.google {
+    background: #db4437; }
+    .social-connections a.google:hover {
+      background: rgba(219, 68, 55, 0.8); }
+  .social-connections a.linkedin {
+    background: #1884bb; }
+    .social-connections a.linkedin:hover {
+      background: rgba(24, 132, 187, 0.8); }
+  .social-connections a.github {
+    background: black; }
+    .social-connections a.github:hover {
+      background: rgba(0, 0, 0, 0.8); }
+  .social-connections a.bitbucket {
+    background: #205081; }
+    .social-connections a.bitbucket:hover {
+      background: rgba(32, 80, 129, 0.8); }
+  .social-connections a.magic-link {
+    background: #cc6c66; }
+    .social-connections a.magic-link:hover {
+      background: rgba(204, 108, 102, 0.8); }
+
+.social-connections :not(.active) a {
+  background: rgba(0, 0, 0, 0.3); }
+
+.social-connections i, .social-connections span {
+  display: block; }
+
 /*# sourceMappingURL=cms.css.map */
