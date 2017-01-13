@@ -18,7 +18,9 @@ class CMSTemplateController extends Controller {
 		if (SiteController::getSite()) {
 			$page = \Route::current()->getParameter('page');
 			$config_path = $this->determineConfigPath($page);
-			$this->data = $this->processTemplate($config_path);
+			if ($config_path != null) {
+				$this->data = $this->processTemplate($config_path);
+			}
 		}
 	}
 
