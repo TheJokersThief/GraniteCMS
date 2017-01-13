@@ -30,7 +30,7 @@ Route::group(['prefix' => 'auth'], function () {
 	Route::get('/logout', 'Auth\AuthController@logout')->name('auth-logout');
 	Route::get('/provider/{provider}', 'Auth\AuthController@redirectToProvider')->name('social-auth');
 	Route::get('/provider/callback/{provider}/add', 'Auth\AuthController@handleAddProviderCallback');
-	Route::get('/provider/callback/{provider}', 'Auth\AuthController@handleProviderCallback');
+	Route::match(['get', 'post'], '/provider/callback/{provider}', 'Auth\AuthController@handleProviderCallback')->name('social-auth-handle');
 
 	Route::get('/magic-link/verify/{code}', 'Auth\AuthController@magicLinkVerification')->name('magic-link-verification');
 });

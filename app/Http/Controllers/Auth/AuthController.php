@@ -323,7 +323,7 @@ class AuthController extends Controller {
 			// Local auth is username/password
 			$result = $this->manualAuth($request);
 			if ($result) {
-				$user = Auth::user();
+				$user = User::where($this->username_column, $username)->first();
 			} else {
 				return view('auth.login')->withInput()
 					->withErrors(['message' => $this->error_messages['incorrect_password']]);
@@ -468,11 +468,11 @@ class AuthController extends Controller {
 	 * @return boolean
 	 */
 	private function manualAuth(Request $request) {
-		$email = $request->input('email');
+		$email = $request->input('user_email');
 		$password = $request->input('password');
 
 		if ($email != null && $password != null) {
-			if (Auth::attempt(['email' => $email, 'password' => $password], true)) {
+			if (Auth::attempt(['user_email' => $email, 'password' => $password], true)) {
 				return true;
 			}
 		}

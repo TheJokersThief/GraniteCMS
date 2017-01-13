@@ -10,17 +10,12 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
-            <form role="form" method="POST" action="{{ url('login') }}">
+            <form role="form" method="POST" action="{{ route('social-auth-handle', ['provider' => 'local']) }}">
               {{ csrf_field() }}
 
               <h1>Login Form</h1>
               <div>
                 <input type="text" class="form-control" placeholder="Email" required="" name="user_email"/>
-                @if( $errors->has('email') )
-                  <span class="help-block">
-                    <strong>{{ $errors->first('email') }}</strong>
-                  </span>
-                @endif
               </div>
               <div>
                 <input type="password" class="form-control" placeholder="Password" required="" name="password" />
