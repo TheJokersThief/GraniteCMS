@@ -23,7 +23,7 @@
     <br />
 
     @if( !isset($cookie) || !in_array('facebook', $cookie))
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <a href="{{ route('social-auth', ['provider' => 'facebook']) }}" class="facebook">
           <i class="fa fa-facebook fa-3x"></i>
           <span>Facebook</span>
@@ -32,7 +32,7 @@
     @endif
 
     @if( !isset($cookie) || !in_array('twitter', $cookie))
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <a href="{{ route('social-auth', ['provider' => 'twitter']) }}" class="twitter">
           <i class="fa fa-twitter fa-3x"></i>
           <span>Twitter</span>
@@ -40,26 +40,17 @@
       </div>
     @endif
 
-    @if( !isset($cookie) || !in_array('linkedin', $cookie))
-      <div class="col-sm-3">
-        <a href="{{ route('social-auth', ['provider' => 'linkedin']) }}" class="linkedin">
-          <i class="fa fa-linkedin fa-3x"></i>
-          <span>Linkedin</span>
-        </a>
-      </div>
-    @endif
-
-    @if( !isset($cookie) || !in_array('google', $cookie))
-      <div class="col-sm-3">
+   {{--  @if( !isset($cookie) || !in_array('google', $cookie))
+      <div class="col-sm-4">
         <a href="{{ route('social-auth', ['provider' => 'google']) }}" class="google">
           <i class="fa fa-google fa-3x"></i>
           <span>Google</span>
         </a>
       </div>
-    @endif
+    @endif --}}
 
     @if( !isset($cookie) || !in_array('github', $cookie))
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <a href="{{ route('social-auth', ['provider' => 'github']) }}" class="github">
           <i class="fa fa-github fa-3x"></i>
           <span>Github</span>
@@ -67,17 +58,17 @@
       </div>
     @endif
 
-    @if( !isset($cookie) || !in_array('bitbucket', $cookie))
-      <div class="col-sm-3">
+  {{--   @if( !isset($cookie) || !in_array('bitbucket', $cookie))
+      <div class="col-sm-4">
         <a href="{{ route('social-auth', ['provider' => 'bitbucket']) }}" class="bitbucket">
           <i class="fa fa-bitbucket fa-3x"></i>
           <span>Bitbucket</span>
         </a>
       </div>
-    @endif
+    @endif --}}
 
     @if( !isset($cookie) || !in_array('local', $cookie))
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <a href="{{ route('social-auth', ['provider' => 'local']) }}" class="local">
           <i class="fa fa-user fa-3x"></i>
           <span>Local</span>
@@ -86,7 +77,7 @@
     @endif
 
     @if( !isset($cookie) || !in_array('magic-link', $cookie))
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <a href="{{ route('social-auth', ['provider' => 'magic-link']) }}" class="magic-link">
           <i class="fa fa-envelope fa-3x"></i>
           <span>Magic Link</span>
