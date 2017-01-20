@@ -6,6 +6,9 @@
 <div>
   <div class="login_wrapper">
     <h1>Login</h1>
+    <p>
+      Please use <strong>two</strong> of the following to login.
+    </p>
 
     @if(($cookie = request()->cookie('providers')) != null )
 
@@ -84,6 +87,9 @@
         </a>
       </div>
     @endif
+
+    <p><em>Local = username + password</em></p>
+    <p><em>Magic Link = Email confirmation</em></p>
   </div>
 </div>
 @endsection
