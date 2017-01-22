@@ -170,6 +170,7 @@ return [
 		Collective\Html\HtmlServiceProvider::class,
 		Intervention\Image\ImageServiceProvider::class,
 		Laravel\Socialite\SocialiteServiceProvider::class,
+		SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
 
 		/*
 			         * Application Service Providers...
@@ -232,6 +233,7 @@ return [
 		'Html' => Collective\Html\HtmlFacade::class,
 		'Image' => Intervention\Image\Facades\Image::class,
 		'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+		'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
 
 	],
 

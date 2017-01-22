@@ -32,8 +32,12 @@
     <!-- Animate.css -->
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
 
+    @yield('extra-css')
+
     <!-- Custom Theme Style -->
     <link href="{{ asset('css/cms.css') }}" rel="stylesheet">
+
+
 
     <!-- Critical JS -->
     <script type="text/javascript">

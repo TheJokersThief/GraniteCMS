@@ -63,9 +63,22 @@ class CMSTemplateController extends Controller
      * @param  string $page
      * @return View
      */
-    public function create($page)
+    public function create($page, $menu_id = null, $parent_id = null)
     {
         $form = new CRUDBuilder($this->data['fields'], route('template-store', ['page' => $page]));
+
+        $form_values = [];
+        if ($parent_id != null) {
+            $form_values['parent_id'] = $parent_id;
+        }
+
+        if ($menu_id != null) {
+            $form_values['menu_id'] = $menu_id;
+        }
+
+        if (!empty($form_values)) {
+            $form->addValues((object) $form_values);
+        }
 
         $output = $form->render();
 

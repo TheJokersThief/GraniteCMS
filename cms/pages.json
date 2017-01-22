@@ -83,6 +83,57 @@
 			"revision"
 		]
 	},{
+		"title": "Menu",
+		"name": "menu_id",
+		"type": "dropdown",
+		"custom_class": "",
+		"placeholder": "Menu",
+		"default_value": "",
+		"validation_rules": "required|exists:menus,id",
+		"class": "col-md-6 col-sm-6 col-xs-12",
+
+		"source": "table",
+
+		"table": {
+			"table": "menus", 
+			"key": "id", 
+			"format": "{name} ({id})",
+			"where": "name <> 'CMS Menu'",
+			"fields": [{
+				"column": "name",
+				"placeholder": "name"
+			}, {
+				"column": "id",
+				"placeholder": "id"
+			}]
+		}
+
+	},{
+		"title": "Parent Page",
+		"name": "parent_id",
+		"type": "dropdown",
+		"custom_class": "",
+		"placeholder": "Page Parent (optional)",
+		"default_value": "",
+		"validation_rules": "exists:pages,id",
+		"class": "col-md-6 col-sm-6 col-xs-12",
+
+		"source": "table",
+
+		"table": {
+			"table": "pages", 
+			"key": "id", 
+			"format": "{page_title} ({id})",
+			"fields": [{
+				"column": "page_title",
+				"placeholder": "page_title"
+			}, {
+				"column": "id",
+				"placeholder": "id"
+			}]
+		}
+
+	},{
 		"name": "page_banner",
 		"type": "image",
 		"custom_class": "",

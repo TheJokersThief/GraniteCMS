@@ -375,6 +375,19 @@ class AuthController extends Controller {
 		}
 	}
 
+	public function mobileLogin(Request $request, $code, $encrypted_id) {
+		$id = decrypt($encrypted_id);
+
+		// check code is valid, if so, login
+	}
+
+	public static function mobileLoginQRCode() {
+		$id = Auth::id();
+
+		// use nonce as value in DB
+		// return QR code image/link
+	}
+
 	/**
 	 * Creates a secure cookie
 	 * @param  Request  $request

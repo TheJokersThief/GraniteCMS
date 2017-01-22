@@ -57,6 +57,10 @@
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('js/main.js') }}"></script>
 
+
+    @yield('extra-js')
+
+
     <!-- Flot -->
     {{-- <script>
       $(document).ready(function() {

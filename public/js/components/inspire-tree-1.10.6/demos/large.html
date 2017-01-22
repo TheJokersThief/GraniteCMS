@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>InspireTree</title>
+        <link rel="stylesheet" href="../build/inspire-tree.css" />
+        <link rel="stylesheet" href="demo.css" />
+    </head>
+    <body>
+        <p>Loads 100 company nodes with 100 employees each.</p>
+        <div class="tree"></div>
+        <ul class="log"></ul>
+    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js"></script>
+    <script src="require.config.js"></script>
+    <script>
+        require([
+            'jquery',
+            'inspireTree'
+        ], function($, InspireTree) {
+            var tree = new InspireTree({
+                target: '.tree',
+                data: $.getJSON('sample-data/large.json')
+            });
+
+            var lastTime = (new Date()).getTime();
+            function getTimeSince() {
+                var newTime = (new Date()).getTime();
+                var deltaTime = newTime - lastTime;
+                lastTime = newTime;
+                return deltaTime;
+            }
+
+            $log = $('.log');
+            $log.append('<li>fetching json from server...</li>');
+
+            tree.on('data.loaded', function() {
+                $log.append('<li>JSON response received...' + getTimeSince() + 'ms</li>');
+            });
+
+            tree.on('model.loaded', function() {
+                $log.append('<li>Data parsed into model...' + getTimeSince() + 'ms</li>');
+            });
+        });
+    </script>
+</html>
