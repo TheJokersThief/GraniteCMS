@@ -62,28 +62,25 @@
         });
 
         tree.on('node.added', function(node) {
-            console.log(node);
 
             if( node.itree.parent == null ){
+                // If adding top-level menu
                 return window.location = addMenuRouteScheme;
-                console.log("no parent");
             }
 
             if( node.itree.parent.menu === true ){
+                // If adding directly to top-level menu
                 return window.location = addWithMenuRouteScheme.replace('replace_menu_id', node.itree.parent.menu_id);
-                console.log("child of top parent");
             }
 
             if( node.itree.parent.menu == null ){
+                // if adding as child of a page
                 return window.location = addWithParentRouteScheme.replace('replace_menu_id', node.itree.parent.menu_id).replace('replace_parent_id', node.itree.parent.id);
-                console.log("normal parent");
             }
         });
 
         
         tree.on('node.removed', function(node) {
-            console.log(node);
-
             if( node.menu == null ){
                 window.location = deleteRouteScheme.replace('replace_me', node.encrypted_id);
             }
