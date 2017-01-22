@@ -16,7 +16,7 @@
 							<!-- end of image cropping -->
 							<div id="crop-avatar">
 								<!-- Current avatar -->
-								<img alt="Avatar" class="img-responsive avatar-view" src="{{ default_profile(Auth::user()->profile_picture) }}" title="Change the avatar" data-toggle="modal" data-target="#cropdialog"> <!-- Cropping modal -->
+								<img alt="Avatar" class="img-responsive avatar-view" src="{{ defaultProfile(Auth::user()->profile_picture) }}" title="Change the avatar" data-toggle="modal" data-target="#cropdialog"> <!-- Cropping modal -->
 								<div id="cropdialog" aria-hidden="true" aria-labelledby="avatar-modal-label" class="modal fade" id="avatar-modal" role="dialog" tabindex="-1">
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
@@ -37,7 +37,7 @@
 														</div><!-- Crop and preview -->
 														<div class="row" style="display:none;">
 															<div class="col-md-9">
-																<div class="avatar-wrapper"><img src="{{ default_profile(Auth::user()->profile_picture) }}"></div>
+																<div class="avatar-wrapper"><img src="{{ defaultProfile(Auth::user()->profile_picture) }}"></div>
 															</div>
 															<div class="col-md-3">
 																<div class="avatar-preview preview-lg"></div>
