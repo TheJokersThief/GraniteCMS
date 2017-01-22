@@ -37,8 +37,8 @@
             deleteRouteScheme   = "{!! route('template-delete', ['page' => 'pages', 'encrypted_id' => 'replace_me']) !!}",
             addMenuRouteScheme  = "{!! route('template-create', ['page' => 'menus']) !!}",
             addRouteScheme      = "{!! route('template-create', ['page' => 'pages']) !!}",
-            addWithMenuRouteScheme      = "{!! route('template-create', ['page' => 'pages', 'menu_id' => 'replace_menu_id']) !!}",
-            addWithParentRouteScheme      = "{!! route('template-create', ['page' => 'pages', 'menu_id' => 'replace_menu_id', 'parent_id' => 'replace_parent_id']) !!}";
+            addWithMenuRouteScheme = "{!! route('template-create', ['page' => 'pages', 'menu_id' => 'replace_menu_id']) !!}",
+            addWithParentRouteScheme = "{!! route('template-create', ['page' => 'pages', 'menu_id' => 'replace_menu_id', 'parent_id' => 'replace_parent_id']) !!}";
 
         var tree = new InspireTree({
             target: '.tree',
@@ -49,7 +49,6 @@
             editable: true,
             data:
             {!! $pages->toJson() !!}
-
         });
 
 
@@ -85,11 +84,6 @@
                 window.location = deleteRouteScheme.replace('replace_me', node.encrypted_id);
             }
         });
-
-        
-
-        
-
 
    </script>
 @stop
