@@ -21,6 +21,7 @@ Route::get('/addprovider/{provider}', 'Auth\AuthController@redirectToProvider')-
  * SOCIAL AUTHENTICATION
  */
 Route::group(['prefix' => 'auth'], function () {
+
     Route::get('/', 'Auth\AuthController@index')->name('auth');
     Route::post('/login', 'Auth\AuthController@postUsername')->name('post-username');
     Route::get('/login', 'Auth\AuthController@socialAuth')->name('auth-login');
@@ -30,7 +31,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::match(['get', 'post'], '/provider/callback/{provider}', 'Auth\AuthController@handleProviderCallback')->name('social-auth-handle');
 
     Route::get('/magic-link/verify/{code}', 'Auth\AuthController@magicLinkVerification')->name('magic-link-verification');
-    Route::get('/mobile-login/{code}/{encrypted_id}', 'Auth\AuthController@mobileLogin')->name('mobile-login');
+    Route::get('/mobile-login/{data}', 'Auth\AuthController@mobileLogin')->name('mobile-login');
 });
 
 Route::group(['prefix' => 'cms', 'middleware' => ['auth']], function () {

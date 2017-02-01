@@ -72,7 +72,12 @@
 						</div>
 						<p><small>(Click on the image above to change your profile picture)</small></p>
 						<h3>{{ Auth::user()->user_display_name }}</h3>
-						<!-- start skills -->
+						
+						<br />
+						<br />
+						<h4>Mobile Login QR Code:</h4>
+						<p>Scan the image below using a QR Code scanner on your phone to login easily for 2 weeks</p>
+						{!! \App\Http\Controllers\Auth\AuthController::mobileLoginQRCode(200) !!}
 					</div>
 					<div class="col-md-9 col-sm-9 col-xs-12">
 						<div class="profile_title">
@@ -103,17 +108,6 @@
 							    </a>
 							  </div>
 
-							{{-- @if( !isset($providers) || ! collect($providers)->contains('google'))
-							  <div class="col-sm-2">
-							@else
-							  <div class="col-sm-2 active">
-							@endif
-							    <a href="{{ route('add-social-auth', ['provider' => 'google']) }}" class="google">
-							      <i class="fa fa-google fa-3x"></i>
-							      <span>Google</span>
-							    </a>
-							  </div> --}}
-
 							@if( !isset($providers) || ! collect($providers)->contains('github'))
 							  <div class="col-sm-2">
 							@else
@@ -128,7 +122,6 @@
 
 						</div>
 						<div class="clearfix"></div>
-
 					</div>
 				</div>
 			</div>

@@ -13,6 +13,7 @@ use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Mail;
+use QrCode;
 use Socialite;
 
 class AuthController extends Controller
@@ -61,6 +62,7 @@ class AuthController extends Controller
         'no_social_link' => 'That account is not linked to the user provided',
         'no_username' => 'Please provide a username',
         'please_login' => 'Please login',
+        'incorrect_nonce' => 'The code is incorrect or outdated. Please try another.',
     ];
 
     /**
@@ -387,19 +389,31 @@ class AuthController extends Controller
         }
     }
 
-    public function mobileLogin(Request $request, $code, $encrypted_id)
+    public function mobileLogin(Request $request, $data)
     {
-        $id = decrypt($encrypted_id);
-
-        // check code is valid, if so, login
+        $data = json_decode(decrypt($data));
+        $id = decrypt($data['encrypted_id']);
+        if (Nonce::checkNonce($data['nonce'])) {
+            Auth::loginUsingId($id, true);
+            return redirect()->route('cms-account');
+        } else {
+            return redirect()->route('auth-login')->withErrors(['message' => $this->error_messages['incorrect_nonce']]);
+        }
     }
 
-    public static function mobileLoginQRCode()
+    public static function mobileLoginQRCode($size = 100)
     {
         $id = Auth::id();
+        $nonce = Nonce::getNonce(42);
+        $encrypted_id = encrypt($id);
 
-        // use nonce as value in DB
-        // return QR code image/link
+        $data = [
+            'encrypted_id' => $encrypted_id,
+            'nonce' => $nonce,
+        ];
+
+        $url = route('mobile-login', ['data' => encrypt(json_encode($data))]);
+        return QrCode::size($size)->generate($url);
     }
 
     /**
