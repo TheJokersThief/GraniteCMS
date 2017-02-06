@@ -16,3 +16,7 @@
 // });
 
 Route::get('/', 'CustomController@index');
+
+Route::group([], function () {
+    Route::get('/cookie-policy', 'SiteController@cookiePolicy')->name('cookie-policy');
+});

@@ -1,0 +1,307 @@
+
+
+
+
+/* Get rid of weird looking buttons on iphone */
+input[type="button"], input[type="submit"], input[type="text"], input[type="password"]{
+	-webkit-appearance: none!important;
+}
+
+/*hide main nav toggle on normal screens*/
+.toggleMainNav,
+.togglePageNav,
+.toggleTabs {
+	display: none;
+}
+
+
+/*MEDIA QUERIES
+***************************************************/
+
+@media all and (max-width: 1200px) {
+
+
+}
+
+
+@media all and (max-width: 1023px) {
+
+	/*GRID*/
+
+	.row {
+		padding: 0;
+		margin: 0 auto 0;
+	}
+
+	.col {
+		width: 100%;
+		float: none;
+		margin-top: 10px;
+	}
+
+	.row.fullwidth .col {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	/*HEADER*/
+
+	.header .row {
+		margin-top: 0;
+	}
+
+	.header h1 a {
+		margin-left: auto;
+		margin-right: auto;
+		float: none;
+	}
+
+	.header .contact,
+	.header .search {
+		display: none;
+	}
+
+	/*MAIN NAV*/
+
+	.col.mainNav {
+		padding-left: 0;
+		padding-right: 0;
+		width: 100%;
+		clear: both;
+	}
+
+	.toggleMainNav {
+		display: block;
+		background: #cfdee6;
+		height: 44px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		text-decoration: none;
+		font-size: 16px;
+	}
+
+	.toggleMainNav span {
+		display: block;
+		float: left;
+		padding: 10px 0 0 10px;
+	}
+
+	.toggleMainNav i {
+		float: right;
+		width: 44px;
+		height: 44px;
+		text-align: center;
+		font-size: 28px;
+		border-left: 1px solid rgba(255,255,255,0.5);
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 9px 0 0 0;
+	}
+
+	.mainNav .mainNavList {
+		display: none;
+		float: none;
+		margin: 0 auto;
+		border-top: 1px solid rgba(255,255,255,0.5);
+		overflow: hidden;
+	}
+
+	.mainNav.open .mainNavList {
+		display: block;
+	}
+
+	.mainNavList li {
+		float: none;
+	}
+
+	.mainNavList li a {
+		height: auto;
+		padding: 10px 10px;
+		border-left: 0;
+		border-bottom: 1px solid rgba(255,255,255,0.5);
+	}
+
+	/*BANNER*/
+
+	.banner .row,
+	.banner .col {
+		margin-top: 0;
+		padding-top: 0;
+	}
+
+	.bannerSlider .slides img {
+		height: 400px;
+		width: auto;
+	}
+
+	.innerPage .bannerSlider .slides img {
+		height: 200px;
+		width: auto;
+	}
+
+	.bannerSlider .text {
+		top: auto;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		padding: 20px;
+		width: auto;
+	}
+
+	.bannerSlider .text h2 {
+		font-size: 22px;
+		line-height: 24px;
+	}
+
+	.bannerSlider .text p {
+		font-size: 14px;
+		line-height: 20px;
+		display: none;
+	}
+
+	.bannerSlider .btn {
+		margin-top: 10px;
+	}
+
+	.flex-control-nav {
+		left: auto;
+		right: 20px;
+		bottom: 20px;
+	}
+
+	/*inner page banner*/
+
+	.innerPage .bannerSlider {
+		display: none;
+	}
+
+	.innerPage .bannerSlider .slides img {
+		height: 200px;
+		width: auto;
+	}
+
+	.innerPage .bannerSlider .text {
+		top: auto;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		padding: 20px;
+		width: auto;
+	}
+
+	.innerPage .bannerSlider .text p {
+		font-size: 14px;
+		line-height: 20px;
+		display: block;
+	}
+
+	/*LEFT NAV*/
+
+	.togglePageNav {
+		display: block;
+		background: #cfdee6;
+		height: 44px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		text-decoration: none;
+		font-size: 16px;
+		border-bottom: 1px solid rgba(255,255,255,0.5);
+	}
+
+	.togglePageNav span {
+		display: block;
+		float: left;
+		padding: 10px 0 0 10px;
+	}
+
+	.togglePageNav i {
+		float: right;
+		width: 44px;
+		height: 44px;
+		text-align: center;
+		font-size: 16px;
+		border-left: 1px solid rgba(255,255,255,0.5);
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 14px 0 0 0;
+	}
+
+	.sidebar {
+		height: 44px;
+		overflow: hidden;
+	}
+
+	.sidebar.open {
+		height: auto;
+	}
+
+	/*TABS*/
+
+	.toggleTabs {
+		display: block;
+		background: #cfdee6;
+		height: 44px;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		text-decoration: none;
+		font-size: 16px;
+		border-bottom: 1px solid rgba(255,255,255,0.5);
+	}
+
+	.toggleTabs span {
+		display: block;
+		float: left;
+		padding: 10px 0 0 10px;
+	}
+
+	.toggleTabs i {
+		float: right;
+		width: 44px;
+		height: 44px;
+		text-align: center;
+		font-size: 16px;
+		border-left: 1px solid rgba(255,255,255,0.5);
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 14px 0 0 0;
+	}
+
+	.tab-container ul.etabs {
+		display: none;
+	}
+
+	.tab-container.open ul.etabs {
+		display: block;
+	}
+
+
+	.tab-container ul.etabs li {
+		margin: 0 0 0 0;
+		float: none;
+	}
+
+	.tab-container ul.etabs a {
+		padding: 8px 10px;
+	}
+
+
+}
+
+
+@media all and (max-width: 767px) {
+
+	
+	
+
+}
+
+	
+
+
+

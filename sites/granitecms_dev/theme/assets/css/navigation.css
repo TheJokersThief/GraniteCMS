@@ -1,0 +1,333 @@
+
+
+
+/*SOCIAL NAV
+*****************************************************/
+
+.footer ul.socialNavList {
+	padding-top: 20px;
+}
+
+ul.socialNavList li {
+	padding: 10px 5px 0 0;
+	display: inline-block;
+}
+
+ul.socialNavList li a {
+	width: 40px;
+	height: 40px;
+	display: inline-block;
+	text-indent: -5000px;
+	text-align: left;
+	background-position: 0px -32px;
+	background-repeat: no-repeat;
+	position: relative;
+	transition: .3s all ease;
+	background: #66bbcc;
+	color: #fff;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;	
+	border-radius: 50%;
+}
+
+ul.socialNavList li.navtwitter a {
+	background-color: #00aced;
+}
+ul.socialNavList li.navfacebook a {
+	background-color: #3b5997;
+}
+ul.socialNavList li.navlinkedin a {
+	background-color: #005a87;
+}
+ul.socialNavList li.navyoutube a,
+ul.socialNavList li.navgoogle a,
+ul.socialNavList li.navpinterest a {
+	background-color: #be1522;
+}
+ul.socialNavList li.navflickr a {
+	background-color: #ff0084;
+}
+ul.socialNavList li.navrss a {
+	background-color: #f39200;
+}
+
+/*hover*/
+
+ul.socialNavList li a:hover {
+	background: #fff;
+}
+
+ul.socialNavList li.navtwitter a:hover {
+	color: #00aced;
+}
+ul.socialNavList li.navfacebook a:hover {
+	color: #3b5997;
+}
+ul.socialNavList li.navlinkedin a:hover {
+	color: #005a87;
+}
+ul.socialNavList li.navyoutube a:hover,
+ul.socialNavgoogle a:hover,
+ul.socialNavpinterest a:hover {
+	color: #be1522;
+}
+ul.socialNavList li.navflickr a:hover {
+	color: #ff0084;
+}
+ul.socialNavList li.navrss a:hover {
+	color: #f39200;
+}
+
+/*icons*/
+ul.socialNavList li a:before {
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: none;
+	font-size: 22px;
+	line-height: 22px;
+	display: inline-block;
+	position: absolute;
+	top: 11px;
+	left: 11px;
+	text-indent: 0;
+	transition: .3s all ease;
+	color: inherit;
+}
+
+ul.socialNavList li.navtwitter a:before {
+	content: "\f099";
+}
+ul.socialNavList li.navfacebook a:before {
+	content: "\f09a";
+}
+ul.socialNavList li.navlinkedin a:before {
+	content: "\f0e1";
+}
+ul.socialNavList li.navyoutube a:before {
+	content: "\f167";
+}
+ul.socialNavList li.navflickr a:before {
+	content: "\f16e";
+}
+ul.socialNavList li.navrss a:before {
+	content: "\f09e";
+}
+ul.socialNavList li.navpinterest a:before {
+	content: "\f0d2";
+}
+ul.socialNavList li.navgoogle a:before {
+	content: "\f0d5";
+}
+
+
+/*MAIN NAV
+**********************************************************/
+
+.row.mainNav {
+	float: right;
+}
+
+.mainNavList {
+	float: right;
+	clear: right;
+	margin-top: 12px;
+	background: #cfdee6;
+}
+
+.mainNavList li {
+	float: left;
+}
+
+.mainNavList li a {
+	display: block;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	height: 40px;
+	padding: 10px 15px 0;
+	margin: 0;
+	color: #000;
+	font-size: 16px;
+	text-decoration: none;
+	position: relative;
+	transition: .5s all ease;
+	font-weight: 400;
+	border-left: 1px solid #fff;
+}
+
+.mainNavList li a:hover, 
+.mainNavList li a:active,
+.mainNavList li.onPath a {
+	background-color: #66bbcc;
+	color: #fff;
+}
+
+
+/*LEFT NAV
+**********************************************************/
+
+ul.pageNavList {
+
+}
+
+ul.pageNavList li > a {
+	color: #000;
+	font-size: 16px;
+	display: block;
+	padding: 10px 20px;
+	text-decoration: none;
+	transition: .3s all ease;
+	position: relative;
+}
+
+ul.pageNavList li a:after {
+	content: "\f105";
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+	color: #000;
+	font-size: 18px;
+	position: absolute;
+	top: 13px;
+	right: 12px;
+	text-indent: 0;
+	opacity: .5;
+}
+
+ul.pageNavList li.onPath > a {
+	color: #000;
+	background: rgba(255,255,255,0.6);
+}
+
+ul.pageNavList li > a:hover, 
+ul.pageNavList li > a:active {
+	color: #000;
+	background: rgba(255,255,255,0.6);
+}
+
+ul.pageNavList li.sel > a,
+ul.pageNavList li.sel > a:hover {
+	
+}
+
+ul.pageNavList li.lev2 > a {
+	padding-left: 40px;
+	background: rgba(255,255,255,0.3);
+}
+
+ul.pageNavList li.lev2 > a:hover,
+ul.pageNavList li.lev2 > a:active {
+	background: rgba(255,255,255,0.6);
+}
+
+
+/*FOOTER LINKS
+*********************************************************/
+
+.footer ul a {
+	display: block;
+	color: #222;
+	font-weight: 400;
+	font-size: 14px;
+	padding: 4px 0 4px 15px;
+	text-decoration: none;
+	text-transform: uppercase;
+	transition: .3s all ease;
+	position: relative;
+}
+
+.footer ul a:hover {
+	color: #66bbcc;
+}
+
+.footer ul a:before {
+	content: "\f105";
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+	color: #66bbcc;
+	font-size: 16px;
+	position: absolute;
+	top: 5px;
+	left: 0;
+}
+
+
+/*FOOTER NAV
+**********************************************************/
+
+.footerNavList li {
+	display: inline-block;
+}
+
+.footerNavList li a {
+	font-size: 14px;
+	text-decoration: none;
+	color: #2f373b;
+	border-left: 1px solid #2f373b;
+	padding: 0 8px;
+}
+
+.footerNavList li:first-child a {
+	border: 0;
+	padding-left: 0;
+}
+
+.footerNavList li a:hover, .footerNavList li a:active {
+	text-decoration: underline;
+}
+
+
+/*PATH
+**********************************************************/
+
+div#path {
+	padding: 10px 0 0;
+	overflow: hidden;
+}
+
+div#path li {
+	float: left;
+	padding: 0 12px 0 0;
+}
+
+div#path li a {
+	font-size: 13px;
+	display: inline-block;
+	color: #635a53;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+div#path li.sel {
+	background-image: none;
+	padding-right: 0;
+}
+
+div#path li a:hover,
+div#path li.sel a {
+	text-decoration: none;
+	color: #66bbcc;
+}
+
+div#path li:after  {
+	content: "\f105";
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+	color: inherit;
+	font-size: 14px;
+	padding-left: 12px;
+	color: #aaa;
+}
+
+div#path li.sel:after {
+	content: "";
+}
+
+

@@ -1,0 +1,193 @@
+
+
+/*GENERAL FORMS
+********************************************************/
+
+.formHolder {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	overflow: hidden;
+	padding: 20px 20px 30px;
+	background: #e6eef2;
+}
+
+form.general legend,
+.formHolder h3 {
+	font-size: 18px;
+	font-weight: 700;
+	color: #000;
+	padding: 15px 0 0 10px;
+}
+
+form.general .group {
+	margin-top: 15px;
+}
+
+form.general .group:before,
+form.general .group:after {
+	content: ".";
+	display: block;
+	height: 0;
+	overflow: hidden;
+}
+
+form.general .group:after { 
+	clear: both;
+}
+
+form.general .explainer {
+	font-size: 16px;
+	padding-bottom: 10px;
+	font-style: italic;
+}
+
+form.general .label {
+	display: block;
+	font-size: 15px;
+	font-weight: 400;
+	color: #112b3a;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+form.general input[type="text"],
+form.general input[type="password"],
+form.general input[type="email"],
+form.general select,
+form.general textarea {
+	border: 1px solid #bac4cf;
+	width: 100%;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	height: 40px;
+	padding: 5px;
+	font-size: 14px;
+	font-family: sans-serif;
+	color: #384350;
+	background: #fff;
+}
+
+form.general select {
+	color: #999;
+}
+
+form.general textarea {
+	height: 80px;
+}
+
+form.general input[type="checkbox"] {
+	display: inline-block;
+	margin-top: 5px;
+}
+
+form.general button,
+form.general input[type="submit"] {
+	display: inline-block;
+	padding: 0 25px;
+	margin: 25px 0 0 0;
+	height: 40px;
+	color: #fff;
+	background: #66bbcc;
+	font-size: 18px;
+	font-weight: 700;
+	text-transform: uppercase;
+	text-decoration: none;
+	border: 0;
+	font-family: 'Roboto', sans-serif;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+form.general button.fullwidth,
+form.general input[type="submit"].fullwidth {
+	width: 100%;
+}
+
+form.inline button,
+form.inline input[type="submit"] {
+	margin: 0;
+}
+
+form.general button i {
+	padding-left: 5px;
+}
+
+
+
+
+/*SEARCH
+*******************************************************/
+
+form.searchForm {
+	width: 200px;
+	position: relative;
+	float: right;
+	background: #fff;
+	height: 35px;
+	border: 1px solid #cfdee6;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+form.searchForm input[type="text"] {
+	border: 0;
+	width: 80%;
+	float: left;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	height: 35px;
+	padding: 0 0 0 10px;
+	font-size: 15px;
+	color: #5d6c73;
+	background: transparent;
+}
+
+form.searchForm ::-webkit-input-placeholder {
+   color: #5d6c73;
+   text-transform: uppercase;
+}
+
+form.searchForm :-moz-placeholder { /* Firefox 18- */
+   color: #5d6c73;  
+   text-transform: uppercase;
+}
+
+form.searchForm ::-moz-placeholder {  /* Firefox 19+ */
+   color: #5d6c73;  
+   text-transform: uppercase;
+}
+
+form.searchForm :-ms-input-placeholder {  
+   color: #5d6c73;
+   text-transform: uppercase;
+}
+
+form.searchForm button {
+	display: inline-block;
+	width: 20%;
+	padding: 0;
+	margin: 0;
+	height: 35px;
+	color: #66bbcc;
+	background: transparent;
+	font-size: 14px;
+	border: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+form.searchForm button i {
+	position: relative;
+	right: 0;
+}
+
+/*NEWSLETTER FORM
+*******************************************************/
