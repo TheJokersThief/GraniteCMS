@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Capability;
+use App\Http\Controllers\SiteController;
 use App\UserRole;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -28,17 +29,21 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // on installation, this table won't exist so PHP scripts will fail
-        // No capabilities are needed from the command line anyway so be grand
-        if (Schema::hasTable('capabilities')) {
-            foreach (Capability::all() as $capability) {
-                Gate::define($capability->capability_name, function ($user) use ($capability) {
-                    $role = UserRole::find($user->user_role);
+        if (SiteController::getSite() != null) {
+            // If through console, don't employ capabilities
 
-                    if ($role != null) {
-                        return ($role->role_level <= $capability->capability_min_level);
-                    }
-                });
+            // on installation, this table won't exist so PHP scripts will fail
+            // No capabilities are needed from the command line anyway so be grand
+            if (Schema::hasTable('capabilities')) {
+                foreach (Capability::all() as $capability) {
+                    Gate::define($capability->capability_name, function ($user) use ($capability) {
+                        $role = UserRole::find($user->user_role);
+
+                        if ($role != null) {
+                            return ($role->role_level <= $capability->capability_min_level);
+                        }
+                    });
+                }
             }
         }
     }

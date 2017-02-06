@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Get all pages from a selected menu(s)
+ * @param  array   $menus
+ * @param  boolean $add_encrypted_field Enables the encrypted_fields variable
+ * @param  array   $encrypted_fields
+ * @return array
+ */
 function getAllMenuPages($menus = [], $add_encrypted_field = false, $encrypted_fields = ['id'])
 {
     $pages = collect([]); // empty collection

@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * Recursively encrypt a collection
+ * @param  Collection   $collection
+ * @param  string       $child_attr_name
+ * @param  array        $fields_to_encrypt
+ * @return Collection
+ */
 function recursiveEncryptCollection($collection, $child_attr_name = "children", $fields_to_encrypt = [])
 {
 
