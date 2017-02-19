@@ -15,7 +15,7 @@ class SiteController extends Controller
         return Site::where('domain', $site_name)->first()->id;
     }
 
-    public static function getSite()
+    public static function getSite($kernel = false)
     {
         // Check if request is from apache
         if (isset($_SERVER['HTTP_HOST'])) {
@@ -32,7 +32,7 @@ class SiteController extends Controller
 
     public static function getEnvPath($site = null)
     {
-        $site = ($site == null) ? self::getSite() : $site;
+        $site = ($site == null) ? self::getSite(true) : $site;
         $path = base_path() . "/sites/" . $site . "/";
         if ($site == null || !file_exists($path . '.env')) {
             return base_path();
