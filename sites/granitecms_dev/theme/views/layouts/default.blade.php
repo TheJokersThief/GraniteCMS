@@ -1,5 +1,5 @@
-@include('layouts.header')
+@include('granitecms_dev.theme.views.layouts.header')
 
 @yield('content')
 
-@include('layouts.footer')
+@include('granitecms_dev.theme.views.layouts.footer')
