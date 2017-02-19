@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\SiteController;
 use Closure;
 
 class Site
@@ -16,7 +17,7 @@ class Site
     public function handle($request, Closure $next)
     {
         if (isset($_SERVER['HTTP_HOST'])) {
-            $site = str_replace('.', '_', $_SERVER['HTTP_HOST']);
+            $site = SiteController::getSite();
 
             if (file_exists(realpath(str_replace('.', '_', base_path('sites/' . $site . '/theme/routes/')) . 'web.php'))) {
                 $request->site = $site;
