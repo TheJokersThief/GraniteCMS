@@ -29,4 +29,31 @@ class SiteController extends Controller
     {
         return realpath(base_path('sites/' . SiteController::getSite()));
     }
+
+    public static function getEnvPath($site = null)
+    {
+        $site = ($site == null) ? self::getSite() : $site;
+        $path = base_path() . "/sites/" . $site . "/";
+        if ($site == null || !file_exists($path . '.env')) {
+            return base_path();
+        } else {
+            return $path;
+        }
+    }
+
+    public static function getSiteArg()
+    {
+        $args = $GLOBALS['argv'];
+        $counter = 0;
+        foreach ($args as $arg) {
+            if (strpos($arg, '--site=') !== false) {
+                unset($GLOBALS['argv'][$counter]);
+                unset($GLOBALS['_SERVER']['argv'][$counter]);
+                return str_replace('--site=', '', $arg);
+            }
+
+            $counter++;
+        }
+        return null;
+    }
 }
