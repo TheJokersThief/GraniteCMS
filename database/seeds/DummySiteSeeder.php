@@ -13,6 +13,8 @@ class DummySiteSeeder extends Seeder
     {
         App\Site::create(['domain' => 'granitecms.dev', 'subfolder' => 'sites/granitecms_dev']);
 
+        App\Alias::create(['domain' => 'granitecms.dev', 'alias' => 'granite.sysadmin.ie']);
+
         App\UserRole::create(['role_name' => 'administrator', 'role_level' => 1, 'site' => 1]);
         App\UserRole::create(['role_name' => 'owner', 'role_level' => 2, 'site' => 1]);
         App\UserRole::create(['role_name' => 'editor', 'role_level' => 3, 'site' => 1]);

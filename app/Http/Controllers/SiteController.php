@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
+use App\Alias;
 use App\Site;
 
 // use App\Http\Requests;
@@ -19,7 +20,16 @@ class SiteController extends Controller
     {
         // Check if request is from apache
         if (isset($_SERVER['HTTP_HOST'])) {
-            return str_replace('.', '_', $_SERVER['HTTP_HOST']);
+            $site = str_replace('.', '_', $_SERVER['HTTP_HOST']);
+
+            if (!$kernel) {
+                $alias = Alias::where('alias', $_SERVER['HTTP_HOST'])->first();
+                if ($alias != null) {
+                    $site = str_replace('.', '_', $alias->domain);
+                }
+            }
+
+            return $site;
         } else {
             return null;
         }
