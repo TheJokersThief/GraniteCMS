@@ -44,7 +44,7 @@ class NewSite
             );
         }
 
-        $this->database();
+        return $this->database();
     }
 
     public function files()
@@ -100,6 +100,7 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
 
     public function database()
     {
+        $siteID = null;
         try {
             DB::beginTransaction();
 
@@ -175,5 +176,7 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
         } catch (\Exception $e) {
             DB::rollback();
         }
+
+        return $siteID;
     }
 }
