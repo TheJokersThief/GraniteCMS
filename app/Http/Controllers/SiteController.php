@@ -18,7 +18,18 @@ class SiteController extends Controller
     public static function getSiteID($site_name)
     {
         $site_name = str_replace('_', '.', $site_name);
-        return Site::where('domain', $site_name)->first()->id;
+        $site = Site::where('domain', $site_name)->first();
+
+        if ($site != null) {
+            return Site::where('domain', $site_name)->first()->id;
+        } else {
+            $alias = Alias::where('alias', $site_name)->first();
+            if ($alias != null) {
+                return self::getSiteID($alias->domain);
+            } else {
+                throw new Exception("No domain by that name exists in the database.");
+            }
+        }
     }
 
     /**
