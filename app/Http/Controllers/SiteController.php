@@ -17,7 +17,7 @@ class SiteController extends Controller
      */
     public static function getSiteID($site_name)
     {
-        $site_name = str_replace('_', '.', $site_name);
+        $site_name = self::safeDomainName($site_name, 'reverse');
         $site = Site::where('domain', $site_name)->first();
 
         if ($site != null) {
@@ -44,12 +44,12 @@ class SiteController extends Controller
     {
         // Check if request is from apache
         if (isset($_SERVER['HTTP_HOST'])) {
-            $site = str_replace('.', '_', $_SERVER['HTTP_HOST']);
+            $site = self::safeDomainName($_SERVER['HTTP_HOST']);
 
             if (!$kernel) {
                 $alias = Alias::where('alias', $_SERVER['HTTP_HOST'])->first();
                 if ($alias != null) {
-                    $site = str_replace('.', '_', $alias->domain);
+                    $site = self::safeDomainName($alias->domain);
                 }
             }
 
@@ -105,5 +105,28 @@ class SiteController extends Controller
             $counter++;
         }
         return null;
+    }
+
+    /**
+     * Transform domain name into directory-friendly structure
+     * @param  string $domain    Domain name
+     * @param  string $direction Operation direction
+     *                               Forward: perform the normal transformation
+     *                               Reverse: perform the opposite transformation
+     * @return string
+     */
+    public static function safeDomainName($domain, $direction = 'forward')
+    {
+        switch ($direction) {
+            case 'forward':
+                $domain = str_replace('.', '_', $domain);
+                break;
+
+            case 'reverse':
+                $domain = str_replace('_', '.', $domain);
+                break;
+        }
+
+        return $domain;
     }
 }
