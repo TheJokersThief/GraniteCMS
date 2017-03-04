@@ -36,6 +36,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\CreateNewSite::class,
+        Commands\User\NewUser::class,
+        Commands\User\CopyUser::class,
     ];
 
     /**
