@@ -277,4 +277,9 @@ if (typeof NProgress != 'undefined') {
     jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 
 })(jQuery,'smartresize');
+
+if( $('[name="user_fingerprint"') ){
+    $('[name="user_fingerprint"').val(JSON.stringify(fingerprint));
+}
+
 //# sourceMappingURL=main.js.map

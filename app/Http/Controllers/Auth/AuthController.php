@@ -51,6 +51,7 @@ class AuthController extends Controller
         'google',
         'github',
         'bitbucket',
+        'fingerprint',
     ];
 
     private $error_messages = [
@@ -93,6 +94,19 @@ class AuthController extends Controller
         $this->validate($request, [
             'username' => 'required|email',
         ]);
+
+        $fingerprint = hash("sha256", $request->input('user_fingerprint'));
+        if (env('ENABLE_FINGERPRINT') && $fingerprint != '') {
+            $user = User::where('fingerprint', $fingerprint)
+                ->where('user_email', $request->input('username'))
+                ->first();
+
+            if ($user != null) {
+                // If supplied username and fingerprint match, only require one form of auth
+                return $this->confirmAuth($request, $user, 'fingerprint')
+                        ->cookie($this->username_cookie_name, $request->input('username'), $this->cookie_lifetime * 2);
+            }
+        }
 
         return response()
             ->view('auth.social_auth')

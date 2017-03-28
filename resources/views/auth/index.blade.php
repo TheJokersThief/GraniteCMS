@@ -18,6 +18,8 @@
                 <strong>{{ $errors->first('username') }}</strong>
               </span>
             @endif
+
+            <input type="hidden" name="user_fingerprint" value=""/>
           </div>
           <div>
             <button class="btn btn-default submit" type="submit">Log in</button>
