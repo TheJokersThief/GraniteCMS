@@ -53,6 +53,8 @@
 
     <!-- Cropper -->
     <script src="{{ asset('vendors/cropper/dist/cropper.min.js') }}"></script>
+    
+    <script src="{{ asset('js/fingerprint.js') }}"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="{{ asset('js/main.js') }}"></script>
