@@ -95,6 +95,7 @@ class CRUDBuilder
 
         $site = SiteController::getSite();
         $field_name = $field['name'];
+
         if ($request->hasFile($field_name)) {
 
             if (!isset($field['store_folder'])) {
@@ -123,7 +124,46 @@ class CRUDBuilder
             }
 
             return $relative_path . '/' . $filename;
+        } else if ($_FILES[$field_name]['error'] != UPLOAD_ERR_OK) {
+
+            $error_message = "Something went wrong with " . $field_name;
+
+            // The following are the official explanations of PHP
+            // file errors
+            switch ($_FILES[$field_name]['error']) {
+                case UPLOAD_ERR_INI_SIZE:
+                    $error_message = "The uploaded file exceeds the upload_max_filesize directive in php.ini. (" . ini_get('upload_max_filesize') . ")";
+                    break;
+
+                case UPLOAD_ERR_FORM_SIZE:
+                    $error_message = "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.";
+                    break;
+
+                case UPLOAD_ERR_PARTIAL:
+                    $error_message = "The uploaded file was only partially uploaded.";
+                    break;
+
+                case UPLOAD_ERR_NO_FILE:
+                    $error_message = "No file was uploaded.";
+                    break;
+
+                case UPLOAD_ERR_NO_TMP_DIR:
+                    $error_message = "Missing a temporary folder. Introduced in PHP 5.0.3.";
+                    break;
+
+                case UPLOAD_ERR_CANT_WRITE:
+                    $error_message = "Failed to write file to disk. Introduced in PHP 5.1.0.";
+                    break;
+
+                case UPLOAD_ERR_EXTENSION:
+                    $error_message = "A PHP extension stopped the file upload. PHP does not provide a way to ascertain which extension caused the file upload to stop; examining the list of loaded extensions with phpinfo() may help. Introduced in PHP 5.2.0.";
+                    break;
+            }
+
+            throw new \Exception($error_message);
         }
+
+        dd("test");
     }
 
     /**
