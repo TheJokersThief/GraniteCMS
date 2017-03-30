@@ -18,4 +18,4 @@ SITE=$1
 FILE=$2
 shift 2
 
-php ../artisan make:migration $FILE --path="sites/${SITE}/theme/migrations/" $@ -vv --site=$SITE
+php ../artisan make:migration $FILE --path="database/migrations/sites/${SITE}" $@ -vv --site=$SITE

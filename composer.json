@@ -25,7 +25,8 @@
         ],
         "psr-4": {
             "App\\": "app/",
-            "Sites\\": "sites/"
+            "Sites\\": "sites/",
+            "ThibaudDauce\\LaravelRecursiveMigrations\\": "src/laravel-recursive-migrations/src/"
         },
         "files": [
             "Helpers/helpers.php"
