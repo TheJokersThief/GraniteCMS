@@ -42,43 +42,22 @@
 			<div class="row fullwidth">
 				<div class="col span12 bannerSlider">
 					<div id="bannerSlider">
-						<div>
-							<a href="/">
-								<div class="text">
-									<h2>Banner Headline 1</h2>
-									<p>Images should be between 1600px and 2000px wide for a full width banner. The image height will determine the overall banner height.</p>
-									<p class="more">Learn More <i class="fa fa-angle-right"></i></p>
-								</div>
-								<div class="image">
-									<img src="http://defaultsite.gdwin.net/homepageImages/imgBannerHome1.jpg" alt="Images should be between 1600px and 2000px wide for a full width banner. The image height will determine the overall banner height."  />
-								</div>
-							</a>
-						</div>
-						<div>
-							<a href="/">
-								<div class="text">
-									<h2>Banner Headline 2</h2>
-									<p>Quisque blandit sagittis sem. Suspendisse malesuada metus ut ligula.</p>
-									<p class="more">Learn More <i class="fa fa-angle-right"></i></p>
-								</div>
-								<div class="image">
-									<img src="http://defaultsite.gdwin.net/homepageImages/imgBannerHome2.jpg" alt="Quisque blandit sagittis sem. Suspendisse malesuada metus ut ligula."  />
-								</div>
-							</a>
-						</div>
-					
-						<div>
-							<a href="/">
-								<div class="text">
-									<h2>Banner Headline 3</h2>
-									<p>Quisque blandit sagittis sem. Suspendisse malesuada metus ut ligula.</p>
-									<p class="more">Learn More <i class="fa fa-angle-right"></i></p>
-								</div>
-								<div class="image">
-									<img src="http://defaultsite.gdwin.net/homepageImages/imgBannerHome3.jpg" alt="Quisque blandit sagittis sem. Suspendisse malesuada metus ut ligula."  />
-								</div>
-							</a>
-						</div>
+						@foreach($banners as $banner)
+							<div>
+								<a href="/">
+									<div class="text">
+										<h2>Banner Headline 1</h2>
+										<p>Images should be between 1600px and 2000px wide for a full width banner. The image height will determine the overall banner height.</p>
+										<p class="more">Learn More <i class="fa fa-angle-right"></i></p>
+									</div>
+									<div class="image">
+										<img src="{{ $banner->url }}"  />
+									</div>
+								</a>
+							</div>
+
+						@endforeach
+						
 					</div>
 				</div><!--/col-->
 			</div><!--/row-->

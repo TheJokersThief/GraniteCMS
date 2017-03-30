@@ -1,0 +1,58 @@
+{
+	"table": "homepage_banners",
+	"key": "id",
+	"title": "Homepage Banners",
+	"shortlist": [
+		"title",
+		"url"
+	],
+
+	"where" : "",
+	"order_by" : "display_order ASC",
+
+	"fields": [{
+		"name": "title",
+		"type": "text",
+		"placeholder": "Image Title",
+		"default_value": "",
+		"validation_rules": "required"
+	},{
+		"name": "headline",
+		"type": "text",
+		"placeholder": "Headline",
+		"default_value": "",
+		"validation_rules": ""
+	},{
+		"name": "text",
+		"type": "wysiwyg",
+		"placeholder": "Text",
+		"default_value": "",
+		"validation_rules": "required"
+	},{
+		"name": "url",
+		"type": "text",
+		"placeholder": "Link URL",
+		"default_value": "#!",
+		"validation_rules": "required"
+	},{
+		"name": "url",
+		"type": "image",
+		"custom_class": "",
+		"crop_width" : 1920,
+		"crop_height": 600,
+		"store_folder": "homepage_banners",
+		"validation_rules": ""
+	},{
+		"name": "display_order",
+		"type": "text",
+		"placeholder": "Display Order (0-100)",
+		"default_value": "0",
+		"validation_rules": ""
+	}],
+
+	"permissions": [
+		"edit",
+		"delete",
+		"create"
+	]
+}
