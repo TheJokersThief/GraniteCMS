@@ -8,28 +8,28 @@
 		"parent"
 	],
 
-	"where" : "",
+	"where" : "WHERE parent <> 0",
 	"order_by" : "id DESC",
 
 	"fields": [{
 		"name": "name",
 		"type": "text",
-		"placeholder": "my-wonderful-setting",
+		"placeholder": "Menu Name",
 		"default_value": "",
 		"validation_rules": "required"
 	}, {
 		"name": "link",
 		"type": "text",
-		"placeholder": "A value of some kind",
+		"placeholder": "/link",
 		"default_value": "",
 		"validation_rules": "required",
 		"class": ""
 	}, {
 		"name": "parent",
 		"type": "dropdown",
-		"placeholder": "A value of some kind",
+		"placeholder": "Parent Page",
 		"default_value": "",
-		"validation_rules": "required|table:menus",
+		"validation_rules": "required|exists:menus,id",
 		"class": "",
 
 		"source": "table",
