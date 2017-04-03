@@ -1,5 +1,6 @@
 <?php
 
+include_once 'helpers_errors.php';
 include_once 'helpers_pages.php';
 include_once 'helpers_menus.php';
 include_once 'helpers_encryption.php';

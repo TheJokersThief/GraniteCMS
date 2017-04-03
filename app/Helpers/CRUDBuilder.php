@@ -61,7 +61,9 @@ class CRUDBuilder
 
             switch ($field['type']) {
                 case 'image':
-                    $set_values[$field['name']] = $this->processImage($request, $field);
+                    if ($_FILES[$field['name']]['error'] != UPLOAD_ERR_NO_FILE) {
+                        $set_values[$field['name']] = $this->processImage($request, $field);
+                    }
                     break;
                 case 'password':
                     if ($request[$field['name']] != '' && $request[$field['name']] != null) {
@@ -69,7 +71,9 @@ class CRUDBuilder
                     }
                     break;
                 default:
-                    $set_values[$field['name']] = $request[$field['name']];
+                    if ($request[$field['name']] != '') {
+                        $set_values[$field['name']] = $request[$field['name']];
+                    }
                     break;
             }
         }
@@ -104,7 +108,7 @@ class CRUDBuilder
                 $folder_name = $field['store_folder'];
             }
 
-            $filename = $request->file($field_name)->getClientOriginalName();
+            $filename = hash('adler32', mt_rand()) . '_' . ($request->file($field_name)->getClientOriginalName());
             $relative_path = "images/" . $site . "/" . $folder_name;
             $path = storage_path($relative_path);
             $file_path = $path . '/' . $filename;
@@ -124,7 +128,7 @@ class CRUDBuilder
             }
 
             return $relative_path . '/' . $filename;
-        } else if ($_FILES[$field_name]['error'] != UPLOAD_ERR_OK) {
+        } else if ($_FILES[$field_name]['error'] != UPLOAD_ERR_OK && $_FILES[$field_name]['error'] != UPLOAD_ERR_NO_FILE) {
 
             $error_message = "Something went wrong with " . $field_name;
 
@@ -143,10 +147,6 @@ class CRUDBuilder
                     $error_message = "The uploaded file was only partially uploaded.";
                     break;
 
-                case UPLOAD_ERR_NO_FILE:
-                    $error_message = "No file was uploaded.";
-                    break;
-
                 case UPLOAD_ERR_NO_TMP_DIR:
                     $error_message = "Missing a temporary folder. Introduced in PHP 5.0.3.";
                     break;
@@ -162,8 +162,6 @@ class CRUDBuilder
 
             throw new \Exception($error_message);
         }
-
-        dd("test");
     }
 
     /**

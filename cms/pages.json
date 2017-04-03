@@ -137,8 +137,8 @@
 		"name": "page_banner",
 		"type": "image",
 		"custom_class": "",
-		"crop_width" : 400,
-		"crop_height": 250,
+		"crop_width" : 1400,
+		"crop_height": 300,
 		"store_folder": "page_banners",
 		"validation_rules": ""
 	}],
