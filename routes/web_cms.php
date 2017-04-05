@@ -54,7 +54,7 @@ Route::get('images/' . \App\Http\Controllers\SiteController::getSite() . '/{dire
 // Site Assets (CSS/JS/Images)
 Route::get('assets/{file}/{subfolder1?}/{subfolder2?}/{subfolder3?}',
     function ($file, $subfolder1 = null, $subfolder2 = null, $subfolder3 = null) {
-        preg_match('/^.+(jpg|jpeg|gif|png|svg|css|js)/', $file, $matches);
+        preg_match('/^.+(jpg|jpeg|gif|png|svg|css|js|ico)/', $file, $matches);
 
         if (isset($matches[0])) {
             $file = $matches[0];
