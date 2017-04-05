@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" /> 
-	<title>@yield('title')</title> 
+	<title>@yield('title') | GraniteCMS</title> 
 	<meta name="Description" content="@yield('description')" /> 
 	<meta name="Keywords" content="@yield('keywords')" /> 
 	<link rel="shortcut icon" href="favicon.ico?ver=2" type="image/x-icon" /> 
