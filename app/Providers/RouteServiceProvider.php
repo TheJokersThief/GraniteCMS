@@ -69,7 +69,7 @@ class RouteServiceProvider extends ServiceProvider
                 $path = realpath(base_path('sites/' . $site . '/theme/routes/') . 'web.php');
                 if ($path) {
                     // If routes file exists, require it
-                    require $path;
+                    require_once $path;
                 } else {
                     // If files doesn't exist, return 404
                     abort(404);
