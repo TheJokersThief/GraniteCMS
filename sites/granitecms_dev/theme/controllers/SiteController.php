@@ -27,6 +27,8 @@ class SiteController extends Controller
 
     public function cookiePolicy(Request $request)
     {
-        return true;
+        return response()->json([
+            'status' => '200',
+        ]);
     }
 }
