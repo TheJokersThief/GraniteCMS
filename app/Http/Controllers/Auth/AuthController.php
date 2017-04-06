@@ -407,7 +407,7 @@ class AuthController extends Controller
     {
         $data = json_decode(decrypt($data));
         $id = decrypt($data->encrypted_id);
-        if (Nonce::checkNonce($data['nonce'])) {
+        if (Nonce::checkNonce($data->nonce)) {
             Auth::loginUsingId($id, true);
             return redirect()->route('cms-account');
         } else {
