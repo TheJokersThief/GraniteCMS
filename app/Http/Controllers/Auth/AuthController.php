@@ -104,7 +104,7 @@ class AuthController extends Controller
             if ($user != null) {
                 // If supplied username and fingerprint match, only require one form of auth
                 return $this->confirmAuth($request, $user, 'fingerprint')
-                        ->cookie($this->username_cookie_name, $request->input('username'), $this->cookie_lifetime * 2);
+                    ->cookie($this->username_cookie_name, $request->input('username'), $this->cookie_lifetime * 2);
             }
         }
 
@@ -406,7 +406,7 @@ class AuthController extends Controller
     public function mobileLogin(Request $request, $data)
     {
         $data = json_decode(decrypt($data));
-        $id = decrypt($data['encrypted_id']);
+        $id = decrypt($data->encrypted_id);
         if (Nonce::checkNonce($data['nonce'])) {
             Auth::loginUsingId($id, true);
             return redirect()->route('cms-account');
