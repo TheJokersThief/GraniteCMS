@@ -9,12 +9,14 @@
 					<div id="bannerSlider">
 						@foreach($banners as $banner)
 							<div>
-								<a href="/">
-									<div class="text">
-										<h2>Banner Headline 1</h2>
-										<p>Images should be between 1600px and 2000px wide for a full width banner. The image height will determine the overall banner height.</p>
-										<p class="more">Learn More <i class="fa fa-angle-right"></i></p>
-									</div>
+								<a href="{{ $banner->link }}">
+									@if( $banner->headline )
+										<div class="text">
+											<h2>{{ $banner->headline }}</h2>
+											<p>{{ $banner->text }}</p>
+											<p class="more">Learn More <i class="fa fa-angle-right"></i></p>
+										</div>
+									@endif
 									<div class="image">
 										<img src="{{ $banner->url }}"  />
 									</div>
