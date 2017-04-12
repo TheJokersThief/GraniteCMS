@@ -39,6 +39,7 @@ class AuthController extends Controller
     private $counter_cookie_name = "auth_counter";
     private $username_cookie_name = "identification";
     private $username_column = "user_email";
+    private $callback_ADD_sentinel = "~~add~~";
 
     private $cookie_lifetime = 10; // In minutes
     private $required_logins = 2; // Number of accounts that need to be authenticated to login
@@ -178,6 +179,13 @@ class AuthController extends Controller
                         ->redirect();
                     break;
 
+                case 'google':
+                    return Socialite::driver($provider)
+                        ->with([
+                            'state' => base64_encode($_SERVER['HTTP_HOST'] . (strpos(url()->current(), '/auth/') == false ? $this->callback_ADD_sentinel : '')),
+                        ])
+                        ->redirect();
+
                 default:
                     return Socialite::driver($provider)->redirect();
                     break;
@@ -196,6 +204,12 @@ class AuthController extends Controller
         } else {
             return back();
         }
+    }
+
+    public function forwardGoogleCallback(Request $request)
+    {
+        $site = base64_decode($request->state);
+        return $this->forwardCallback($request, $site, 'google');
     }
 
     /**
@@ -218,8 +232,26 @@ class AuthController extends Controller
             'nonce' => $nonce->id,
             'data' => $encrypted_response,
         ];
-        $response = new RedirectResponse("HTTPS://" . $site . "/auth/provider/callback/" . $provider . "?data=" . json_encode($payload));
+
+        // If fixed URL provider (e.g. Google and Linkedin)
+        $fixed_URL_provider_ADD = $this->fixedURLAddCallbackCheck($site);
+        if ($fixed_URL_provider_ADD) {
+            $site = $fixed_URL_provider_ADD;
+            $response = new RedirectResponse("HTTPS://" . $site . "/auth/provider/callback/" . $provider . "/add?data=" . json_encode($payload));
+        } else {
+            $response = new RedirectResponse("HTTPS://" . $site . "/auth/provider/callback/" . $provider . "?data=" . json_encode($payload));
+        }
+
         return $response;
+    }
+
+    public function fixedURLAddCallbackCheck($site)
+    {
+        if (strpos($site, $this->callback_ADD_sentinel) !== false) {
+            return str_replace($this->callback_ADD_sentinel, '', $site);
+        }
+
+        return false;
     }
 
     /**

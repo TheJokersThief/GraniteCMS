@@ -43,14 +43,14 @@
       </div>
     @endif
 
-   {{--  @if( !isset($cookie) || !in_array('google', $cookie))
+    @if( !isset($cookie) || !in_array('google', $cookie))
       <div class="col-sm-4">
         <a href="{{ route('social-auth', ['provider' => 'google']) }}" class="google">
           <i class="fa fa-google fa-3x"></i>
           <span>Google</span>
         </a>
       </div>
-    @endif --}}
+    @endif
 
     @if( !isset($cookie) || !in_array('github', $cookie))
       <div class="col-sm-4">

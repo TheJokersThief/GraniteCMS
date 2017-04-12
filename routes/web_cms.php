@@ -1,8 +1,10 @@
 <?php
 Auth::routes();
 
+Route::get('/callback/google', 'Auth\AuthController@forwardGoogleCallback');
 Route::get('/callback/{site}/{provider}/add', 'Auth\AuthController@forwardAddCallback');
 Route::get('/callback/{site}/{provider}', 'Auth\AuthController@forwardCallback');
+
 Route::get('/addprovider/{provider}', 'Auth\AuthController@redirectToProvider')->name('add-social-auth');
 
 /**
@@ -14,8 +16,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/login', 'Auth\AuthController@postUsername')->name('post-username');
     Route::get('/login', 'Auth\AuthController@socialAuth')->name('auth-login');
     Route::get('/logout', 'Auth\AuthController@logout')->name('auth-logout');
+
     Route::get('/provider/{provider}', 'Auth\AuthController@redirectToProvider')->name('social-auth');
     Route::get('/provider/callback/{provider}/add', 'Auth\AuthController@handleAddProviderCallback');
+
     Route::match(['get', 'post'], '/provider/callback/{provider}', 'Auth\AuthController@handleProviderCallback')->name('social-auth-handle');
 
     Route::get('/magic-link/verify/{code}', 'Auth\AuthController@magicLinkVerification')->name('magic-link-verification');

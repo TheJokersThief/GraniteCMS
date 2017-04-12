@@ -118,7 +118,17 @@
 							      <span>Github</span>
 							    </a>
 							  </div>
-
+							
+							@if( !isset($providers) || ! collect($providers)->contains('google'))
+							  <div class="col-sm-2">
+							@else
+							  <div class="col-sm-2 active">
+							@endif
+							    <a href="{{ route('add-social-auth', ['provider' => 'google']) }}" class="google">
+							      <i class="fa fa-google fa-3x"></i>
+							      <span>Google</span>
+							    </a>
+							  </div>
 
 						</div>
 						<div class="clearfix"></div>
