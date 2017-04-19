@@ -42,31 +42,6 @@ Vagrant.configure(2) do |config|
   
     # Move to the web directory
     cd /var/www
-    
-    if [ ! -d "/var/www/vendor" ]; then
-      mkdir /var/www/vendor 
-
-      # Install the application
-      composer install
-      
-      # Copy default dev details
-      cp .env.example .env
-
-      # Generate a unique application key
-      php artisan key:generate
-    else
-      composer update
-    fi
-    
-    if [ ! -d "/var/www/storage" ]; then
-      mkdir /var/www/storage
-    fi
-
-    if [ ! -d "/var/www/storage/framework/views" ]; then
-      mkdir /var/www/storage/framework
-      mkdir /var/www/storage/framework/views
-      mkdir /var/www/storage/framework/sessions
-    fi
 
     chmod -R 777 storage
     chmod -R 777 bootstrap/cache
