@@ -1,7 +1,5 @@
 vendor/
 node_modules/
-storage/
-!storage/.gitignore
 
 # Laravel 4 specific
 bootstrap/compiled.php
@@ -11,6 +9,8 @@ app/storage/
 .env.*.php
 .env.php
 .env*
+storage/*.zip
+storage/images/
 
 envoy.config.php
 
@@ -23,6 +23,5 @@ envoy.config.php
 /.idea
 _ide_helper.php
 .idea/codeStyleSettings.xml
-*.lock
 .phpintel/
 *.DS_Store
