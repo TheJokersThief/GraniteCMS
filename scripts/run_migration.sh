@@ -19,4 +19,4 @@ SITE=$1
 ACTION=$2
 shift 2
 
-php ../artisan migrate$2 --recrusive --path="sites/${SITE}/theme/migrations/" -vv --site=$SITE
+php ../artisan migrate$2 --recursive --path="database/migrations/sites/${SITE}/" -vv --site=$SITE
