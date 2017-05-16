@@ -22,6 +22,7 @@ class CRUDBuilder
     private $site = null;
     private $form = "";
     private $values;
+    private $hooks;
 
     public function __construct($fields, $action = null, $options = [])
     {
@@ -29,6 +30,12 @@ class CRUDBuilder
         $this->action = $action;
         $this->options = $options;
         $this->values = null;
+
+        // Setup hooks
+        $this->hooks = config('hooks');
+        $this->hooks->init_hook('before_CRUD_POST_processing'); // Params: $request
+        $this->hooks->init_hook('during_CRUD_POST_processing'); // Params: $this->fields, $field
+        $this->hooks->init_hook('after_CRUD_POST_processing'); // Params: $request, $this->fields, $set_values
 
         $this->site = SiteController::getSiteID(SiteController::getSite());
     }
@@ -58,7 +65,10 @@ class CRUDBuilder
     {
         $this->validate($request, $this->getValidationRules());
 
+        $this->hooks->execute('before_CRUD_POST_processing', [$request]);
+
         $set_values = [];
+
         foreach ($this->fields as $field) {
 
             switch ($field['type']) {
@@ -74,7 +84,13 @@ class CRUDBuilder
                     break;
                 default:
                     if ($request[$field['name']] != '') {
-                        $set_values[$field['name']] = $request[$field['name']];
+                        $result = $this->hooks->execute('during_CRUD_POST_processing', [$this->fields, $field]);
+
+                        if ($result != '') {
+                            $set_values[$field['name']] = $result;
+                        } else {
+                            $set_values[$field['name']] = $request[$field['name']];
+                        }
                     }
                     break;
             }
@@ -83,6 +99,8 @@ class CRUDBuilder
         if (!isset($this->options['use_site_id']) || (isset($this->options['use_site_id']) && $this->options['use_site_id'] == true)) {
             $set_values['site'] = $this->site;
         }
+
+        array_merge($set_values, $this->hooks->execute('after_CRUD_POST_processing', [$request, $this->fields, $set_values]));
 
         return $set_values;
     }
