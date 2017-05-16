@@ -33,9 +33,10 @@ class CRUDBuilder
 
         // Setup hooks
         $this->hooks = config('hooks');
-        $this->hooks->init_hook('before_CRUD_POST_processing'); // Params: $request
-        $this->hooks->init_hook('during_CRUD_POST_processing'); // Params: $this->fields, $field
-        $this->hooks->init_hook('after_CRUD_POST_processing'); // Params: $request, $this->fields, $set_values
+        $this->hooks->initHook('before_CRUD_POST_processing'); // Params: $this->fields, $request
+        $this->hooks->initHook('during_CRUD_POST_processing'); // Params: $this->fields, $request, $field
+
+        $this->hooks->initHook('during_CRUD_field_display'); // Params: $field, $value
 
         $this->site = SiteController::getSiteID(SiteController::getSite());
     }
@@ -65,11 +66,14 @@ class CRUDBuilder
     {
         $this->validate($request, $this->getValidationRules());
 
-        $this->hooks->execute('before_CRUD_POST_processing', [$request]);
+        $this->hooks->execute('before_CRUD_POST_processing', [$this->fields, $request]);
 
         $set_values = [];
 
         foreach ($this->fields as $field) {
+            if (isset($field['skip']) && $field['skip'] == true) {
+                continue;
+            }
 
             switch ($field['type']) {
                 case 'image':
@@ -84,7 +88,7 @@ class CRUDBuilder
                     break;
                 default:
                     if ($request[$field['name']] != '') {
-                        $result = $this->hooks->execute('during_CRUD_POST_processing', [$this->fields, $field]);
+                        $result = $this->hooks->execute('during_CRUD_POST_processing', [$this->fields, $request, $field]);
 
                         if ($result != '') {
                             $set_values[$field['name']] = $result;
@@ -99,8 +103,6 @@ class CRUDBuilder
         if (!isset($this->options['use_site_id']) || (isset($this->options['use_site_id']) && $this->options['use_site_id'] == true)) {
             $set_values['site'] = $this->site;
         }
-
-        array_merge($set_values, $this->hooks->execute('after_CRUD_POST_processing', [$request, $this->fields, $set_values]));
 
         return $set_values;
     }
@@ -298,6 +300,14 @@ class CRUDBuilder
 
                 case "password":
                     $this->form .= view('components.password')->with(['field' => $field]);
+                    break;
+
+                default:
+                    $result = $this->hooks->execute('during_CRUD_field_display', [$field, $value]);
+
+                    if ($result != '') {
+                        $this->form .= $result;
+                    }
                     break;
             }
 

@@ -14,6 +14,7 @@ class CMSTemplateController extends Controller
 {
 
     private $data = "";
+    private $hooks;
 
     public function __construct()
     {
@@ -24,6 +25,9 @@ class CMSTemplateController extends Controller
                 $this->data = $this->processTemplate($config_path);
             }
         }
+
+        $this->hooks = config('hooks');
+        $this->hooks->initHook('after_CRUD_POST_processing'); // Params: $request, $this->data['fields'], $set_values, $id
     }
 
     /**
@@ -118,6 +122,8 @@ class CMSTemplateController extends Controller
 
             $id = DB::table($table)->insertGetId($set_values);
 
+            $this->hooks->execute('after_CRUD_POST_processing', [$request, $this->data['fields'], $set_values, $id]);
+
             return redirect()->route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
         } else {
             return back()->withErrors(['message' => 'You don\'t have permission to do that']);
@@ -202,6 +208,8 @@ class CMSTemplateController extends Controller
                 DB::table($table)
                     ->where($key, $id)
                     ->update($set_values);
+
+                $this->hooks->execute('after_CRUD_POST_processing', [$request, $this->data['fields'], $set_values, $id]);
 
                 return redirect()->route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
             } catch (DecryptException $e) {
