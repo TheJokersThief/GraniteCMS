@@ -18,14 +18,16 @@ class CRUDBuilder
 
     private $fields = [];
     private $action = "";
+    private $options = [];
     private $site = null;
     private $form = "";
     private $values;
 
-    public function __construct($fields, $action = null)
+    public function __construct($fields, $action = null, $options = [])
     {
         $this->fields = $fields;
         $this->action = $action;
+        $this->options = $options;
         $this->values = null;
 
         $this->site = SiteController::getSiteID(SiteController::getSite());
@@ -78,7 +80,9 @@ class CRUDBuilder
             }
         }
 
-        $set_values['site'] = $this->site;
+        if (!isset($this->options['use_site_id']) || (isset($this->options['use_site_id']) && $this->options['use_site_id'] == true)) {
+            $set_values['site'] = $this->site;
+        }
 
         return $set_values;
     }

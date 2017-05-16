@@ -65,7 +65,8 @@ class CMSTemplateController extends Controller
      */
     public function create($page, $menu_id = null, $parent_id = null)
     {
-        $form = new CRUDBuilder($this->data['fields'], route('template-store', ['page' => $page]));
+        $options = (isset($this->data['options'])) ? $this->data['options'] : [];
+        $form = new CRUDBuilder($this->data['fields'], route('template-store', ['page' => $page]), $options);
 
         $form_values = [];
         if ($parent_id != null) {
@@ -111,7 +112,8 @@ class CMSTemplateController extends Controller
         if (Auth::user()->can('create_' . $page)) {
             $table = $this->getTable();
 
-            $form = new CRUDBuilder($this->data['fields']);
+            $options = (isset($this->data['options'])) ? $this->data['options'] : [];
+            $form = new CRUDBuilder($this->data['fields'], null, $options);
             $set_values = $form->processPostRequest($request);
 
             $id = DB::table($table)->insertGetId($set_values);
@@ -142,7 +144,8 @@ class CMSTemplateController extends Controller
     public function edit($page, $id)
     {
 
-        $form = new CRUDBuilder($this->data['fields'], route('template-update', ['page' => $page, 'encrypted_id' => encrypt($id)]));
+        $options = (isset($this->data['options'])) ? $this->data['options'] : [];
+        $form = new CRUDBuilder($this->data['fields'], route('template-update', ['page' => $page, 'encrypted_id' => encrypt($id)]), $options);
 
         if (Auth::user()->can("edit_{$page}")) {
             $table = $this->getTable();
@@ -192,7 +195,8 @@ class CMSTemplateController extends Controller
 
                 $table = $this->getTable();
 
-                $form = new CRUDBuilder($this->data['fields']);
+                $options = (isset($this->data['options'])) ? $this->data['options'] : [];
+                $form = new CRUDBuilder($this->data['fields'], null, $options);
                 $set_values = $form->processPostRequest($request);
 
                 DB::table($table)
