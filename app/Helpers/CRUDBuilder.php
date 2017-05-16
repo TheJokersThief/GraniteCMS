@@ -71,6 +71,9 @@ class CRUDBuilder
         $set_values = [];
 
         foreach ($this->fields as $field) {
+            if (isset($field['skip']) && $field['skip'] == true) {
+                continue;
+            }
 
             switch ($field['type']) {
                 case 'image':
