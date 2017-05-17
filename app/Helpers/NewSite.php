@@ -153,7 +153,7 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
             }
 
             Setting::create(['setting_name' => 'public_registration', 'setting_value' => 'no', 'site' => $siteID]);
-            Setting::create(['setting_name' => 'allow_all', 'setting_value' => '', 'site' => $siteID ]);
+            Setting::create(['setting_name' => 'allow_all', 'setting_value' => '', 'site' => $siteID]);
 
             // Create Base Menus (top-level menus)
             $cmsMenu = MenuItem::create(['name' => 'CMS Menu', 'link' => '/cms', 'parent' => 0, 'site' => $siteID]); // ID = 1
@@ -163,14 +163,14 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
             // Some basic menus:
             //
             // PAGES
-            $pageMenu = MenuItem::create(['name' => 'Pages', 'link' => '#!', 'parent' => $cmsMenu->id, 'site' => $siteID]); // Blank Link
-            MenuItem::create(['name' => 'All Pages', 'link' => '/cms/pages', 'parent' => $pageMenu->id, 'site' => $siteID]);
-            MenuItem::create(['name' => 'Add Page', 'link' => '/cms/pages/create', 'parent' => $pageMenu->id, 'site' => $siteID]);
+            $pageMenu = MenuItem::create(['name' => 'Pages', 'link' => '#!', 'parent' => $cmsMenu->id, 'site' => $siteID, 'page' => "pages"]); // Blank Link
+            MenuItem::create(['name' => 'All Pages', 'link' => '/cms/pages', 'parent' => $pageMenu->id, 'site' => $siteID, 'page' => "pages"]);
+            MenuItem::create(['name' => 'Add Page', 'link' => '/cms/pages/create', 'parent' => $pageMenu->id, 'site' => $siteID, 'page' => "pages"]);
 
             // ADMINISTRATION
-            $adminMenu = MenuItem::create(['name' => 'Administration', 'link' => '#!', 'parent' => $cmsMenu->id, 'site' => $siteID]); // Blank Link
-            MenuItem::create(['name' => 'Settings', 'link' => '/cms/settings', 'parent' => $adminMenu->id, 'site' => $siteID]);
-            MenuItem::create(['name' => 'CMS Menus', 'link' => '/cms/menus', 'parent' => $adminMenu->id, 'site' => $siteID]);
+            $adminMenu = MenuItem::create(['name' => 'Administration', 'link' => '#!', 'parent' => $cmsMenu->id, 'site' => $siteID, 'page' => 'settings']); // Blank Link
+            MenuItem::create(['name' => 'Settings', 'link' => '/cms/settings', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'settings']);
+            MenuItem::create(['name' => 'CMS Menus', 'link' => '/cms/menus', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'menus']);
 
             DB::commit();
 
