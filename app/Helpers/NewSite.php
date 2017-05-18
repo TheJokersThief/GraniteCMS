@@ -145,6 +145,13 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
                     'create' => 1,
                     'delete' => 1,
                 ],
+                'capabilities' => [
+                    'view' => 1,
+                    'edit' => 1,
+                    'create' => 1,
+                    'delete' => 1,
+                ],
+
             ];
 
             foreach ($preConfigPages as $page => $caps) {
@@ -179,6 +186,7 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
             MenuItem::create(['name' => 'CMS Menus', 'link' => '/cms/menus', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'menus']);
             MenuItem::create(['name' => 'Users', 'link' => '/cms/users', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'users']);
             MenuItem::create(['name' => 'User Roles', 'link' => '/cms/user_roles', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'user_roles']);
+            MenuItem::create(['name' => 'Permissions', 'link' => '/cms/capabilities', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'capabilities']);
 
             DB::commit();
 
