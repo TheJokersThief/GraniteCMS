@@ -56,9 +56,9 @@
                                  <a href="{{ route('template-edit', ['page' => $page, 'id' => $item['view']->id ] ) }}" class="label label-info">Edit</a>
                               @endif
 
-                              @if( in_array( 'delete', $meta_info['permissions'] ) )
+                              {{-- @if( in_array( 'delete', $meta_info['permissions'] ) )
                                  <a href="{{ route('template-delete', ['encrypted_id' => encrypt( $item['view']->{$meta_info['key']} ), 'page' => $page]) }}" class="label label-danger">Delete</a>
-                              @endif
+                              @endif --}}
                            </td>
                         </tr>
                      @endforeach
