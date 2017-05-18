@@ -17,9 +17,8 @@ class DummySiteSeeder extends Seeder
 
         App\Alias::create(['domain' => 'granitecms.dev', 'alias' => 'granite.sysadmin.ie']);
 
+        $answer = $this->command->choice('Seed pages?', ['yes', 'no']);
         $users = factory(App\User::class, 3)->create()->each(function ($user) {
-
-            $answer = $this->command->choice('Seed pages?', ['yes', 'no']);
 
             if ($answer == 'yes') {
                 // For every user, create 50 dummy content pages
