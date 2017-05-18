@@ -1,0 +1,69 @@
+{
+	"table": "capabilities",
+	"key": "id",
+	"title": "User Roles",
+	"shortlist": [
+		"capability_name",
+		"capability_min_level"
+	],
+
+	"where" : "",
+	"order_by" : "id DESC",
+
+	"fields": [
+		{
+			"name": "capability",
+			"type": "dropdown",
+			"custom_class": "",
+			"placeholder": "",
+			"default_value": "view",
+			"validation_rules": "required|in:view,create,edit,delete",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+
+			"source": "options",
+			"options": [
+				"view",
+				"create",
+				"edit",
+				"delete"
+			],
+			"skip": true
+		},{
+			"name": "page",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+			"skip": true
+		},{
+			"name": "min_role",
+			"type": "dropdown",
+			"custom_class": "",
+			"placeholder": "Minimum Role Allowed",
+			"default_value": "",
+			"validation_rules": "required|exists:users_roles,id",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+
+			"source": "table",
+
+			"table": {
+				"table": "users_roles", 
+				"key": "id", 
+				"format": "{role_name} ({role_level})",
+				"fields": [{
+					"column": "role_name",
+					"placeholder": "role_name"
+				}, {
+					"column": "role_level",
+					"placeholder": "role_level"
+				}]
+			},
+			"skip": true
+
+		}
+	],
+
+	"permissions": [
+		"edit",
+		"delete",
+		"create"
+	]
+}

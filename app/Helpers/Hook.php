@@ -36,10 +36,12 @@ class Hook
     {
         $params['result'] = null;
 
-        foreach ($this->hooks[$tag] as $function) {
-            $result = call_user_func_array($function, $params);
-            if ($result != null) {
-                $params['result'] = $result;
+        if (isset($this->hooks[$tag])) {
+            foreach ($this->hooks[$tag] as $function) {
+                $result = call_user_func_array($function, $params);
+                if ($result != null) {
+                    $params['result'] = $result;
+                }
             }
         }
 

@@ -28,6 +28,8 @@ class CMSTemplateController extends Controller
 
         $this->hooks = config('hooks');
         $this->hooks->initHook('after_CRUD_POST_processing'); // Params: $request, $this->data['fields'], $set_values, $id
+        $this->hooks->initHook('before_CRUD_index_page_render'); // Params: $page, $items, $this->data
+        $this->hooks->initHook('before_CRUD_edit_page_render'); // Params: $page, $items, $this->data, $id, $form
     }
 
     /**
@@ -49,11 +51,14 @@ class CMSTemplateController extends Controller
 
             $view_path = $this->determineViewPath('index', $page);
 
+            $hook_data = $this->hooks->execute('before_CRUD_index_page_render', [$page, $items, $this->data]);
+
             $return_data = [
                 'items' => $items,
                 'shortlist' => $this->data['shortlist'],
                 'page' => $page,
                 'meta_info' => $this->data,
+                'hook_data' => $hook_data,
             ];
 
             return view($view_path, $return_data);
@@ -120,11 +125,20 @@ class CMSTemplateController extends Controller
             $form = new CRUDBuilder($this->data['fields'], null, $options);
             $set_values = $form->processPostRequest($request);
 
-            $id = DB::table($table)->insertGetId($set_values);
+            $key = $this->getKey();
+
+            $id = null;
+            if (isset($set_values[$key])) {
+                $id = DB::table($table)->insertGetId($set_values);
+            }
 
             $this->hooks->execute('after_CRUD_POST_processing', [$request, $this->data['fields'], $set_values, $id]);
 
-            return redirect()->route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
+            if ($id != null) {
+                return redirect()->route('template-edit', ['page' => $page, 'encrypted_id' => $id]);
+            } else {
+                return redirect()->route('template-index', ['page' => $page]);
+            }
         } else {
             return back()->withErrors(['message' => 'You don\'t have permission to do that']);
         }
@@ -161,17 +175,22 @@ class CMSTemplateController extends Controller
             $items = DB::select("SELECT * FROM {$table} WHERE {$key} = $id");
 
             if (!empty($items)) {
+
                 // If it's not empty, take add the first row of values
                 $form->addValues($items[0]);
-                $output = $form->render();
 
                 $view_path = $this->determineViewPath('edit', $page);
+
+                $hook_data = $this->hooks->execute('before_CRUD_edit_page_render', [$page, $items, $this->data, $id, $form]);
+
+                $output = $form->render();
 
                 $return_data = [
                     'items' => $items,
                     'page' => $page,
                     'meta_info' => $this->data,
                     'form' => $output,
+                    'hook_data' => $hook_data,
                 ];
 
                 return view($view_path, $return_data);

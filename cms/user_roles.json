@@ -1,0 +1,30 @@
+{
+	"table": "users_roles",
+	"key": "id",
+	"title": "User Roles",
+	"shortlist": [
+		"role_name",
+		"role_level"
+	],
+
+	"where" : "",
+	"order_by" : "id DESC",
+
+	"fields": [
+		{
+			"name": "role_name",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12"
+		},{
+			"name": "role_level",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12"
+		}
+	],
+
+	"permissions": [
+		"edit",
+		"delete",
+		"create"
+	]
+}

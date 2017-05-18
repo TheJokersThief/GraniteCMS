@@ -21,7 +21,7 @@ class User extends Authenticatable
         'user_last_name',
         'user_display_name',
         'user_email',
-        'user_password',
+        'password',
         'user_activation_token',
         'user_role',
         'user_registered',
