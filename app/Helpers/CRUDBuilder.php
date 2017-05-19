@@ -71,7 +71,7 @@ class CRUDBuilder
         $set_values = [];
 
         foreach ($this->fields as $field) {
-            if (isset($field['skip']) && $field['skip'] == true) {
+            if (isset($field['skip']) && $field['skip'] === true) {
                 continue;
             }
 
@@ -110,6 +110,11 @@ class CRUDBuilder
     public function addValues($values)
     {
         return $this->values = $values;
+    }
+
+    public function getValues()
+    {
+        return $this->values;
     }
 
     /**
