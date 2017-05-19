@@ -41,51 +41,54 @@ class Capabilities
 
     public function getIndivCapabilityData($page, $items, $config, $id, $form)
     {
-        $initial_cap = Capability::where('id', $id)->first();
 
-        if ($initial_cap != null) {
-            $regex = self::capabilityNameRegex();
-            $matches = null;
-            preg_match_all($regex, $initial_cap->capability_name, $matches);
+        if ($page == 'capabilities') {
+            $initial_cap = Capability::where('id', $id)->first();
 
-            if (isset($matches[2][0])) {
-                $page_name = $matches[2][0];
+            if ($initial_cap != null) {
+                $regex = self::capabilityNameRegex();
+                $matches = null;
+                preg_match_all($regex, $initial_cap->capability_name, $matches);
 
-                $caps = Capability::where('capability_name', 'LIKE', '%_' . $page_name)->get();
+                if (isset($matches[2][0])) {
+                    $page_name = $matches[2][0];
 
-                $data = new \stdClass();
-                $data->page = $page_name;
+                    $caps = Capability::where('capability_name', 'LIKE', '%_' . $page_name)->get();
 
-                foreach ($caps as $cap) {
-                    $regex = self::capabilityNameRegex();
-                    $matches = null;
-                    preg_match_all($regex, $cap->capability_name, $matches);
+                    $data = new \stdClass();
+                    $data->page_name = $page_name;
 
-                    if (isset($matches[2][0])) {
-                        $data->{$matches[1][0] . "_min_role"} = $cap->capability_min_level;
+                    foreach ($caps as $cap) {
+                        $regex = self::capabilityNameRegex();
+                        $matches = null;
+                        preg_match_all($regex, $cap->capability_name, $matches);
+
+                        if (isset($matches[2][0])) {
+                            $data->{$matches[1][0] . "_min_role"} = $cap->capability_min_level;
+                        }
                     }
-                }
 
-                $form->addValues($data);
+                    $form->addValues($data);
+                }
             }
+            return [];
         }
-        return [];
     }
 
     public function processCapability($request, $fields, $set_values, $id)
     {
 
-        if ($request->page != '') {
+        if ($request->page == 'capabilities') {
             foreach (self::AVAILABLE_CAPABILITIES as $cap) {
                 $role_level = ($request->{$cap . "_min_role"} == 'null') ? 999 : $request->{$cap . "_min_role"};
 
                 if (\Route::current()->getName() == 'template-update') {
-                    $capObj = Capability::where('capability_name', $cap . '_' . $request->page)->first();
+                    $capObj = Capability::where('capability_name', $cap . '_' . $request->page_name)->first();
                     $capObj->capability_min_level = $role_level;
                     $capObj->save();
                 } else {
                     Capability::create([
-                        'capability_name' => $cap . '_' . $request->page,
+                        'capability_name' => $cap . '_' . $request->page_name,
                         'capability_min_level' => $role_level,
                         'site' => SiteController::getSiteID(SiteController::getSite()),
                     ]);
@@ -94,13 +97,38 @@ class Capabilities
 
             return true;
         }
-
-        return back()->withErrors(['message' => 'Please specify a page template name.']);
     }
 
     public static function capabilityNameRegex()
     {
         return "/(" . implode('|', self::AVAILABLE_CAPABILITIES) . ")_(.+)/";
+    }
+
+    public static function addNewCapability($name, $view, $create, $edit, $delete)
+    {
+        Capability::create([
+            'capability_name' => 'view_' . $name,
+            'capability_min_level' => $view,
+            'site' => SiteController::getSiteID(SiteController::getSite()),
+        ]);
+
+        Capability::create([
+            'capability_name' => 'create_' . $name,
+            'capability_min_level' => $create,
+            'site' => SiteController::getSiteID(SiteController::getSite()),
+        ]);
+
+        Capability::create([
+            'capability_name' => 'edit_' . $name,
+            'capability_min_level' => $edit,
+            'site' => SiteController::getSiteID(SiteController::getSite()),
+        ]);
+
+        Capability::create([
+            'capability_name' => 'delete_' . $name,
+            'capability_min_level' => $delete,
+            'site' => SiteController::getSiteID(SiteController::getSite()),
+        ]);
     }
 
 }

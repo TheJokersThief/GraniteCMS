@@ -12,7 +12,7 @@
 
 	"fields": [
 		{
-			"name": "page",
+			"name": "page_name",
 			"type": "text",
 			"class": "col-md-12 col-sm-12 col-xs-12",
 			"skip": true
