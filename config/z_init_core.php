@@ -1,13 +1,8 @@
 <?php
 
-use App\Core\Capabilities;
-use App\Core\Injection;
+// use App\Core\Capabilities;
 
 // init Core components
 return [
-    'capabilities' => new Capabilities(),
-
-
-    // Should always be last
-    'injection' => new Injection(),
+    // 'capabilities' => new Capabilities(),
 ];
