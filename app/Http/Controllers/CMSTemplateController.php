@@ -127,10 +127,7 @@ class CMSTemplateController extends Controller
 
             $key = $this->getKey();
 
-            $id = null;
-            if (isset($set_values[$key])) {
-                $id = DB::table($table)->insertGetId($set_values);
-            }
+            $id = DB::table($table)->insertGetId($set_values);
 
             $this->hooks->execute('after_CRUD_POST_processing', [$request, $this->data['fields'], $set_values, $id]);
 
