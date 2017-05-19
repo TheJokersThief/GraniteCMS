@@ -9,5 +9,5 @@ return [
 
 
     // Should always be last
-    'injection' => new injection();
+    'injection' => new Injection(),
 ];
