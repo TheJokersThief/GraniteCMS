@@ -27,7 +27,7 @@ class SiteController extends Controller
             if ($alias != null) {
                 return self::getSiteID($alias->domain);
             } else {
-                throw new Exception("No domain by that name exists in the database.");
+                throw new \Exception("No domain by that name exists in the database.");
             }
         }
     }
