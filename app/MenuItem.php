@@ -14,6 +14,7 @@ class MenuItem extends Model
         'link',
         'page',
         'parent',
+        'site',
     ];
 
     protected $hidden = [];
