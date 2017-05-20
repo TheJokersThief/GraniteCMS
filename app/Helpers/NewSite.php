@@ -31,6 +31,10 @@ class NewSite
         }
     }
 
+    /**
+     * Create the new site
+     * @return int      Site ID
+     */
     public function create()
     {
         $this->files();
@@ -47,6 +51,10 @@ class NewSite
         return $this->database();
     }
 
+    /**
+     * Copy over the files of the base theme (granitecms_dev)
+     * @return boolean
+     */
     public function files()
     {
         return File::copyDirectory(
@@ -55,6 +63,13 @@ class NewSite
         );
     }
 
+    /**
+     * Write a new .env file to the site subdirectory
+     * @param  string $dbHost
+     * @param  string $dbName
+     * @param  string $dbUser
+     * @param  string $dbPass
+     */
     public function writeEnvFile($dbHost = null, $dbName = null, $dbUser = null, $dbPass = null)
     {
         $contents = "
@@ -98,6 +113,10 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
         return file_put_contents(base_path('sites/' . SiteController::safeDomainName($this->domain) . '/.env'), $contents);
     }
 
+    /**
+     * Perform database operations for the new site
+     * @return boolean
+     */
     public function database()
     {
         $siteID = null;
@@ -155,14 +174,7 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
             ];
 
             foreach ($preConfigPages as $page => $caps) {
-                Capability::create([
-                    'capability_name' => 'view_' . $page, 'capability_min_level' => $caps['view'], 'site' => $siteID]);
-                Capability::create([
-                    'capability_name' => 'edit_' . $page, 'capability_min_level' => $caps['edit'], 'site' => $siteID]);
-                Capability::create([
-                    'capability_name' => 'create_' . $page, 'capability_min_level' => $caps['create'], 'site' => $siteID]);
-                Capability::create([
-                    'capability_name' => 'delete_' . $page, 'capability_min_level' => $caps['delete'], 'site' => $siteID]);
+                Capability::addNewCapability($page, $caps['view'], $caps['create'], $caps['edit'], $caps['delete'], $siteID);
             }
 
             Setting::create(['setting_name' => 'public_registration', 'setting_value' => 'no', 'site' => $siteID]);
