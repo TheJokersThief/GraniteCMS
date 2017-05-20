@@ -178,7 +178,6 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
             }
 
             Setting::create(['setting_name' => 'public_registration', 'setting_value' => 'no', 'site' => $siteID]);
-            Setting::create(['setting_name' => 'allow_all', 'setting_value' => '', 'site' => $siteID]);
 
             // Create Base Menus (top-level menus)
             $cmsMenu = MenuItem::create(['name' => 'CMS Menu', 'link' => '/cms', 'parent' => 0, 'site' => $siteID]); // ID = 1

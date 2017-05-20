@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Schema;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    private $capability_prefixes = ['view', 'edit', 'create', 'delete'];
-
     /**
      * The policy mappings for the application.
      *
@@ -45,16 +43,6 @@ class AuthServiceProvider extends ServiceProvider
                             return ($role->role_level <= $capability->capability_min_level);
                         }
                     });
-
-                    // Allow all in the allow_all setting
-                    $allow_all = explode(",", setting('allow_all'));
-                    foreach ($allow_all as $page) {
-                        foreach ($this->capability_prefixes as $cap) {
-                            Gate::define($cap . "_" . $page, function ($user) {
-                                return true;
-                            });
-                        }
-                    }
                 }
             }
         }
