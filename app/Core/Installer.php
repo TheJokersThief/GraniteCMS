@@ -34,8 +34,11 @@ class Installer
                 }
 
                 if (setting($siteName . '_theme_installed') == 'no') {
+                    // If the site theme hasn't been installed already
+
                     $installer = 'Sites\\' . $siteName . '\theme\Install';
 
+                    // Check that the site theme has an installer class to call
                     if (class_exists($installer)) {
                         $install = new $installer();
                         $install->install();
@@ -46,7 +49,8 @@ class Installer
                 }
             }
         } catch (\Exception $e) {
-
+            // Empty exception to avoid errors when calling the CoreServiceProvider
+            // from the console
         }
     }
 }
