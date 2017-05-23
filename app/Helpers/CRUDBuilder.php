@@ -35,8 +35,18 @@ class CRUDBuilder
         $this->hooks = config('hooks');
         $this->hooks->initHook('before_CRUD_POST_processing'); // Params: $this->fields, $request
         $this->hooks->initHook('during_CRUD_POST_processing'); // Params: $this->fields, $request, $field
-
+        $this->hooks->initHook('before_CRUD_form_render');
+        $this->hooks->initHook('after_CRUD_form_render');
+        $this->hooks->initHook('before_CRUD_process_image'); // Params: $request, $field, $site
+        $this->hooks->initHook('after_CRUD_process_image'); // Params: $request, $field, $site, $image, $full_path
+        $this->hooks->initHook('before_CRUD_process_password'); // Params: $request, $field
+        $this->hooks->initHook('after_CRUD_process_password'); // Params: $request, $field, $password
+        $this->hooks->initHook('before_CRUD_form_open');
+        $this->hooks->initHook('after_CRUD_form_open'); // Params: $form
+        $this->hooks->initHook('before_CRUD_form_close');
+        $this->hooks->initHook('after_CRUD_form_close'); // Params: $form
         $this->hooks->initHook('during_CRUD_field_display'); // Params: $field, $value
+
 
         $this->site = SiteController::getSiteID(SiteController::getSite());
     }
@@ -47,6 +57,8 @@ class CRUDBuilder
      */
     public function render()
     {
+        $this->hooks->execute('before_CRUD_form_render', []);
+
         if ($this->action == null) {
             return null;
         } else {
@@ -55,6 +67,8 @@ class CRUDBuilder
             $this->form .= $this->closeForm();
             return $this->form;
         }
+
+        $this->hooks->execute('after_CRUD_form_render', []);
     }
 
     /**
@@ -125,9 +139,11 @@ class CRUDBuilder
      */
     private function processImage(Request $request, $field)
     {
-
+        
         $site = SiteController::getSite();
         $field_name = $field['name'];
+
+        $this->hooks->execute('before_CRUD_process_image', [$request, $field, $site]);
 
         if ($request->hasFile($field_name)) {
 
@@ -146,17 +162,23 @@ class CRUDBuilder
                 mkdir($path, 0755, true);
             }
 
+            $image = null;
             if (!(isset($field['crop_width']) || isset($field['crop_height']))
                 || ($field['crop_width'] <= 0 || $field['crop_height'] <= 0)) {
                 // If the crop width/height isn't set or one of them is <= 0
-                Image::make($request->file($field['name']))->save($file_path);
+                $image = Image::make($request->file($field['name']))->save($file_path);
             } else {
                 // If crop info supplied, crop and resize the image
-                Image::make($request->file($field['name']))
+                $image = Image::make($request->file($field['name']))
                     ->fit($field['crop_width'], $field['crop_height'])->save($file_path);
             }
 
-            return $relative_path . '/' . $filename;
+            $full_path = $relative_path . '/' . $filename;
+
+            $this->hooks->execute('after_CRUD_process_image', [$request, $field, $site, $image, $full_path]);
+
+
+            return $full_path;
         } else if ($_FILES[$field_name]['error'] != UPLOAD_ERR_OK && $_FILES[$field_name]['error'] != UPLOAD_ERR_NO_FILE) {
 
             $error_message = "Something went wrong with " . $field_name;
@@ -201,7 +223,13 @@ class CRUDBuilder
      */
     private function processPassword(Request $request, $field)
     {
-        return Hash::make($request->$field['name']);
+        $this->hooks->execute('before_CRUD_process_password', [$request, $field]);
+
+        $password = Hash::make($request->$field['name']);
+
+        $this->hooks->execute('after_CRUD_process_password', [$request, $field, $password]);
+
+        return $password;
     }
 
     /**
@@ -210,12 +238,18 @@ class CRUDBuilder
      */
     private function openForm()
     {
-        return Form::open([
+        $this->hooks->execute('before_CRUD_form_open', []);
+
+        $form = Form::open([
             'url' => $this->action,
             'method' => 'POST',
             'data-parsley-validate',
             'class' => 'form-horizontal form-label-left ',
             'files' => true]);
+
+        $this->hooks->execute('after_CRUD_form_open', [$form]);
+
+        return $form;
     }
 
     /**
@@ -224,7 +258,11 @@ class CRUDBuilder
      */
     private function closeForm()
     {
-        return Form::close();
+        $this->hooks->execute('before_CRUD_form_close', []);
+        $form = Form::close();
+        $this->hooks->execute('after_CRUD_form_close', [$form]);
+
+        return $form;
     }
 
     /**
