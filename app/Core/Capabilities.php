@@ -144,7 +144,7 @@ class Capabilities
     public static function addNewCapability($name, $view, $create, $edit, $delete, $siteID = null)
     {
         if($siteID == null ){
-            $siteID = SiteController::getSiteID(SiteController::getSite();
+            $siteID = SiteController::getSiteID(SiteController::getSite());
         }
 
         Capability::create([
