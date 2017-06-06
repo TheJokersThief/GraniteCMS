@@ -46,7 +46,7 @@ class Installer
                         $setting = Setting::where('setting_name', $siteName . '_theme_installed')->first();
 
                         // If it returns "no" then the skeleton is setup but the theme has been reset
-                        $siteID = getCurrentSideID();
+                        $siteID = getCurrentSiteID();
                     }
 
                     $installer = 'Sites\\' . $siteName . '\theme\Install';

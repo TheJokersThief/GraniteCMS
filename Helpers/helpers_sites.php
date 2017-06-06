@@ -48,6 +48,6 @@ function getCurrentURLDomain(){
     return \App\Http\Controllers\SiteController::safeDomainName(getCurrentDomain(), 'reverse');
 }
 
-function getCurrentSideID(){
+function getCurrentSiteID(){
     return \App\Http\Controllers\SiteController::getSiteID(getCurrentDomain());
 }
