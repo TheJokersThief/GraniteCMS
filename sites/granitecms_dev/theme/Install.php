@@ -27,21 +27,21 @@ class Install
         $cmsMenu = getMenuByName("CMS Menu");
         Capabilities::addNewCapability('homepage_banners', 4, 4, 4, 2);
 
-        $sites = MenuItem::create(['name' => 'Sites',
+        $sites = MenuItem::create(['name' => 'Homepage Banners',
             'link' => '#!',
             'parent' => $cmsMenu->id,
             'site' => $siteID,
             'page' => "homepage_banners",
         ]);
 
-        MenuItem::create(['name' => 'All Sites',
+        MenuItem::create(['name' => 'All Homepage Banners',
             'link' => '/cms/homepage_banners',
             'parent' => $sites->id,
             'site' => $siteID,
             'page' => "homepage_banners",
         ]);
 
-        MenuItem::create(['name' => 'Add Site',
+        MenuItem::create(['name' => 'Add Homepage Banner',
             'link' => '/cms/homepage_banners/create',
             'parent' => $sites->id,
             'site' => $siteID,
