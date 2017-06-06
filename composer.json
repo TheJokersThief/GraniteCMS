@@ -10,7 +10,8 @@
         "laravelcollective/html": "5.3.*",
         "intervention/image": "^2.3",
         "laravel/socialite": "^2.0",
-        "simplesoftwareio/simple-qrcode": "~1"
+        "simplesoftwareio/simple-qrcode": "~1",
+        "wamania/php-stemmer": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
