@@ -1,0 +1,85 @@
+{
+	"table": "gdsitesearch_sysadmin_ie_sites",
+	"key": "id",
+	"title": "Sites",
+
+	"options": {
+		"use_site_id": false
+	},
+
+	"shortlist": [
+		"name",
+		"backend_dev",
+		"frontend_dev",
+		"project_managers",
+		"url"
+	],
+
+	"where" : "",
+	"order_by" : "created_at DESC",
+
+	"fields": [
+		{
+			"name": "name",
+			"type": "text",
+			"class": "col-md-12 col-sm-12 col-xs-12",
+			"validation": "required"
+		},{
+			"name": "url",
+			"type": "text",
+			"class": "col-md-12 col-sm-12 col-xs-12",
+			"validation": "required"
+		},{
+			"name": "published_date",
+			"type": "date",
+			"class": "col-md-12 col-sm-12 col-xs-12",
+			"validation": "required"
+		},{
+			"name": "backend_dev",
+			"type": "text",
+			"class": "col-md-4 col-sm-4 col-xs-12"
+		},{
+			"name": "frontend_dev",
+			"type": "text",
+			"class": "col-md-4 col-sm-4 col-xs-12"
+		},{
+			"name": "project_managers",
+			"type": "text",
+			"class": "col-md-4 col-sm-4 col-xs-12"
+		},{
+			"name": "addons",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12"
+		},{
+			"name": "customised_addons",
+			"type": "text",
+			"class": "col-md-6 col-sm-6 col-xs-12"
+		},{
+			"name": "tags",
+			"type": "custom_taginput",
+			"class": "col-md-12 col-sm-12 col-xs-12",
+			"validation": "required",
+			"skip": true
+		},{
+			"name": "image",
+			"type": "image",
+			"custom_class": "",
+			"crop_width" : 1920,
+			"crop_height": 1080,
+			"store_folder": "site_previews"
+		},{
+			"name": "updated_at",
+			"title": "Last Updated",
+			"type": "date",
+			"class": "col-md-6 col-sm-6 col-xs-12",
+			"validation": "required",
+			"read_only": true
+		}
+	],
+
+	"permissions": [
+		"edit",
+		"delete",
+		"create"
+	]
+}
