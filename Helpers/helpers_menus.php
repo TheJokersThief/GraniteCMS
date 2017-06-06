@@ -49,7 +49,7 @@ function getAllMenuPages($menus, $add_encrypted_field = false, $encrypted_fields
 
 function getMenuByName($name)
 {
-    $menu = \App\MenuItem::where('parent', 0)->where('name', $name)->first();
+    $menu = \App\MenuItem::where('parent', 0)->where('name', $name)->where('site', getCurrentSideID())->first();
     if ($menu != null) {
         return $menu;
     } else {
@@ -59,7 +59,7 @@ function getMenuByName($name)
 
 function getMenuByID($id)
 {
-    $menu = \App\MenuItem::where('parent', 0)->where('id', $id)->first();
+    $menu = \App\MenuItem::where('parent', 0)->where('id', $id)->where('site', getCurrentSideID())->first();
     if ($menu != null) {
         return $menu;
     } else {
