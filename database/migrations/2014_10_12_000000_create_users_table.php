@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration {
 			$table->string('user_first_name');
 			$table->string('user_last_name');
 			$table->string('user_display_name');
-			$table->string('user_email')->unique();
+			$table->string('user_email');
 			$table->string('password');
 			$table->string('user_activation_token');
 
@@ -26,6 +26,8 @@ class CreateUsersTable extends Migration {
 			$table->integer('site');
 
 			$table->boolean('user_registered');
+
+			$table->unique(['user_email', 'site']);
 
 			$table->rememberToken();
 			$table->timestamps();
