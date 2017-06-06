@@ -39,3 +39,15 @@ function siteAsset($url)
         return route('site-asset', [$file, $subfolder1, $subfolder2, $subfolder3]);
     }
 }
+
+function getCurrentDomain(){
+    return \App\Http\Controllers\SiteController::getSite();
+}
+
+function getCurrentURLDomain(){
+    return \App\Http\Controllers\SiteController::safeDomainName(getCurrentDomain(), 'reverse');
+}
+
+function getCurrentSideID(){
+    return \App\Http\Controllers\SiteController::getSiteID(getCurrentDomain());
+}

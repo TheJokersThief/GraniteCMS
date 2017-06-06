@@ -14,8 +14,8 @@ include_once 'helpers_api.php';
  */
 function setting($key)
 {
-    $setting = \App\Setting::where('setting_name', $key)->firstOrFail();
-    return $setting->setting_value;
+    $setting = \App\Setting::where('setting_name', $key)->first();
+    return ($setting != null ) ? $setting->setting_value : null;
 }
 
 /**

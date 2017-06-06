@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Core\Capabilities;
 use App\Capability;
 use App\Http\Controllers\SiteController;
 use App\MenuItem;
@@ -35,9 +36,11 @@ class NewSite
      * Create the new site
      * @return int      Site ID
      */
-    public function create()
+    public function create($move_files = false)
     {
-        $this->files();
+        if($move_files){
+            $this->files();
+        }
 
         if (!empty($this->dbDetails)) {
             $this->writeEnvFile(
@@ -119,91 +122,85 @@ GITHUB_CLIENT_SECRET=" . env('GITHUB_CLIENT_SECRET') . PHP_EOL;
      */
     public function database()
     {
+
         $siteID = null;
-        try {
-            DB::beginTransaction();
 
-            $safeDomainName = SiteController::safeDomainName($this->domain);
-            $site = Site::create(['domain' => $this->domain, 'subfolder' => 'sites/' . $safeDomainName]);
-            $siteID = $site->id;
+        $safeDomainName = SiteController::safeDomainName($this->domain);
+        $site = Site::create(['domain' => $this->domain, 'subfolder' => 'sites/' . $safeDomainName]);
+        $siteID = $site->id;
 
-            UserRole::create(['role_name' => 'administrator', 'role_level' => 1, 'site' => 1]);
-            UserRole::create(['role_name' => 'owner', 'role_level' => 2, 'site' => 1]);
-            UserRole::create(['role_name' => 'editor', 'role_level' => 3, 'site' => 1]);
-            UserRole::create(['role_name' => 'contributor', 'role_level' => 4, 'site' => 1]);
-            UserRole::create(['role_name' => 'subscriber', 'role_level' => 999, 'site' => 1]);
+        UserRole::create(['role_name' => 'administrator', 'role_level' => 1, 'site' => $siteID]);
+        UserRole::create(['role_name' => 'owner', 'role_level' => 2, 'site' => $siteID]);
+        UserRole::create(['role_name' => 'editor', 'role_level' => 3, 'site' => $siteID]);
+        UserRole::create(['role_name' => 'contributor', 'role_level' => 4, 'site' => $siteID]);
+        UserRole::create(['role_name' => 'subscriber', 'role_level' => 999, 'site' => $siteID]);
 
-            $preConfigPages = [
-                'settings' => [
-                    'view' => 1,
-                    'edit' => 1,
-                    'create' => 1,
-                    'delete' => 1,
-                ],
-                'menus' => [
-                    'view' => 1,
-                    'edit' => 1,
-                    'create' => 1,
-                    'delete' => 1,
-                ],
-                'pages' => [
-                    'view' => 4,
-                    'edit' => 3,
-                    'create' => 3,
-                    'delete' => 3,
-                ],
-                'users' => [
-                    'view' => 2,
-                    'edit' => 2,
-                    'create' => 2,
-                    'delete' => 1,
-                ],
-                'user_roles' => [
-                    'view' => 1,
-                    'edit' => 1,
-                    'create' => 1,
-                    'delete' => 1,
-                ],
-                'capabilities' => [
-                    'view' => 1,
-                    'edit' => 1,
-                    'create' => 1,
-                    'delete' => 1,
-                ],
+        $preConfigPages = [
+            'settings' => [
+                'view' => 1,
+                'edit' => 1,
+                'create' => 1,
+                'delete' => 1,
+            ],
+            'menus' => [
+                'view' => 1,
+                'edit' => 1,
+                'create' => 1,
+                'delete' => 1,
+            ],
+            'pages' => [
+                'view' => 4,
+                'edit' => 3,
+                'create' => 3,
+                'delete' => 3,
+            ],
+            'users' => [
+                'view' => 2,
+                'edit' => 2,
+                'create' => 2,
+                'delete' => 1,
+            ],
+            'user_roles' => [
+                'view' => 1,
+                'edit' => 1,
+                'create' => 1,
+                'delete' => 1,
+            ],
+            'capabilities' => [
+                'view' => 1,
+                'edit' => 1,
+                'create' => 1,
+                'delete' => 1,
+            ],
 
-            ];
+        ];
 
-            foreach ($preConfigPages as $page => $caps) {
-                Capability::addNewCapability($page, $caps['view'], $caps['create'], $caps['edit'], $caps['delete'], $siteID);
-            }
-
-            Setting::create(['setting_name' => 'public_registration', 'setting_value' => 'no', 'site' => $siteID]);
-
-            // Create Base Menus (top-level menus)
-            $cmsMenu = MenuItem::create(['name' => 'CMS Menu', 'link' => '/cms', 'parent' => 0, 'site' => $siteID]); // ID = 1
-            MenuItem::create(['name' => 'Main Menu', 'link' => '/', 'parent' => 0, 'site' => $siteID]); // ID = 2
-            MenuItem::create(['name' => 'Footer Menu', 'link' => '/', 'parent' => 0, 'site' => $siteID]); // ID = 3
-
-            // Some basic menus:
-            //
-            // PAGES
-            $pageMenu = MenuItem::create(['name' => 'Pages', 'link' => '#!', 'parent' => $cmsMenu->id, 'site' => $siteID, 'page' => "pages"]); // Blank Link
-            MenuItem::create(['name' => 'All Pages', 'link' => '/cms/pages', 'parent' => $pageMenu->id, 'site' => $siteID, 'page' => "pages"]);
-            MenuItem::create(['name' => 'Add Page', 'link' => '/cms/pages/create', 'parent' => $pageMenu->id, 'site' => $siteID, 'page' => "pages"]);
-
-            // ADMINISTRATION
-            $adminMenu = MenuItem::create(['name' => 'Administration', 'link' => '#!', 'parent' => $cmsMenu->id, 'site' => $siteID, 'page' => 'settings']); // Blank Link
-            MenuItem::create(['name' => 'Settings', 'link' => '/cms/settings', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'settings']);
-            MenuItem::create(['name' => 'CMS Menus', 'link' => '/cms/menus', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'menus']);
-            MenuItem::create(['name' => 'Users', 'link' => '/cms/users', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'users']);
-            MenuItem::create(['name' => 'User Roles', 'link' => '/cms/user_roles', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'user_roles']);
-            MenuItem::create(['name' => 'Permissions', 'link' => '/cms/capabilities', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'capabilities']);
-
-            DB::commit();
-
-        } catch (\Exception $e) {
-            DB::rollback();
+        foreach ($preConfigPages as $page => $caps) {
+            Capabilities::addNewCapability($page, $caps['view'], $caps['create'], $caps['edit'], $caps['delete'], $siteID);
         }
+
+        Setting::create(['setting_name' => 'public_registration', 'setting_value' => 'no', 'site' => $siteID]);
+
+        // Create Base Menus (top-level menus)
+        $cmsMenu = MenuItem::create(['name' => 'CMS Menu', 'link' => '/cms', 'parent' => 0, 'site' => $siteID]); // ID = 1
+        MenuItem::create(['name' => 'Main Menu', 'link' => '/', 'parent' => 0, 'site' => $siteID]); // ID = 2
+        MenuItem::create(['name' => 'Footer Menu', 'link' => '/', 'parent' => 0, 'site' => $siteID]); // ID = 3
+
+        // Some basic menus:
+        //
+        // PAGES
+        $pageMenu = MenuItem::create(['name' => 'Pages', 'link' => '#!', 'parent' => $cmsMenu->id, 'site' => $siteID, 'page' => "pages"]); // Blank Link
+        MenuItem::create(['name' => 'All Pages', 'link' => '/cms/pages', 'parent' => $pageMenu->id, 'site' => $siteID, 'page' => "pages"]);
+        MenuItem::create(['name' => 'Add Page', 'link' => '/cms/pages/create', 'parent' => $pageMenu->id, 'site' => $siteID, 'page' => "pages"]);
+
+        // ADMINISTRATION
+        $adminMenu = MenuItem::create(['name' => 'Administration', 'link' => '#!', 'parent' => $cmsMenu->id, 'site' => $siteID, 'page' => 'settings']); // Blank Link
+        MenuItem::create(['name' => 'Settings', 'link' => '/cms/settings', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'settings']);
+        MenuItem::create(['name' => 'CMS Menus', 'link' => '/cms/menus', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'menus']);
+        MenuItem::create(['name' => 'Users', 'link' => '/cms/users', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'users']);
+        MenuItem::create(['name' => 'User Roles', 'link' => '/cms/user_roles', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'user_roles']);
+        MenuItem::create(['name' => 'Permissions', 'link' => '/cms/capabilities', 'parent' => $adminMenu->id, 'site' => $siteID, 'page' => 'capabilities']);
+
 
         return $siteID;
     }
