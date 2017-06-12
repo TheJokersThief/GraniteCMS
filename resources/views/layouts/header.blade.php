@@ -10,24 +10,24 @@
     <title>@yield('title') | GraniteCMS</title>
 
     <!-- Bootstrap -->
-    <link href="{{ asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Font Awesome -->
-    <link href="{{ asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
     <!-- iCheck -->
-    <link href="{{ asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
     <!-- bootstrap-progressbar -->
-    <link href="{{ asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
     <!-- jVectorMap -->
-    <link href="{{asset('css/maps/jquery-jvectormap-2.0.3.css')}}" rel="stylesheet"/>
+    <link href="{{ secure_asset('css/maps/jquery-jvectormap-2.0.3.css')}}" rel="stylesheet"/>
 
     <!-- bootstrap-wysiwyg -->
-    <link href="{{ asset('vendors/google-code-prettify/bin/prettify.min.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('vendors/google-code-prettify/bin/prettify.min.css') }}" rel="stylesheet">
     <!-- Select2 -->
-    <link href="{{ asset('vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('vendors/select2/dist/css/select2.min.css') }}" rel="stylesheet">
     <!-- Switchery -->
-    <link href="{{ asset('vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('vendors/switchery/dist/switchery.min.css') }}" rel="stylesheet">
     <!-- starrr -->
-    <link href="{{ asset('vendors/starrr/dist/starrr.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('vendors/starrr/dist/starrr.css') }}" rel="stylesheet">
 
     <!-- Animate.css -->
     <link href="https://colorlib.com/polygon/gentelella/css/animate.min.css" rel="stylesheet">
@@ -35,7 +35,7 @@
     @yield('extra-css')
 
     <!-- Custom Theme Style -->
-    <link href="{{ asset('css/cms.css') }}" rel="stylesheet">
+    <link href="{{ secure_asset('css/cms.css') }}" rel="stylesheet">
 
 
 

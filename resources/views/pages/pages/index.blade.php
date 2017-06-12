@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('extra-css')
-   <link rel="stylesheet" type="text/css" href="{{ asset('js/components/inspire-tree-1.10.6/dist/inspire-tree.css') }}">
+   <link rel="stylesheet" type="text/css" href="{{ secure_asset('js/components/inspire-tree-1.10.6/dist/inspire-tree.css') }}">
 @stop
 
 @section('content')
@@ -23,7 +23,7 @@
 @stop
 
 @section('extra-js')
-   <script src="{{ asset('js/components/inspire-tree-1.10.6/dist/inspire-tree-bundled.min.js') }}"></script>
+   <script src="{{ secure_asset('js/components/inspire-tree-1.10.6/dist/inspire-tree-bundled.min.js') }}"></script>
 
 
     <?php
