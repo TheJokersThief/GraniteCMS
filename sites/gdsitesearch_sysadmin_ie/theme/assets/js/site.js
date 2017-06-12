@@ -45,7 +45,7 @@ var app = new Vue({
       let self = this;
 
       $.ajax({
-          url: "/api/search/" + input,
+          url: self.getBaseURL() + "/api/search/" + input,
           method: "GET",
           dataType: "json",
           success: function(result){
@@ -62,7 +62,7 @@ var app = new Vue({
               let siteIDs = incSites.join();
 
               $.ajax({
-                url: "/api/get_site_info/" + siteIDs,
+                url: self.getBaseURL() + "/api/get_site_info/" + siteIDs,
                 method: "GET",
                 dataType: "json",
                 success: function(result){
@@ -80,7 +80,11 @@ var app = new Vue({
       domain = url.replace('https://', "");
       domain = domain.replace("/", "");
       console.log(domain);
-      return "http://granite-eb-simplesitesearch.s3.amazonaws.com/site_images/"+ domain +".png";
+      return "https://granite-eb-simplesitesearch.s3.amazonaws.com/site_images/"+ domain +".png";
+    },
+
+    getBaseURL: function(){
+      return window.location.protocol + "//" + window.location.host;
     }
   }
 })

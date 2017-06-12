@@ -28,8 +28,7 @@ class AuthController extends Controller
     |       counter,            // Our date
     |       user,               // Verifies the user trying to login
     |                           //  (but does not provide the identity)
-    |       nonce               // Nonces expire after 10 minutes
-    |                           //  this allows us to test for freshness
+    |       timestamp           //  this allows us to test for freshness
     |   }
     |
     |   ~~~~ Cookies are also encrypted by default by Laravel ~~~~
@@ -220,16 +219,11 @@ class AuthController extends Controller
      */
     public function forwardCallback(Request $request, $site, $provider)
     {
-        // use the nonce as a key to encrypt the value
-        // and then send the nonce's id along with the
-        // encrypted values
-        $nonce = Nonce::getNonce(32);
-        $encryptor = new Encrypter($nonce, 'AES-256-CBC');
-        $encrypted_response = $encryptor->encrypt($request->input());
 
-        $nonce = DB::table('nonces')->where('nonce', $nonce)->first();
+        $key = base64_decode(str_replace('base64:', '', env('APP_KEY')));
+        $encryptor = new Encrypter($key, 'AES-256-CBC');
+        $encrypted_response = $encryptor->encrypt($request->input());
         $payload = [
-            'nonce' => $nonce->id,
             'data' => $encrypted_response,
         ];
 
@@ -239,7 +233,7 @@ class AuthController extends Controller
             $site = $fixed_URL_provider_ADD;
             $response = new RedirectResponse("HTTPS://" . $site . "/auth/provider/callback/" . $provider . "/add?data=" . json_encode($payload));
         } else {
-            $response = new RedirectResponse("HTTPS://" . $site . "/auth/provider/callback/" . $provider . "?data=" . json_encode($payload));
+            $response = new RedirectResponse("HTTPS://" . $site . "/auth/provider/callback/" . $provider . "?test&data=" . json_encode($payload));
         }
 
         return $response;
@@ -262,16 +256,10 @@ class AuthController extends Controller
      */
     public function forwardAddCallback(Request $request, $site, $provider)
     {
-        // use the nonce as a key to encrypt the value
-        // and then send the nonce's id along with the
-        // encrypted values
-        $nonce = Nonce::getNonce(32);
-        $encryptor = new Encrypter($nonce, 'AES-256-CBC');
+        $key = base64_decode(str_replace('base64:', '', env('APP_KEY')));
+        $encryptor = new Encrypter($key, 'AES-256-CBC');
         $encrypted_response = $encryptor->encrypt($request->input());
-
-        $nonce = DB::table('nonces')->where('nonce', $nonce)->first();
         $payload = [
-            'nonce' => $nonce->id,
             'data' => $encrypted_response,
         ];
         $response = new RedirectResponse("HTTPS://" . $site . "/auth/provider/callback/" . $provider . "/add?data=" . json_encode($payload));
@@ -287,12 +275,7 @@ class AuthController extends Controller
                 return back()->withErrors(['message' => $this->error_messages['no_data_supplied']]);
             }
 
-            $nonce = DB::table('nonces')
-                ->where('id', $data->nonce)
-                ->first();
-
-            // Decrypted our forwarded data using the corresponding nonce
-            $encryptor = new Encrypter($nonce->nonce, 'AES-256-CBC');
+            $encryptor = new Encrypter(base64_decode(str_replace('base64:', '', env('APP_KEY'))), 'AES-256-CBC');
             $data = $encryptor->decrypt($data->data);
 
             // Retrieve the social ID and convert it to a user
@@ -346,12 +329,7 @@ class AuthController extends Controller
                 return response($this->error_messages['no_data_supplied']);
             }
 
-            $nonce = DB::table('nonces')
-                ->where('id', $data->nonce)
-                ->first();
-
-            // Decrypted our forwarded data using the corresponding nonce
-            $encryptor = new Encrypter($nonce->nonce, 'AES-256-CBC');
+            $encryptor = new Encrypter(base64_decode(str_replace('base64:', '', env('APP_KEY'))), 'AES-256-CBC');
             $data = $encryptor->decrypt($data->data);
 
             // Retrieve the social ID and convert it to a user

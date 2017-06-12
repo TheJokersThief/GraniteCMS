@@ -8,6 +8,12 @@
 	<link rel="shortcut icon" href="/assets/favicon.ico" type="image/x-icon" /> 
 
 	<link href="{{ siteAsset('css/main.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ siteAsset('css/earthworm.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ siteAsset('css/layout.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ siteAsset('css/navigation.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ siteAsset('css/forms.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ siteAsset('css/flexslider.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ siteAsset('css/mediaQueries.css') }}" rel="stylesheet" type="text/css" />
 
 	@yield('extra-css')
 
